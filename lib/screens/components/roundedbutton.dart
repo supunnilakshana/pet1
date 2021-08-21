@@ -3,7 +3,7 @@ import 'package:pet1/screens/components/constansts.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
-  final Function onpress;
+  final Function? onpress;
   final Color color, textcolor;
 
   const RoundedButton({
@@ -11,7 +11,7 @@ class RoundedButton extends StatelessWidget {
     this.text = "",
     this.textcolor = Colors.white,
     Key? key,
-    required this.onpress,
+    this.onpress,
   }) : super(key: key);
 
   @override
@@ -19,13 +19,21 @@ class RoundedButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
+      // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 45),
       width: size.width * 0.8,
-      color: color,
+      height: size.height * 0.07,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
         child: TextButton(
-          // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 45),
-          onPressed: () => onpress,
+          //
+          onPressed: () {
+            onpress!();
+          },
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(color),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
           child: Text(
             text,
             style: TextStyle(color: textcolor),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet1/screens/welcom/welcome_screen.dart';
+import 'package:pet1/screens/login/loginscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WelcomeScreen(),
+      home: LoginScreen(),
     );
   }
 }

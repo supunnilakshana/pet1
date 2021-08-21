@@ -7,7 +7,7 @@ import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/components/roundedtextFiled.dart';
 import 'package:pet1/screens/components/social_icon.dart';
 import 'package:pet1/screens/login/compt/backgound.dart';
-import 'package:pet1/screens/signup/signup_screen.dart';
+import 'package:pet1/screens/login/loginscreen.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -26,11 +26,15 @@ class Body extends StatelessWidget {
               height: size.height * 0.02,
             ),
             Text(
-              "Welcome",
+              "Sign Up",
               style: TextStyle(fontSize: 28.2, fontWeight: FontWeight.bold),
             ),
             SizedBox(
-              height: size.height * 0.04,
+              height: size.height * 0.03,
+            ),
+            RoundedInput(
+              hintText: "Your Name",
+              // onChange: (value) {},
             ),
             RoundedInput(
               hintText: "Your Email",
@@ -40,7 +44,7 @@ class Body extends StatelessWidget {
                 //onChange: (value) {},
                 ),
             RoundedButton(
-              text: "Login",
+              text: "SignUp",
               onpress: () {
                 print("tukku");
               },
@@ -49,13 +53,13 @@ class Body extends StatelessWidget {
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
-              login: true,
+              login: false,
               press: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return SignupScreen();
+                      return LoginScreen();
                     },
                   ),
                 );
