@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/screens/components/already_have_an_account_acheck.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/or_divider.dart';
@@ -8,6 +9,7 @@ import 'package:pet1/screens/components/roundedtextFiled.dart';
 import 'package:pet1/screens/components/social_icon.dart';
 import 'package:pet1/screens/login/compt/backgound.dart';
 import 'package:pet1/screens/signup/signup_screen.dart';
+import 'package:provider/provider.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -71,7 +73,11 @@ class Body extends StatelessWidget {
                 ),
                 SocalIcon(
                   iconSrc: "assets/icons/google-symbol.svg",
-                  press: () {},
+                  press: () {
+                    final provider = Provider.of<GoogleSignInProvider>(context,
+                        listen: false);
+                    provider.googleLogin();
+                  },
                 ),
                 SocalIcon(
                   iconSrc: "assets/icons/apple-logo.svg",
