@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pet1/screens/login/loginscreen.dart';
+import 'package:pet1/screens/welcom/welcome_screen.dart';
 import 'package:provider/provider.dart';
-
 import 'controllers/authentication/google/GoogleSignAuth.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
@@ -22,6 +22,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginScreen(),
+        home: WelcomeScreen(),
       ));
 }

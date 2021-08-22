@@ -1,12 +1,41 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WelcomeScreen extends StatelessWidget {
+import 'package:pet1/screens/login/loginscreen.dart';
+
+class WelcomeScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => StartState();
+}
+
+class StartState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    return initScreen(context);
+  }
 
+  @override
+  void initState() {
+    super.initState();
+
+    startTimer();
+  }
+
+  startTimer() async {
+    var duration = Duration(seconds: 2);
+    return new Timer(duration, route);
+  }
+
+  route() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
+  initScreen(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    print("tomegone");
     return Scaffold(
         body: Container(
       width: double.infinity,

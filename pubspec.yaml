@@ -29,6 +29,7 @@ dependencies:
   provider: ^5.0.0
   firebase_auth: ^3.0.2
   firebase_core: ^1.5.0
+  #flutter_facebook_login: ^3.0.0
   
 
 
