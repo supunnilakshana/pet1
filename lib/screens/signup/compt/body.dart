@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pet1/controllers/authentication/email/email_auth.dart';
 import 'package:pet1/screens/components/already_have_an_account_acheck.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/or_divider.dart';
@@ -6,8 +9,10 @@ import 'package:pet1/screens/components/roundPasswordFiled.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/components/roundedtextFiled.dart';
 import 'package:pet1/screens/components/social_icon.dart';
-import 'package:pet1/screens/login/compt/backgound.dart';
+import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
+
+import 'backgound.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -17,36 +22,55 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String _email = "";
+    String _password = "";
+    String _name = "";
+    var emailauth = EmailAuth();
+
     return SingleChildScrollView(
       child: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: size.height * 0.02,
-            ),
-            Text(
-              "Sign Up",
-              style: TextStyle(fontSize: 28.2, fontWeight: FontWeight.bold),
+              height: size.height * 0.25,
             ),
             SizedBox(
-              height: size.height * 0.03,
+              height: size.height * 0.01,
             ),
             RoundedInput(
+              onchange: (text) {
+                _name = text;
+                print(text);
+              },
               hintText: "Your Name",
-              // onChange: (value) {},
             ),
             RoundedInput(
+              onchange: (text) {
+                _email = text;
+                print(text);
+              },
               hintText: "Your Email",
-              // onChange: (value) {},
+              icon: Icons.mail,
             ),
             RoundedPasswordfiled(
-                //onChange: (value) {},
-                ),
+              change: (text) {
+                _password = text;
+              },
+            ),
             RoundedButton(
-              text: "SignUp",
+              text: "Sign Up",
               onpress: () {
-                print("tukku");
+                print("presssignup");
+                print(_email);
+                print(_password);
+                print(_name);
+                emailauth.handleSignUp(_email, _password).then((user) {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new Dasboard()));
+                }).catchError((e) => (e));
               },
               color: kprimaryColor,
               textcolor: Colors.white,

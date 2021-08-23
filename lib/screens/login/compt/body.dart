@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pet1/controllers/authentication/email/emailauthtest.dart';
+import 'package:pet1/controllers/authentication/facebook/facebook_auth.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/screens/components/already_have_an_account_acheck.dart';
 import 'package:pet1/screens/components/constansts.dart';
@@ -19,32 +21,37 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String _email = "";
+    String _password = "";
     return SingleChildScrollView(
       child: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: size.height * 0.02,
-            ),
-            Text(
-              "Welcome",
-              style: TextStyle(fontSize: 28.2, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: size.height * 0.04,
+              height: size.height * 0.3,
             ),
             RoundedInput(
               hintText: "Your Email",
+              onchange: (text) {
+                _email = text;
+                print(text);
+              },
               // onChange: (value) {},
             ),
             RoundedPasswordfiled(
-                //onChange: (value) {},
-                ),
+              change: (text) {
+                _password = text;
+              },
+            ),
             RoundedButton(
               text: "Login",
               onpress: () {
-                print("tukku");
+                print("press login");
+                print(_email);
+                print(_password);
+                var em = Emtest();
+                em.etest();
               },
               color: kprimaryColor,
               textcolor: Colors.white,
@@ -69,7 +76,11 @@ class Body extends StatelessWidget {
               children: <Widget>[
                 SocalIcon(
                   iconSrc: "assets/icons/facebook.svg",
-                  press: () {},
+                  press: () {
+                    final provider =
+                        Provider.of<FacebookLogin>(context, listen: false);
+                    provider.signInWithFacebook();
+                  },
                 ),
                 SocalIcon(
                   iconSrc: "assets/icons/google-symbol.svg",

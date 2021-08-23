@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pet1/screens/components/constansts.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
@@ -16,6 +18,13 @@ class Background extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
+          Positioned(
+              top: 0,
+              left: 0,
+              child: Image.asset(
+                "assets/images/signin.png",
+                width: size.width,
+              )),
           child,
         ],
       ),

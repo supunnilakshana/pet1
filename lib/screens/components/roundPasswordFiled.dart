@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'Textfiledcontainer.dart';
@@ -6,12 +8,14 @@ import 'constansts.dart';
 class RoundedPasswordfiled extends StatefulWidget {
   final String hintText;
   final IconData icon;
+  final Function(String) change;
+  // final Function(String) onchange;
   // final ValueChanged<String> onChange;
   const RoundedPasswordfiled({
     Key? key,
     this.hintText = "Password",
     this.icon = Icons.lock,
-    //  required this.onChange,
+    required this.change, //required this.onchange,
   }) : super(key: key);
 
   @override
@@ -26,7 +30,7 @@ class _RoundedPasswordfiledState extends State<RoundedPasswordfiled> {
     return Textfiledcontainer(
       child: TextField(
         obscureText: isHidepassword,
-        //  onChanged: onChange,
+        onChanged: widget.change,
         decoration: InputDecoration(
             icon: Icon(Icons.lock, color: kprimaryColor),
             suffixIcon:
