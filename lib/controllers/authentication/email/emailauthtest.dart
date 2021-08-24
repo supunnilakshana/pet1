@@ -3,12 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Emtest {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future etest() async {
+  Future etest(String em, String pw) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: "barry.allen@example.com",
-              password: "SuperSecretPassword!");
+          .createUserWithEmailAndPassword(email: em, password: pw);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
