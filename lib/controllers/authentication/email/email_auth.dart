@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 
 class EmailAuth extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  int r = 0; //signup
+  int i = 0; //sign in
 
-  Future<int> emailsignUp(String em, String pw) async {
-    int r = 0;
+  Future emailsignUp(String em, String pw) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: em, password: pw);
+      r = 0;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
         r = 1;
+        print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
         r = 2;
+        print('The account already exists for that email.');
       }
     } catch (e) {
       r = 3;
@@ -23,24 +25,30 @@ class EmailAuth extends ChangeNotifier {
     }
 
     notifyListeners();
-
-    return r;
   }
 
   Future emailsignIN(em, pw) async {
-    int r = 0;
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: em, password: pw);
+      i = 0;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        r = 1;
+        i = 1;
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        r = 2;
+        i = 2;
         print('Wrong password provided for that user.');
       }
     }
+    notifyListeners();
+  }
+
+  int getSignupstatus() {
     return r;
+  }
+
+  int getSigninstatus() {
+    return i;
   }
 }

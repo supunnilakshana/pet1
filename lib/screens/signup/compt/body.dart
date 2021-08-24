@@ -14,17 +14,24 @@ import 'package:provider/provider.dart';
 
 import 'backgound.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     Key? key,
   }) : super(key: key);
 
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  String status = "";
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String _email = "";
     String _password = "";
     String _name = "";
+
     var emailauth = EmailAuth();
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     return SingleChildScrollView(
@@ -72,24 +79,37 @@ class Body extends StatelessWidget {
                 },
                 save: (text) {},
               ),
+              Text(
+                status,
+                style: TextStyle(color: Colors.red),
+              ),
               RoundedButton(
                 text: "Sign Up",
-                onpress: () {
+                onpress: () async {
                   print("presssignup");
                   print(_email);
                   print(_password);
                   print(_name);
                   if (_formKey.currentState!.validate()) {
-                    Future<int> r = emailauth.emailsignUp(_email, _password);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return LoginScreen();
-                        },
-                      ),
-                    );
-                    print("logged");
+                    await emailauth.emailsignUp(_email, _password);
+                    int r = emailauth.getSignupstatus();
+
+                    if (r == 0) {
+                      print("r name");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LoginScreen();
+                          },
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        status = "The account already exists for that email";
+                      });
+                      print("all used email");
+                    }
                   } else {
                     print("not complet");
                   }

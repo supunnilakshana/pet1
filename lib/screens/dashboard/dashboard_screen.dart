@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 
 class Dasboard extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser;
+  var gauth = GoogleSignInProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class Dasboard extends StatelessWidget {
             RoundedButton(
               text: "Signout",
               onpress: () async {
-                await FirebaseAuth.instance.signOut();
+                gauth.logout();
               },
             )
           ],

@@ -24,6 +24,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  String status = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _BodyState extends State<Body> {
                   print(text);
                 },
                 valid: (text) {
-                  return Validater.genaralvalid(text!);
+                  return Validater.vaildemail(text!);
                 },
                 save: (value) {},
 
@@ -63,14 +64,30 @@ class _BodyState extends State<Body> {
                 },
                 save: (text) {},
               ),
+              Text(
+                status,
+                style: TextStyle(color: Colors.red),
+              ),
               RoundedButton(
                 text: "Login",
-                onpress: () {
+                onpress: () async {
                   if (_formKey.currentState!.validate()) {
                     print("press login");
                     print(_email);
                     print(_password);
-                    emailauth.emailsignIN(_email, _password);
+                    await emailauth.emailsignIN(_email, _password);
+                    int r = emailauth.getSigninstatus();
+                    if (r == 0) {
+                      print("loged");
+                    } else if (r == 1) {
+                      setState(() {
+                        status = "Please enter the correct email";
+                      });
+                    } else if (r == 2) {
+                      setState(() {
+                        status = "Please enter the correct password";
+                      });
+                    }
                   } else {
                     print("Not Complete");
                   }

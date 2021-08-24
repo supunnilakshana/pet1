@@ -9,7 +9,7 @@ class Validater {
   static String? signupPassword(String value) {
     if (value.isEmpty) {
       return "Please enter a password";
-    } else if (value.length > 7) {
+    } else if (value.length < 7) {
       return "Password must be at least 7 characters";
     }
     return null;
@@ -21,7 +21,7 @@ class Validater {
         .hasMatch(email);
     if (email.isEmpty) {
       return "This field can't be empty";
-    } else if (emailValid) {
+    } else if (emailValid == false) {
       return "Please enter a correct email";
     }
     return null;
