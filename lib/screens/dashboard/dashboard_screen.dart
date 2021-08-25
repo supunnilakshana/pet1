@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
+import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 
 class Dasboard extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser;
   var gauth = GoogleSignInProvider();
-
+  var pethandeler = PetdbHandeler();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,6 +31,15 @@ class Dasboard extends StatelessWidget {
             SizedBox(height: 20),
             Text(user!.email.toString(),
                 style: TextStyle(fontSize: 24, color: Colors.white)),
+            RoundedButton(
+              text: "add",
+              onpress: () async {
+                await pethandeler.adduser();
+                await pethandeler
+                    .addPet(Pet("_id", "kukku", "_type", 0, 10, 5.2));
+                print("---------------------------------ok");
+              },
+            ),
             RoundedButton(
               text: "Signout",
               onpress: () async {
