@@ -1,13 +1,8 @@
-
-
 class Pet {
   String _id = "";
   String _name = "";
-  String _type="";
-  int _spec=0;
-
-  Pet(this._id, this._name, this._type, this._spec, this._age, this._weight);
-
+  String _type = "";
+  int _spec = 0;
 
   String get id => _id;
 
@@ -47,6 +42,4 @@ class Pet {
   set weight(double value) {
     _weight = value;
   }
-
-
 }

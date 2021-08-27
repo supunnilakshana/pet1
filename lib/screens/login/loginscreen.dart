@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
+import 'package:pet1/screens/loading/loading_screen.dart';
 import 'package:pet1/screens/login/compt/body.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class LoginScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasData) {
-          return Dasboard();
+          return LoadingScreen();
         } else if (snapshot.hasError) {
           return Center(
             child: Text("Somthing wrong"),

@@ -6,9 +6,11 @@ import 'constansts.dart';
 class RoundedInput extends StatefulWidget {
   final String hintText;
   final IconData icon;
+  final TextInputType textinput;
   final Function(String) onchange;
   final Function(String?) save;
   final String? Function(String?) valid;
+
   const RoundedInput({
     Key? key,
     this.hintText = "Your Email",
@@ -16,6 +18,7 @@ class RoundedInput extends StatefulWidget {
     required this.onchange,
     required this.valid,
     required this.save,
+    this.textinput = TextInputType.text,
 
     //this.onChange?,
   }) : super(key: key);
@@ -33,6 +36,7 @@ class _RoundedInputState extends State<RoundedInput> {
         onChanged: widget.onchange,
         onSaved: widget.save,
         validator: widget.valid,
+        keyboardType: widget.textinput,
         decoration: InputDecoration(
             icon: Icon(widget.icon, color: kprimaryColor),
             hintText: widget.hintText,

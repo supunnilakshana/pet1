@@ -33,12 +33,7 @@ class Dasboard extends StatelessWidget {
                 style: TextStyle(fontSize: 24, color: Colors.white)),
             RoundedButton(
               text: "add",
-              onpress: () async {
-                await pethandeler.adduser();
-                await pethandeler
-                    .addPet(Pet("_id", "kukku", "_type", 0, 10, 5.2));
-                print("---------------------------------ok");
-              },
+              onpress: () async {},
             ),
             RoundedButton(
               text: "Signout",
