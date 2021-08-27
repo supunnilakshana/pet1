@@ -7,10 +7,11 @@ class PetdbHandeler {
   final firestoreInstance = FirebaseFirestore.instance;
 
   Future<void> adduser() async {
-    firestoreInstance.collection("users").doc(user!.email.toString()).set({
-      "email": user!.email.toString(),
-    }).then((_) {
-      print("success!");
+    firestoreInstance
+        .collection("users")
+        .doc(user!.email.toString())
+        .set({"email": user!.email.toString(), "pets": 0}).then((_) {
+      print("create user doc");
     });
   }
 
@@ -26,6 +27,32 @@ class PetdbHandeler {
       "species": pet.spec,
       "weight": pet.weight
     }).then((_) {
+      print("success!");
+    });
+  }
+
+  Future userPetcount() async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    int count = 0;
+    await firestoreInstance
+        .collection("users")
+        .doc(firebaseUser!.email.toString())
+        .get()
+        .then((value) {
+      print(value.data()!["pets"]);
+      count = (value.data()!["pets"]);
+      // print("----------------------------------------------------------------" +  count.toString());
+    });
+    return count;
+  }
+
+  Future updarePetcount() async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    int count = await userPetcount();
+    firestoreInstance
+        .collection("users")
+        .doc(firebaseUser!.email.toString())
+        .update({"pets": count + 1}).then((_) {
       print("success!");
     });
   }

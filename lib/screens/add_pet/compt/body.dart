@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/models/pet_list.dart';
@@ -10,6 +9,7 @@ import 'package:pet1/screens/components/dropdown_list.dart';
 
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/components/roundedtextFiled.dart';
+import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 
 import 'backgound.dart';
 
@@ -123,7 +123,10 @@ class _BodyState extends State<Body> {
                     print(pet);
                     await pd.adduser();
                     await pd.addPet(pet);
+                    pd.updarePetcount();
                     print("added");
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Dasboard()));
                   } else {
                     print("Not Complete");
                   }
