@@ -28,3 +28,8 @@ final List<ListItem> catlist = [
   ListItem(11, "Third Item"),
   ListItem(12, "Fourth Item"),
 ];
+
+final List<ListItem> genderlist = [
+  ListItem(1, "male"),
+  ListItem(2, "female"),
+];

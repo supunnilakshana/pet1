@@ -23,9 +23,11 @@ class PetdbHandeler {
         .set({
       "name": pet.name,
       "type": pet.type,
-      "age": pet.age,
+      "dob": pet.dob,
       "species": pet.spec,
-      "weight": pet.weight
+      "gender": pet.gender,
+
+      //"weight": pet.weight
     }).then((_) {
       print("success!");
     });

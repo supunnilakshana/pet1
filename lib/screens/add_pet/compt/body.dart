@@ -6,6 +6,7 @@ import 'package:pet1/controllers/validators/validate_handeler.dart';
 
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/dropdown_list.dart';
+import 'package:pet1/screens/components/rounded_selectedbutton.dart';
 
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/components/roundedtextFiled.dart';
@@ -29,6 +30,8 @@ class _BodyState extends State<Body> {
   var pet = Pet();
   PetdbHandeler pd = PetdbHandeler();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String date = "";
+  DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     String proimg;
@@ -81,7 +84,7 @@ class _BodyState extends State<Body> {
                 icon: Icons.pets,
                 // onChange: (value) {},
               ),
-              RoundedInput(
+              /*RoundedInput(
                 hintText: "Age",
                 onchange: (text) {
                   pet.age = int.parse(text);
@@ -92,8 +95,20 @@ class _BodyState extends State<Body> {
                 save: (value) {},
                 textinput: TextInputType.number,
                 icon: Icons.pets,
+              ),*/
+              RoundedSelectButton(
+                icon: Icons.date_range,
+                onpress: (context) => _selectDate(context),
+                text: "Choose your pet's birthday",
               ),
+              /*ElevatedButton(
+                child: Text("press"),
+                onPressed: () => _selectDate(context),
+              ),*/
+              Text(
+                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
               DropdownList(
+                hinttext: Text("Select pet's species"),
                 onchange: (value) {
                   pet.spec = value as int;
 
@@ -101,7 +116,16 @@ class _BodyState extends State<Body> {
                 },
                 typelist: listitem,
               ),
-              RoundedInput(
+              DropdownList(
+                hinttext: Text("Select pet's gender"),
+                onchange: (value) {
+                  pet.gender = value as int;
+
+                  print(value);
+                },
+                typelist: genderlist,
+              ),
+              /* RoundedInput(
                   hintText: "Weight",
                   onchange: (text) {
                     pet.weight = double.parse(text);
@@ -111,10 +135,10 @@ class _BodyState extends State<Body> {
                     return Validater.genaralvalid(text!);
                   },
                   save: (value) {},
-                  textinput: TextInputType.number,
+                  textinput: TextInputType.datetime,
                   icon: Icons.pets
                   // onChange: (value) {},
-                  ),
+                  ),*/
               RoundedButton(
                 text: "Continue",
                 onpress: () async {
@@ -140,5 +164,20 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
+  }
+
+  _selectDate(BuildContext context) async {
+    final selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2010),
+      lastDate: DateTime(2025),
+    );
+    if (selected != null && selected != selectedDate)
+      setState(() {
+        selectedDate = selected;
+        pet.dob =
+            "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+      });
   }
 }

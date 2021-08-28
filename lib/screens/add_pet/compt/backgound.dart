@@ -13,7 +13,13 @@ class Background extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         width: double.infinity,
-        // height: size.height,
+        height: size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/petback.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[

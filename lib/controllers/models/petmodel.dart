@@ -3,6 +3,11 @@ class Pet {
   String _name = "";
   String _type = "";
   int _spec = 0;
+  String _dob = "";
+  String _color = "";
+  int _teethcount = 0;
+  double _weight = 0.0;
+  int _gender = 0;
 
   String get id => _id;
 
@@ -10,19 +15,30 @@ class Pet {
     _id = value;
   }
 
-  int _age = 0;
-  double _weight = 0.0;
-
   String get name => _name;
 
-  set name(String value) {
-    _name = value;
+  double get weight => _weight;
+
+  set weight(double value) {
+    _weight = value;
   }
 
-  String get type => _type;
+  int get teethcount => _teethcount;
 
-  set type(String value) {
-    _type = value;
+  set teethcount(int value) {
+    _teethcount = value;
+  }
+
+  String get color => _color;
+
+  set color(String value) {
+    _color = value;
+  }
+
+  String get dob => _dob;
+
+  set dob(String value) {
+    _dob = value;
   }
 
   int get spec => _spec;
@@ -31,15 +47,19 @@ class Pet {
     _spec = value;
   }
 
-  int get age => _age;
+  String get type => _type;
 
-  set age(int value) {
-    _age = value;
+  set type(String value) {
+    _type = value;
   }
 
-  double get weight => _weight;
+  set name(String value) {
+    _name = value;
+  }
 
-  set weight(double value) {
-    _weight = value;
+  int get gender => _gender;
+
+  set gender(int value) {
+    _gender = value;
   }
 }
