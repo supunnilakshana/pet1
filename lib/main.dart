@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pet1/screens/add_pet/add_pet_screen.dart';
-import 'package:pet1/screens/select_pet/selectpet_screen.dart';
+
 import 'package:pet1/screens/welcom/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'controllers/authentication/google/GoogleSignAuth.dart';
@@ -22,8 +21,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Petzy',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
         ),
-        home: SelectPetscreen(),
+        home: WelcomeScreen(),
       ));
 }

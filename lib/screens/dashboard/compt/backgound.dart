@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pet1/screens/components/constansts.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
@@ -17,7 +15,7 @@ class Background extends StatelessWidget {
       height: size.height,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/loadingback.jpg"),
+          image: AssetImage("assets/images/petback.jpg"),
           fit: BoxFit.cover,
         ),
       ),

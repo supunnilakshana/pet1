@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pet1/screens/add_pet/add_pet_screen.dart';
+import 'package:pet1/screens/components/constansts.dart';
 
 import 'backgound.dart';
 
@@ -11,9 +13,17 @@ class Body extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Text(
+            "Tap and select your  pet ",
+            style: TextStyle(
+                fontSize: size.width * 0.08, color: kheadingcolorlight),
+          ),
+          SizedBox(
+            height: size.height * 0.05,
+          ),
           GestureDetector(
             child: Image.asset(
-              "assets/images/dog.jpg",
+              "assets/images/dog.png",
               width: size.width * 0.5,
             ),
             onTap: () {
@@ -33,7 +43,7 @@ class Body extends StatelessWidget {
           ),
           GestureDetector(
               child: Image.asset(
-                "assets/images/cat.jpg",
+                "assets/images/cat.png",
                 width: size.width * 0.5,
               ),
               onTap: () {

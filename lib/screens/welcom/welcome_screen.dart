@@ -24,7 +24,7 @@ class StartState extends State<WelcomeScreen> {
   }
 
   startTimer() async {
-    var duration = Duration(seconds: 2);
+    var duration = Duration(seconds: 3);
     return new Timer(duration, route);
   }
 

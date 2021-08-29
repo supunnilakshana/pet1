@@ -32,17 +32,19 @@ class _BodyState extends State<Body> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String date = "";
   DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     String proimg;
     Size size = MediaQuery.of(context).size;
+
     final List<ListItem> listitem;
     if (widget.pettype == 0) {
-      proimg = "assets/images/dog.jpg";
+      proimg = "assets/images/dog.png";
       listitem = doglist;
       pet.type = 'dog';
     } else {
-      proimg = "assets/images/cat.jpg";
+      proimg = "assets/images/cat.png";
       listitem = catlist;
       pet.type = 'cat';
     }
@@ -110,7 +112,9 @@ class _BodyState extends State<Body> {
               DropdownList(
                 hinttext: Text("Select pet's species"),
                 onchange: (value) {
-                  pet.spec = value as int;
+                  setState(() {
+                    pet.spec = value as int;
+                  });
 
                   print(value);
                 },

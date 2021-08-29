@@ -7,6 +7,8 @@ import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen.dart';
 
+import 'compt/background.dart';
+
 class LoadingcheckScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => StartState();
@@ -26,7 +28,7 @@ class StartState extends State<LoadingcheckScreen> {
   }
 
   startTimer() async {
-    var duration = Duration(seconds: 10);
+    var duration = Duration(seconds: 2);
     return new Timer(duration, route);
   }
 
@@ -67,8 +69,12 @@ class StartState extends State<LoadingcheckScreen> {
     Size size = MediaQuery.of(context).size;
     print("loading");
     return Scaffold(
-        body: Container(
-      child: Center(child: Lottie.asset('assets/animations/dogwalking.json')),
+        body: Background(
+      child: Positioned(
+        bottom: 0,
+        child: Lottie.asset('assets/animations/dogwalking.json',
+            width: size.width * 0.9),
+      ),
     ));
   }
 }

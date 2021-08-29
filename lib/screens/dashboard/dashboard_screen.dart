@@ -2,47 +2,127 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
-import 'package:pet1/controllers/models/petmodel.dart';
+import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
+import 'package:pet1/screens/login/loginscreen.dart';
 
-class Dasboard extends StatelessWidget {
+import 'compt/backgound.dart';
+
+class Dasboard extends StatefulWidget {
+  @override
+  _DasboardState createState() => _DasboardState();
+}
+
+class _DasboardState extends State<Dasboard> {
   final user = FirebaseAuth.instance.currentUser;
+
   var gauth = GoogleSignInProvider();
+
   var pethandeler = PetdbHandeler();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        color: Color(0xFF0f131a),
-        width: size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Hellow",
-              style: TextStyle(fontSize: 24, color: Colors.white),
+    return DefaultTabController(
+      length: 4,
+      initialIndex: 0,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(size.height * 0.2),
+          child: AppBar(
+            leading: Container(
+              margin: EdgeInsets.only(left: 5),
+              child: CircleAvatar(
+                radius: size.width * 0.08,
+                backgroundImage: AssetImage("assets/images/dog.png"),
+              ),
             ),
-            SizedBox(height: 50),
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(user!.photoURL.toString()),
+            actions: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 5),
+                child: CircleAvatar(
+                  radius: size.width * 0.06,
+                  backgroundImage: NetworkImage(user!.photoURL.toString()),
+                ),
+              ),
+            ],
+            flexibleSpace: Image.asset(
+              "assets/images/appbackground.png",
+              fit: BoxFit.cover,
             ),
-            SizedBox(height: 20),
-            Text(user!.email.toString(),
-                style: TextStyle(fontSize: 24, color: Colors.white)),
-            RoundedButton(
-              text: "add",
-              onpress: () async {},
+            bottom: const TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  color: Colors.purpleAccent),
+              tabs: <Widget>[
+                Tab(
+                  text: "Home",
+                ),
+                Tab(
+                  text: "Events",
+                ),
+                Tab(
+                  text: "Updates",
+                ),
+                Tab(
+                  text: "Contacts",
+                )
+              ],
             ),
-            RoundedButton(
-              text: "Signout",
-              onpress: () async {
-                gauth.logout();
-              },
-            )
-          ],
+          ),
         ),
+        body: TabBarView(children: <Widget>[
+          Tab(
+            child: Background(
+              child: Container(
+                width: size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Hellow",
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                    SizedBox(height: 50),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(user!.photoURL.toString()),
+                    ),
+                    SizedBox(height: 20),
+                    Text(user!.email.toString(),
+                        style: TextStyle(fontSize: 24, color: Colors.white)),
+                    RoundedButton(
+                      text: "add",
+                      onpress: () async {},
+                    ),
+                    RoundedButton(
+                      text: "Signout",
+                      onpress: () async {
+                        await gauth.logout();
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Tab(
+            icon: Icon(Icons.beach_access_sharp),
+          ),
+          Tab(
+            icon: Icon(Icons.brightness_5_sharp),
+          ),
+          Tab(
+            icon: Icon(Icons.brightness_5_sharp),
+          ),
+        ]),
       ),
     );
   }
