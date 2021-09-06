@@ -35,7 +35,7 @@ class StartState extends State<WelcomeScreen> {
 
   initScreen(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("tomegone");
+    print("tomgone");
     return Scaffold(
         body: Container(
       width: double.infinity,

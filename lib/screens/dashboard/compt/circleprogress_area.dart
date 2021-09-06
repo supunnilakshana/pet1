@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/screens/components/progressindicaror_circle.dart';
 
 class ProgressArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    var pethandeler = PetdbHandeler();
+
     return Container(
       child: Column(
         children: <Widget>[
           Row(children: <Widget>[
             ProgreesCricle(
               centerText: Text(
-                "60.0%",
+                "",
                 style:
                     new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),

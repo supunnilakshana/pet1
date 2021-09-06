@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
+import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 
@@ -100,7 +102,8 @@ class _DasboardState extends State<Dasboard> {
                     RoundedButton(
                       text: "Get ",
                       onpress: () async {
-                        pethandeler.setweight("");
+                        CircelProgressHandeler c = CircelProgressHandeler();
+                        c.weightprogress();
                       },
                     )
                   ],

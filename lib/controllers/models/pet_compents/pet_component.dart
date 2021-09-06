@@ -1,12 +1,12 @@
 class Weight {
   final String dateTime;
-  final double weight;
+  final double value;
 
-  Weight(this.dateTime, this.weight);
+  Weight(this.dateTime, this.value);
 
-  Map<String, dynamic> toMap() => {"date": this.dateTime, "value": this.weight};
+  Map<String, dynamic> toMap() => {"date": this.dateTime, "value": this.value};
 
   Weight.fromMap(Map<dynamic, dynamic> map)
       : dateTime = map["date"] as String,
-        weight = map["value"] as double;
+        value = map["value"] as double;
 }

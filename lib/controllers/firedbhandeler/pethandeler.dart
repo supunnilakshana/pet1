@@ -69,42 +69,86 @@ class PetdbHandeler {
     });
   }
 
-  Future getweight(String docname) async {
-    Weight weight;
+  Future<List<Weight>> getweight(String docname) async {
+    List<dynamic> weights = [];
+    List<Weight> weightlist = [];
+
     String userpath = user!.email.toString();
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc("dulaj")
         .get()
         .then((value) {
       print("--------------------------------------------");
-      weight = Weight.fromMap(value.data()!['weight'][1]);
+      weights = (value.data()!['weight']);
+      weights.forEach((element) {
+        Weight a = Weight.fromMap(element);
+        weightlist.add(a);
+      });
+
       // print(value.data()!['weight'][0]['date']);
-      print(weight.dateTime);
     });
+    return weightlist;
   }
 
-  Future setweight(String docname) async {
+  Future setWeight(String docname, Weight w) async {
     String userpath = user!.email.toString();
     List<dynamic> weights;
 
     firestoreInstance
         .collection("/users/" + userpath + "/pet")
-        .doc("dulaj")
+        .doc(docname)
         .get()
         .then((value) {
-      weights = (value.data()!['weights']);
-      Weight neww = Weight("super", 30);
+      weights = (value.data()!['weight']);
       print("--------------------------");
-
-      weights.add(neww.toMap());
-
+      weights.add(w.toMap());
+      print(weights.last);
       print(weights);
       firestoreInstance
           .collection("/users/" + userpath + "/pet")
-          .doc("dulaj")
-          .set({"weights": weights}).then((_) {
+          .doc(docname)
+          .update({"weight": weights}).then((_) {
+        print("success!");
+      });
+    });
+  }
+
+  Future getBath(String docname) async {
+    List<dynamic> baths;
+    String userpath = user!.email.toString();
+
+    firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .get()
+        .then((value) {
+      print("--------------------------------------------");
+
+      baths = value.data()!['bath'];
+      print(baths.last.toString());
+      return baths;
+    });
+  }
+
+  Future setBath(String docname) async {
+    String userpath = user!.email.toString();
+    List<dynamic> baths;
+
+    firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .get()
+        .then((value) {
+      baths = value.data()!['bath'];
+      print(baths.last.toString());
+      print("--------------------------");
+      baths.add("2021.2.5");
+      firestoreInstance
+          .collection("/users/" + userpath + "/pet")
+          .doc(docname)
+          .update({"bath": baths}).then((_) {
         print("success!");
       });
     });
