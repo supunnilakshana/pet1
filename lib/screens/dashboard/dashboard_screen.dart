@@ -4,9 +4,12 @@ import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
+
 import 'package:pet1/screens/login/loginscreen.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import 'compt/backgound.dart';
+import 'compt/circleprogress_area.dart';
 
 class Dasboard extends StatefulWidget {
   @override
@@ -82,22 +85,8 @@ class _DasboardState extends State<Dasboard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "Hellow",
-                      style: TextStyle(fontSize: 24, color: Colors.white),
-                    ),
                     SizedBox(height: 50),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(user!.photoURL.toString()),
-                    ),
-                    SizedBox(height: 20),
-                    Text(user!.email.toString(),
-                        style: TextStyle(fontSize: 24, color: Colors.white)),
-                    RoundedButton(
-                      text: "add",
-                      onpress: () async {},
-                    ),
+                    ProgressArea(),
                     RoundedButton(
                       text: "Signout",
                       onpress: () async {
@@ -106,6 +95,12 @@ class _DasboardState extends State<Dasboard> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginScreen()));
+                      },
+                    ),
+                    RoundedButton(
+                      text: "Get ",
+                      onpress: () async {
+                        pethandeler.setweight("");
                       },
                     )
                   ],

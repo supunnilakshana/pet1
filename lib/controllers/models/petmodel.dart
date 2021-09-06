@@ -1,3 +1,5 @@
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
+
 class Pet {
   String _id = "";
   String _name = "";
@@ -6,7 +8,14 @@ class Pet {
   String _dob = "";
   String _color = "";
   int _teethcount = 0;
-  double _weight = 0.0;
+  // late List<Weight> _weight;
+
+//  List<Weight> get weight => _weight;
+
+  // set weight(List<Weight> value) {
+  //   _weight = value;
+  // }
+
   int _gender = 0;
 
   String get id => _id;
@@ -16,12 +25,6 @@ class Pet {
   }
 
   String get name => _name;
-
-  double get weight => _weight;
-
-  set weight(double value) {
-    _weight = value;
-  }
 
   int get teethcount => _teethcount;
 
