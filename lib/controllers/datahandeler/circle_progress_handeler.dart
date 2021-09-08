@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 
@@ -6,11 +7,11 @@ class CircelProgressHandeler {
   var pethandeler = PetdbHandeler();
 
   // CircelProgress
-  weightprogress() {
-    Future<List<Weight>> w = pethandeler.getweight("dulaj");
-    print(w);
+  Future<CircelProgress> weightprogress() async {
+    List<Weight> w = await pethandeler.getweight("dulaj");
 
-    //return 0;
+    return CircelProgress(
+        w.last.value.toString(), "Weight", Colors.lightGreen, 1);
   }
 }
 

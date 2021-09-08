@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/progressindicaror_circle.dart';
 
-class ProgressArea extends StatelessWidget {
+class ProgressArea extends StatefulWidget {
+  @override
+  _ProgressAreaState createState() => _ProgressAreaState();
+}
+
+class _ProgressAreaState extends State<ProgressArea> {
+  CircelProgressHandeler c = CircelProgressHandeler();
+  CircelProgress? weight;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    var pethandeler = PetdbHandeler();
 
     return Container(
       child: Column(
@@ -15,7 +22,7 @@ class ProgressArea extends StatelessWidget {
           Row(children: <Widget>[
             ProgreesCricle(
               centerText: Text(
-                "",
+                '',
                 style:
                     new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),
@@ -29,17 +36,17 @@ class ProgressArea extends StatelessWidget {
             ),
             ProgreesCricle(
               centerText: Text(
-                "90.0%",
+                weight!.centerText,
                 style:
                     new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),
               footerText: Text(
-                "Weight",
+                weight!.footerText,
                 style:
                     new TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
               ),
               progresscolor: Colors.amberAccent,
-              precentage: 0.9,
+              precentage: weight!.progress,
             ),
             ProgreesCricle(
               centerText: Text(
@@ -103,5 +110,17 @@ class ProgressArea extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  initState() {
+    super.initState();
+    loadData();
+  }
+
+  void loadData() async {
+    weight = await c.weightprogress();
+    print("---------------------------");
+    setState(() {});
   }
 }
