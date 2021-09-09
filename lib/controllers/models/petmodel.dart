@@ -7,14 +7,25 @@ class Pet {
   int _spec = 0;
   String _dob = "";
   String _color = "";
-  int _teethcount = 0;
-  // late List<Weight> _weight;
+  List<Weight> _weight = [];
+  List<Event> _events = [];
+  List<String> _bath = [];
+  List<String> _teeth = [];
+  List<String> _hair = [];
+  List<Vaccine> _vaccines = [];
+  List<Vitamin> _vitamins = [];
 
-//  List<Weight> get weight => _weight;
+  List<Weight> get weight => _weight;
 
-  // set weight(List<Weight> value) {
-  //   _weight = value;
-  // }
+  List<Event> get events => _events;
+
+  set events(List<Event> value) {
+    _events = value;
+  }
+
+  set weight(List<Weight> value) {
+    _weight = value;
+  }
 
   int _gender = 0;
 
@@ -24,13 +35,13 @@ class Pet {
     _id = value;
   }
 
-  String get name => _name;
+  List<String> get bath => _bath;
 
-  int get teethcount => _teethcount;
-
-  set teethcount(int value) {
-    _teethcount = value;
+  set bath(List<String> value) {
+    _bath = value;
   }
+
+  String get name => _name;
 
   String get color => _color;
 
@@ -64,5 +75,29 @@ class Pet {
 
   set gender(int value) {
     _gender = value;
+  }
+
+  List<String> get teeth => _teeth;
+
+  set teeth(List<String> value) {
+    _teeth = value;
+  }
+
+  List<String> get hair => _hair;
+
+  set hair(List<String> value) {
+    _hair = value;
+  }
+
+  List<Vaccine> get vaccines => _vaccines;
+
+  set vaccines(List<Vaccine> value) {
+    _vaccines = value;
+  }
+
+  List<Vitamin> get vitamins => _vitamins;
+
+  set vitamins(List<Vitamin> value) {
+    _vitamins = value;
   }
 }

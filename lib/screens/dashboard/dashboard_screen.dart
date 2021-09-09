@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
+import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
@@ -19,7 +20,7 @@ class Dasboard extends StatefulWidget {
 
 class _DasboardState extends State<Dasboard> {
   final user = FirebaseAuth.instance.currentUser;
-
+  var pd = PetdbHandeler();
   var gauth = GoogleSignInProvider();
 
   @override
@@ -99,8 +100,9 @@ class _DasboardState extends State<Dasboard> {
                     RoundedButton(
                       text: "Get ",
                       onpress: () async {
-                        CircelProgressHandeler c = CircelProgressHandeler();
-                        c.weightprogress();
+                        pd.setHair("sukku");
+                        pd.setTeeth("sukku");
+                        pd.setBath("sukku");
                       },
                     )
                   ],
