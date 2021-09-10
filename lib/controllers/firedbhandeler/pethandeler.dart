@@ -268,6 +268,29 @@ class PetdbHandeler {
       print("success!");
     });
   }
-//--------------------------------------get pet events----------------------------------------------------------------------------
 
+//--------------------------------------get pet events----------------------------------------------------------------------------
+  Future<List<Event>> getEvents(String docname) async {
+    List<dynamic> events = [];
+    List<Event> eventlist = [];
+
+    String userpath = user!.email.toString();
+
+    await firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .get()
+        .then((value) {
+      print("--------------------------------------------");
+      events = (value.data()!['events']);
+      events.forEach((element) {
+        Event a = Event.fromMap(element);
+        eventlist.add(a);
+      });
+
+      // print(value.data()!['weight'][0]['date']);
+    });
+    print(events);
+    return eventlist;
+  }
 }

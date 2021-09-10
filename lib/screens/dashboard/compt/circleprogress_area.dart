@@ -14,15 +14,13 @@ class _ProgressAreaState extends State<ProgressArea> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Container(
       child: Column(
         children: <Widget>[
           Row(children: <Widget>[
             ProgreesCricle(
               centerText: Text(
-                '',
+                're',
                 style:
                     new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),
@@ -120,7 +118,7 @@ class _ProgressAreaState extends State<ProgressArea> {
 
   void loadData() async {
     weight = await c.weightprogress();
-    print("---------------------------");
+    print("--------------....................-------------");
     setState(() {});
   }
 }

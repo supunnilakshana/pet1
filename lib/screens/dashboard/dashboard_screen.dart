@@ -6,6 +6,7 @@ import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/validators/date.dart';
 
 import 'package:pet1/screens/components/constansts.dart';
+import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 
 import 'package:pet1/screens/login/loginscreen.dart';
@@ -101,9 +102,7 @@ class _DasboardState extends State<Dasboard> {
                     RoundedButton(
                       text: "Get ",
                       onpress: () async {
-                        pd.setHair("sukku");
-                        pd.setTeeth("sukku");
-                        pd.setBath("sukku");
+                        PopupDialog.showMyDialog(context, "yes", "no", () {});
                       },
                     )
                   ],
