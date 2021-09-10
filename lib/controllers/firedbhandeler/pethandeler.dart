@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
+import 'package:pet1/controllers/validators/date.dart';
 
 class PetdbHandeler {
   final user = FirebaseAuth.instance.currentUser;
@@ -162,7 +163,7 @@ class PetdbHandeler {
       bath = value.data()!['baths'];
       // print(bath.last.toString());
       print("--------------------------");
-      bath.add("2021.2.5");
+      bath.add(Date.getStringdate());
       firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
@@ -204,7 +205,7 @@ class PetdbHandeler {
       hair = value.data()!['hair'];
       //  print(hair.last.toString());
       print("--------------------------");
-      hair.add("2021.2.5");
+      hair.add(Date.getStringdate());
       firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
@@ -233,7 +234,7 @@ class PetdbHandeler {
     });
   }
 
-//--------------------------------------set pet teeth----------------------------------------------------------------------------
+//--------------------------------------get pet hair----------------------------------------------------------------------------
   Future setTeeth(String docname) async {
     String userpath = user!.email.toString();
     List<dynamic> teeth;
@@ -246,7 +247,7 @@ class PetdbHandeler {
       teeth = value.data()!['teeth'];
       // print(teeth.last.toString());
       print("--------------------------");
-      teeth.add("2021.2.5");
+      teeth.add(Date.getStringdate());
       firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
@@ -255,4 +256,18 @@ class PetdbHandeler {
       });
     });
   }
+  //--------------------------------------set pet events----------------------------------------------------------------------------
+
+  Future setEvents(String docname, List<dynamic> events) async {
+    String userpath = user!.email.toString();
+
+    firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .update({"weight": events}).then((_) {
+      print("success!");
+    });
+  }
+//--------------------------------------get pet events----------------------------------------------------------------------------
+
 }
