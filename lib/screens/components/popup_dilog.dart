@@ -1,7 +1,48 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
 class PopupDialog {
-  static Future<void> showMyDialog(BuildContext context, String titel,
+  static showPopupDilog(BuildContext context, String titel, String description,
+      Function actionFun) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: titel,
+      desc: description,
+      btnCancelText: "Not yet!",
+      btnOkText: "Yes I did",
+      btnCancelOnPress: () {},
+      btnOkOnPress: actionFun,
+    )..show();
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*static Future<void> showMyDialog(BuildContext context, String titel,
       String description, Function actionFun) async {
     return showDialog<void>(
       context: context,
@@ -20,8 +61,16 @@ class PopupDialog {
             TextButton(
               child: const Text('Yes , did'),
               onPressed: () {
-                Navigator.of(context).pop();
-                print("yes");
+                /// actionFun();
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.INFO,
+                  animType: AnimType.LEFTSLIDE,
+                  title: 'Dialog Title',
+                  desc: 'Dialog description here.............',
+                  btnCancelOnPress: () {},
+                  btnOkOnPress: () {},
+                )..show();
               },
             ),
             TextButton(
@@ -34,5 +83,4 @@ class PopupDialog {
         );
       },
     );
-  }
-}
+  } */

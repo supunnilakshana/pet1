@@ -133,11 +133,12 @@ class PetdbHandeler {
   }
 
 //--------------------------------------get pet bath----------------------------------------------------------------------------
-  Future getBath(String docname) async {
+  Future<List<String>> getBath(String docname) async {
     List<dynamic> bath;
+    List<String> bathlist = [];
     String userpath = user!.email.toString();
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
@@ -146,8 +147,11 @@ class PetdbHandeler {
 
       bath = value.data()!['baths'];
       print(bath.last.toString());
-      return bath;
+      bath.forEach((element) {
+        bathlist.add(element.toString());
+      });
     });
+    return bathlist;
   }
 
 //--------------------------------------set pet bath----------------------------------------------------------------------------

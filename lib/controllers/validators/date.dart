@@ -9,11 +9,15 @@ class Date {
   }
 
   static DateTime convertDatetime(String date) {
-    String dateParse = "9/9/2021";
-
-    var datetime = DateFormat('d/M/yyyy').parse(dateParse);
+    var datetime = DateFormat('d/M/yyyy').parse(date);
 
     print(datetime);
     return datetime;
+  }
+
+  static int daysBetween(DateTime from) {
+    from = DateTime(from.year, from.month, from.day);
+    DateTime to = DateTime.now();
+    return (to.difference(from).inDays);
   }
 }

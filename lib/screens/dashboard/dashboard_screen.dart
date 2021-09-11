@@ -24,7 +24,7 @@ class _DasboardState extends State<Dasboard> {
   final user = FirebaseAuth.instance.currentUser;
   var pd = PetdbHandeler();
   var gauth = GoogleSignInProvider();
-
+  CircelProgressHandeler c = CircelProgressHandeler();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -102,7 +102,17 @@ class _DasboardState extends State<Dasboard> {
                     RoundedButton(
                       text: "Get ",
                       onpress: () async {
-                        PopupDialog.showMyDialog(context, "yes", "no", () {});
+                        /* PopupDialog.showPopupDilog(
+                            context, "Bath", "Was your pet bathe Today ? ",
+                            () async {
+                          await pd.setBath("sukku");
+                          print("adeed bath");
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Dasboard()));
+                        });*/
+                        c.bathtprogress();
                       },
                     )
                   ],
