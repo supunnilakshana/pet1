@@ -7,6 +7,9 @@ import 'package:pet1/screens/components/progressindicaror_circle.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 
 class ProgressArea extends StatefulWidget {
+  final String petname;
+
+  const ProgressArea({Key? key, required this.petname}) : super(key: key);
   @override
   _ProgressAreaState createState() => _ProgressAreaState();
 }
@@ -28,25 +31,28 @@ class _ProgressAreaState extends State<ProgressArea> {
               onTap: () {
                 PopupDialog.showPopupDilog(
                     context, "Bath", "Was your pet bathe Today ? ", () async {
-                  await pd.setBath("sukku");
+                  await pd.setBath(widget.petname);
                   print("adeed bath");
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Dasboard()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Dasboard(
+                                petname: widget.petname,
+                              )));
+                  print(widget.petname + "----------------------");
                 });
               },
               child: ProgreesCricle(
                 centerText: Text(
-                  're',
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15.0),
+                  bath.centerText,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
                 ),
                 footerText: Text(
                   "Bath",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17.0),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
-                progresscolor: Colors.green,
-                precentage: 0.6,
+                progresscolor: bath.color,
+                precentage: bath.progress,
               ),
             ),
             ProgreesCricle(
@@ -134,7 +140,9 @@ class _ProgressAreaState extends State<ProgressArea> {
   }
 
   void loadData() async {
-    weight = await c.weightprogress();
+    // weight = await c.weightprogress(widget.petname);
+    bath = await c.bathtprogress(widget.petname);
+    print(bath.centerText);
     print("--------------....................-------------");
     setState(() {});
   }

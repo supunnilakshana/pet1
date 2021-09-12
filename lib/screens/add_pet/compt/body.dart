@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/controllers/models/pet_list.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/controllers/validators/validate_handeler.dart';
@@ -149,12 +150,19 @@ class _BodyState extends State<Body> {
                   if (_formKey.currentState!.validate()) {
                     print("pressed");
                     print(pet);
-                    await pd.adduser();
+                    await UserdbHandeler.adduser();
                     await pd.addPet(pet);
-                    pd.updarePetcount();
+
+                    await UserdbHandeler.updatePetcount();
                     print("added");
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Dasboard()));
+                    List<String> petlist = await UserdbHandeler.getPetlist();
+                    String petname = petlist.first;
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Dasboard(
+                                  petname: petname,
+                                )));
                   } else {
                     print("Not Complete");
                   }

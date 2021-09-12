@@ -12,6 +12,14 @@ class Pet {
   List<String> _bath = [];
   List<String> _teeth = [];
   List<String> _hair = [];
+  List<String> _workout = [];
+
+  List<String> get workout => _workout;
+
+  set workout(List<String> value) {
+    _workout = value;
+  }
+
   List<Vaccine> _vaccines = [];
   List<Vitamin> _vitamins = [];
 

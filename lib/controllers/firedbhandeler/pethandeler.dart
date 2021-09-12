@@ -8,19 +8,11 @@ class PetdbHandeler {
   final user = FirebaseAuth.instance.currentUser;
   final firestoreInstance = FirebaseFirestore.instance;
 
-//--------------------------------------add user----------------------------------------------------------------------------
-  Future<void> adduser() async {
-    firestoreInstance
-        .collection("users")
-        .doc(user!.email.toString())
-        .set({"email": user!.email.toString(), "pets": 0}).then((_) {
-      print("create user doc");
-    });
-  }
-
 //--------------------------------------add pet----------------------------------------------------------------------------
   Future<void> addPet(Pet pet) async {
     String userpath = user!.email.toString();
+    List<String> petlist = [];
+    petlist.add(pet.name);
     firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(pet.name)
@@ -34,41 +26,19 @@ class PetdbHandeler {
       "weights": pet.weight,
       "bath": pet.bath,
       "teeth": pet.teeth,
-      "bath": pet.bath,
+      "workout": pet.workout,
       "vaccines": pet.vaccines,
       "vitamins": pet.vitamins,
       "events": pet.events,
 
       //"weight": pet.weight
-    }).then((_) {
-      print("success!");
-    });
-  }
-
-//--------------------------------------get user pet count----------------------------------------------------------------------------
-  Future userPetcount() async {
-    var firebaseUser = FirebaseAuth.instance.currentUser;
-    int count = 0;
-    await firestoreInstance
-        .collection("users")
-        .doc(firebaseUser!.email.toString())
-        .get()
-        .then((value) {
-      print(value.data()!["pets"]);
-      count = (value.data()!["pets"]);
-      // print("----------------------------------------------------------------" +  count.toString());
-    });
-    return count;
-  }
-
-//--------------------------------------update user pet count----------------------------------------------------------------------------
-  Future updarePetcount() async {
-    var firebaseUser = FirebaseAuth.instance.currentUser;
-    int count = await userPetcount();
-    firestoreInstance
-        .collection("users")
-        .doc(firebaseUser!.email.toString())
-        .update({"pets": count + 1}).then((_) {
+    }).then((_) async {
+      await firestoreInstance
+          .collection("users")
+          .doc(user!.email.toString())
+          .update({"pet_list": petlist}).then((_) {
+        print("added");
+      });
       print("success!");
     });
   }
@@ -142,11 +112,12 @@ class PetdbHandeler {
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
-        .then((value) {
-      print("--------------------------------------------");
+        .then((value) async {
+      bath = await value.data()!['bath'];
+      print("-----------------------|||||||||||||--------------");
 
-      bath = value.data()!['baths'];
-      print(bath.last.toString());
+      print(bath);
+
       bath.forEach((element) {
         bathlist.add(element.toString());
       });
@@ -157,21 +128,24 @@ class PetdbHandeler {
 //--------------------------------------set pet bath----------------------------------------------------------------------------
   Future setBath(String docname) async {
     String userpath = user!.email.toString();
-    List<dynamic> bath;
+    List<dynamic> bath = [];
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
-        .then((value) {
-      bath = value.data()!['baths'];
+        .then((value) async {
+      bath = await value.data()!['bath'];
+
+      bath.add(Date.getStringdate());
+
       // print(bath.last.toString());
       print("--------------------------");
-      bath.add(Date.getStringdate());
+
       firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
-          .update({"baths": bath}).then((_) {
+          .update({"bath": bath}).then((_) {
         print("success!");
       });
     });
@@ -298,3 +272,51 @@ class PetdbHandeler {
     return eventlist;
   }
 }
+
+
+/*
+
+//--------------------------------------add user----------------------------------------------------------------------------
+  Future<void> adduser() async {
+    List<String> petlist = [];
+    firestoreInstance.collection("users").doc(user!.email.toString()).set({
+      "email": user!.email.toString(),
+      "pets": 0,
+      "pet_list": petlist
+    }).then((_) {
+      print("create user doc");
+    });
+  }
+
+//--------------------------------------get user pet count----------------------------------------------------------------------------
+  Future userPetcount() async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    int count = 0;
+    await firestoreInstance
+        .collection("users")
+        .doc(firebaseUser!.email.toString())
+        .get()
+        .then((value) {
+      print(value.data()!["pets"]);
+      count = (value.data()!["pets"]);
+      // print("----------------------------------------------------------------" +  count.toString());
+    });
+    return count;
+  }
+
+//--------------------------------------update user pet count----------------------------------------------------------------------------
+  Future updarePetcount() async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    int count = await userPetcount();
+    firestoreInstance
+        .collection("users")
+        .doc(firebaseUser!.email.toString())
+        .update({"pets": count + 1}).then((_) {
+      print("success!");
+    });
+  }
+
+
+
+
+*/

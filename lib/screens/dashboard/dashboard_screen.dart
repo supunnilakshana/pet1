@@ -16,6 +16,9 @@ import 'compt/backgound.dart';
 import 'compt/circleprogress_area.dart';
 
 class Dasboard extends StatefulWidget {
+  final String petname;
+
+  const Dasboard({Key? key, required this.petname}) : super(key: key);
   @override
   _DasboardState createState() => _DasboardState();
 }
@@ -88,7 +91,7 @@ class _DasboardState extends State<Dasboard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(height: 50),
-                    ProgressArea(),
+                    ProgressArea(petname: widget.petname),
                     RoundedButton(
                       text: "Signout",
                       onpress: () async {
@@ -112,7 +115,9 @@ class _DasboardState extends State<Dasboard> {
                               MaterialPageRoute(
                                   builder: (context) => Dasboard()));
                         });*/
-                        c.bathtprogress();
+                        // c.bathtprogress();
+
+                        print(await pd.getBath(widget.petname));
                       },
                     )
                   ],
