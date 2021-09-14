@@ -12,8 +12,8 @@ class PetdbHandeler {
   Future<void> addPet(Pet pet) async {
     String userpath = user!.email.toString();
     List<String> petlist = [];
-    petlist.add(pet.name);
-    firestoreInstance
+
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(pet.name)
         .set({
@@ -26,6 +26,7 @@ class PetdbHandeler {
       "weights": pet.weight,
       "bath": pet.bath,
       "teeth": pet.teeth,
+      "hair": pet.hair,
       "workout": pet.workout,
       "vaccines": pet.vaccines,
       "vitamins": pet.vitamins,
@@ -33,6 +34,7 @@ class PetdbHandeler {
 
       //"weight": pet.weight
     }).then((_) async {
+      petlist.add(pet.name);
       await firestoreInstance
           .collection("users")
           .doc(user!.email.toString())
@@ -153,11 +155,12 @@ class PetdbHandeler {
 
 //--------------------------------------get pet hair----------------------------------------------------------------------------
 
-  Future getHair(String docname) async {
+  Future<List<String>> getHair(String docname) async {
     List<dynamic> hair;
+    List<String> list = [];
     String userpath = user!.email.toString();
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
@@ -165,9 +168,11 @@ class PetdbHandeler {
       print("--------------------------------------------");
 
       hair = value.data()!['hair'];
-      print(hair.last.toString());
-      return hair;
+      hair.forEach((element) {
+        list.add(element.toString());
+      });
     });
+    return list;
   }
 
 //--------------------------------------set pet hair----------------------------------------------------------------------------
@@ -175,16 +180,16 @@ class PetdbHandeler {
     String userpath = user!.email.toString();
     List<dynamic> hair;
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
-        .then((value) {
+        .then((value) async {
       hair = value.data()!['hair'];
       //  print(hair.last.toString());
       print("--------------------------");
       hair.add(Date.getStringdate());
-      firestoreInstance
+      await firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
           .update({"hair": hair}).then((_) {
@@ -195,11 +200,12 @@ class PetdbHandeler {
 
 //--------------------------------------get pet teeth----------------------------------------------------------------------------
 
-  Future getTeeth(String docname) async {
+  Future<List<String>> getTeeth(String docname) async {
     List<dynamic> teeth;
+    List<String> list = [];
     String userpath = user!.email.toString();
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
@@ -207,29 +213,80 @@ class PetdbHandeler {
       print("--------------------------------------------");
 
       teeth = value.data()!['teeth'];
-      print(teeth.last.toString());
-      return teeth;
+      // print(teeth.last.toString());
+      teeth.forEach((element) {
+        list.add(element.toString());
+      });
     });
+
+    return list;
   }
 
-//--------------------------------------get pet hair----------------------------------------------------------------------------
+//--------------------------------------set pet teeth----------------------------------------------------------------------------
   Future setTeeth(String docname) async {
     String userpath = user!.email.toString();
     List<dynamic> teeth;
 
-    firestoreInstance
+    await firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
         .get()
-        .then((value) {
+        .then((value) async {
       teeth = value.data()!['teeth'];
       // print(teeth.last.toString());
       print("--------------------------");
       teeth.add(Date.getStringdate());
-      firestoreInstance
+      await firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
           .update({"teeth": teeth}).then((_) {
+        print("success!");
+      });
+    });
+  }
+
+//--------------------------------------get pet workout----------------------------------------------------------------------------
+
+  Future<List<String>> getWorkout(String docname) async {
+    List<dynamic> workout;
+    List<String> list = [];
+    String userpath = user!.email.toString();
+
+    await firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .get()
+        .then((value) {
+      print("--------------------------------------------");
+
+      workout = value.data()!['workout'];
+      // print(teeth.last.toString());
+      workout.forEach((element) {
+        list.add(element.toString());
+      });
+    });
+
+    return list;
+  }
+
+//--------------------------------------set pet workout----------------------------------------------------------------------------
+  Future setWorkout(String docname) async {
+    String userpath = user!.email.toString();
+    List<dynamic> workout;
+
+    await firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .get()
+        .then((value) async {
+      workout = value.data()!['workout'];
+      // print(teeth.last.toString());
+      print("--------------------------");
+      workout.add(Date.getStringdate());
+      await firestoreInstance
+          .collection("/users/" + userpath + "/pet")
+          .doc(docname)
+          .update({"workout": workout}).then((_) {
         print("success!");
       });
     });

@@ -25,15 +25,15 @@ class CircelProgressHandeler {
     if (b.isNotEmpty) {
       int count = Date.daysBetween(Date.convertDatetime(b.last));
       if (count <= 2) {
-        c.centerText = "fresh";
+        c.centerText = "Fresh";
         c.progress = 1.0;
         c.color = Colors.blue;
       } else if (count <= 7) {
-        c.centerText = "clean";
+        c.centerText = "Clean";
         c.progress = 0.5;
         c.color = Colors.yellowAccent;
       } else {
-        c.centerText = "dirty";
+        c.centerText = "Dirty";
         c.progress = 0.2;
         c.color = Colors.red;
       }
@@ -43,6 +43,90 @@ class CircelProgressHandeler {
       c.color = Colors.white54;
     }
     c.footerText = "Bath";
+    return c;
+  }
+
+  Future<CircelProgress> hairprogress(String doc) async {
+    CircelProgress c = CircelProgress();
+    List<String> b = await pethandeler.getHair(doc);
+    print(b);
+    if (b.isNotEmpty) {
+      int count = Date.daysBetween(Date.convertDatetime(b.last));
+      if (count <= 2) {
+        c.centerText = "Stylish";
+        c.progress = 1.0;
+        c.color = Colors.blue;
+      } else if (count <= 6) {
+        c.centerText = "Clean";
+        c.progress = 0.5;
+        c.color = Colors.yellowAccent;
+      } else {
+        c.centerText = "Crazy";
+        c.progress = 0.2;
+        c.color = Colors.red;
+      }
+    } else {
+      c.centerText = "Tap";
+      c.progress = 0.0;
+      c.color = Colors.white54;
+    }
+    c.footerText = "Hair";
+    return c;
+  }
+
+  Future<CircelProgress> teethProgress(String doc) async {
+    CircelProgress c = CircelProgress();
+    List<String> b = await pethandeler.getTeeth(doc);
+    print(b);
+    if (b.isNotEmpty) {
+      int count = Date.daysBetween(Date.convertDatetime(b.last));
+      if (count <= 2) {
+        c.centerText = "Fresh";
+        c.progress = 1.0;
+        c.color = Colors.blue;
+      } else if (count <= 7) {
+        c.centerText = "Clean";
+        c.progress = 0.5;
+        c.color = Colors.yellowAccent;
+      } else {
+        c.centerText = "Dirty";
+        c.progress = 0.2;
+        c.color = Colors.red;
+      }
+    } else {
+      c.centerText = "Tap";
+      c.progress = 0.0;
+      c.color = Colors.white54;
+    }
+    c.footerText = "Teeth";
+    return c;
+  }
+
+  Future<CircelProgress> workoutProgress(String doc) async {
+    CircelProgress c = CircelProgress();
+    List<String> b = await pethandeler.getWorkout(doc);
+    print(b);
+    if (b.isNotEmpty) {
+      int count = Date.daysBetween(Date.convertDatetime(b.last));
+      if (count < 1) {
+        c.centerText = "Happy";
+        c.progress = 1.0;
+        c.color = Colors.blue;
+      } else if (count < 2) {
+        c.centerText = "Saudade";
+        c.progress = 0.5;
+        c.color = Colors.yellowAccent;
+      } else {
+        c.centerText = "Unhappy";
+        c.progress = 0.2;
+        c.color = Colors.red;
+      }
+    } else {
+      c.centerText = "Tap";
+      c.progress = 0.0;
+      c.color = Colors.white54;
+    }
+    c.footerText = "Workout";
     return c;
   }
 }
