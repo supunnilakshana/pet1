@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
-import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/components/progressindicaror_circle.dart';
+import 'package:pet1/screens/dashboard/compt/weight_screen/weight_screen.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 
 class ProgressArea extends StatefulWidget {
@@ -62,17 +62,23 @@ class _ProgressAreaState extends State<ProgressArea> {
                 precentage: bath.progress,
               ),
             ),
-            ProgreesCricle(
-              centerText: Text(
-                "Tap",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WeightScreen()));
+              },
+              child: ProgreesCricle(
+                centerText: Text(
+                  "Tap",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                ),
+                footerText: Text(
+                  "Weight",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                ),
+                progresscolor: Colors.white54,
+                precentage: 0,
               ),
-              footerText: Text(
-                "Weight",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-              ),
-              progresscolor: Colors.white54,
-              precentage: 0,
             ),
             GestureDetector(
               onTap: () {

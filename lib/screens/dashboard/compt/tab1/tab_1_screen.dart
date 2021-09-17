@@ -3,6 +3,7 @@ import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/dashboard/compt/backgound.dart';
+import 'package:pet1/screens/dashboard/compt/weight_screen/weight_screen.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
 
 import '../circleprogress_area.dart';
@@ -52,9 +53,11 @@ class Tab1 extends StatelessWidget {
                           builder: (context) => Dasboard()));
                 });*/
                 // c.bathtprogress();
-                WeightInput.popupWeight(context, petname);
+                ///   WeightInput.popupWeight(context, petname);
 
                 print(await pd.getBath(petname));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WeightScreen()));
               },
             )
           ],
