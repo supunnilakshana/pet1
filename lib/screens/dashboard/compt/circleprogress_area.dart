@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
+import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/components/progressindicaror_circle.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
@@ -25,9 +26,13 @@ class _ProgressAreaState extends State<ProgressArea> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
+      width: size.width,
+      decoration: BoxDecoration(color: kprimarylightcolor),
       child: Column(
         children: <Widget>[
+          SizedBox(height: size.height * 0.03),
           Row(children: <Widget>[
             GestureDetector(
               onTap: () {
@@ -60,16 +65,14 @@ class _ProgressAreaState extends State<ProgressArea> {
             ProgreesCricle(
               centerText: Text(
                 "Tap",
-                style:
-                    new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),
               footerText: Text(
                 "Weight",
-                style:
-                    new TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
               ),
               progresscolor: Colors.white54,
-              precentage: weight.progress,
+              precentage: 0,
             ),
             GestureDetector(
               onTap: () {
@@ -166,7 +169,7 @@ class _ProgressAreaState extends State<ProgressArea> {
             ),
             ProgreesCricle(
               centerText: Text(
-                "40.0%",
+                "1/3",
                 style:
                     new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),

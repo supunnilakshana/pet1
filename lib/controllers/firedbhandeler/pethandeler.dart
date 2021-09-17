@@ -68,7 +68,7 @@ class PetdbHandeler {
         .get()
         .then((value) {
       print("--------------------------------------------");
-      weights = (value.data()!['weight']);
+      weights = (value.data()!['weights']);
       weights.forEach((element) {
         Weight a = Weight.fromMap(element);
         weightlist.add(a);
@@ -90,7 +90,7 @@ class PetdbHandeler {
         .doc(docname)
         .get()
         .then((value) {
-      weights = (value.data()!['weight']);
+      weights = (value.data()!['weights']);
       print("--------------------------");
       weights.add(w.toMap());
       // print(weights.last);
@@ -98,7 +98,7 @@ class PetdbHandeler {
       firestoreInstance
           .collection("/users/" + userpath + "/pet")
           .doc(docname)
-          .update({"weight": weights}).then((_) {
+          .update({"weights": weights}).then((_) {
         print("success!");
       });
     });

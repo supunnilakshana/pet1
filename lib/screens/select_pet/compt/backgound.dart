@@ -12,27 +12,29 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      width: double.infinity,
-      height: size.height,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/petback.jpg"),
-          fit: BoxFit.cover,
+    return SingleChildScrollView(
+      child: Container(
+        width: double.infinity,
+        height: size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/petback.jpg"),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          /* Positioned(
-              top: 0,
-              left: 0,
-              child: Image.asset(
-                "assets/images/signin.png",
-                width: size.width,
-              )),*/
-          child,
-        ],
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            /* Positioned(
+                top: 0,
+                left: 0,
+                child: Image.asset(
+                  "assets/images/signin.png",
+                  width: size.width,
+                )),*/
+            child,
+          ],
+        ),
       ),
     );
   }

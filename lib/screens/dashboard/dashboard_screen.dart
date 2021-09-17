@@ -3,17 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
-import 'package:pet1/controllers/validators/date.dart';
-
-import 'package:pet1/screens/components/constansts.dart';
-import 'package:pet1/screens/components/popup_dilog.dart';
-import 'package:pet1/screens/components/roundedbutton.dart';
-
-import 'package:pet1/screens/login/loginscreen.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-
-import 'compt/backgound.dart';
-import 'compt/circleprogress_area.dart';
+import 'compt/Tab1/tab_1_screen.dart';
 
 class Dasboard extends StatefulWidget {
   final String petname;
@@ -28,6 +18,31 @@ class _DasboardState extends State<Dasboard> {
   var pd = PetdbHandeler();
   var gauth = GoogleSignInProvider();
   CircelProgressHandeler c = CircelProgressHandeler();
+
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -38,6 +53,7 @@ class _DasboardState extends State<Dasboard> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height * 0.2),
           child: AppBar(
+            elevation: 0,
             leading: Container(
               margin: EdgeInsets.only(left: 5),
               child: CircleAvatar(
@@ -64,7 +80,7 @@ class _DasboardState extends State<Dasboard> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10)),
-                  color: Colors.purpleAccent),
+                  color: Colors.purple),
               tabs: <Widget>[
                 Tab(
                   text: "Home",
@@ -84,44 +100,11 @@ class _DasboardState extends State<Dasboard> {
         ),
         body: TabBarView(children: <Widget>[
           Tab(
-            child: Background(
-              child: Container(
-                width: size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 50),
-                    ProgressArea(petname: widget.petname),
-                    RoundedButton(
-                      text: "Signout",
-                      onpress: () async {
-                        await gauth.logout();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
-                      },
-                    ),
-                    RoundedButton(
-                      text: "Get ",
-                      onpress: () async {
-                        /* PopupDialog.showPopupDilog(
-                            context, "Bath", "Was your pet bathe Today ? ",
-                            () async {
-                          await pd.setBath("sukku");
-                          print("adeed bath");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Dasboard()));
-                        });*/
-                        // c.bathtprogress();
-
-                        print(await pd.getBath(widget.petname));
-                      },
-                    )
-                  ],
-                ),
+            child: SingleChildScrollView(
+              child: Tab1(
+                gauth: gauth,
+                pd: pd,
+                petname: widget.petname,
               ),
             ),
           ),
@@ -135,6 +118,25 @@ class _DasboardState extends State<Dasboard> {
             icon: Icon(Icons.brightness_5_sharp),
           ),
         ]),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Business',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'School',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

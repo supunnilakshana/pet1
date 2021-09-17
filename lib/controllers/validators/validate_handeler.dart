@@ -26,4 +26,15 @@ class Validater {
     }
     return null;
   }
+
+  static String? isNumeric(String s) {
+    if (s.isEmpty) {
+      return "Please enter value";
+    }
+    if (double.tryParse(s) != null) {
+      return null;
+    } else {
+      return "invalid value";
+    }
+  }
 }
