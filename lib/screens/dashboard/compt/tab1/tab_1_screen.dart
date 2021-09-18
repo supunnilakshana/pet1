@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/dashboard/compt/backgound.dart';
 import 'package:pet1/screens/dashboard/compt/weight_screen/weight_screen.dart';
@@ -52,12 +53,12 @@ class Tab1 extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => Dasboard()));
                 });*/
-                // c.bathtprogress();
-                ///   WeightInput.popupWeight(context, petname);
 
-                print(await pd.getBath(petname));
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WeightScreen()));
+                // WeightInput.popupWeight(context, petname);
+                List<Weight> weightlist = await pd.getweight(petname);
+                weightlist.forEach((element) {
+                  print(element.dateTime);
+                });
               },
             )
           ],

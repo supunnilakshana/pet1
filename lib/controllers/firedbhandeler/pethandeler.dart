@@ -76,7 +76,8 @@ class PetdbHandeler {
 
       // print(value.data()!['weight'][0]['date']);
     });
-    print(weights);
+    //   print(weights);
+
     return weightlist;
   }
 

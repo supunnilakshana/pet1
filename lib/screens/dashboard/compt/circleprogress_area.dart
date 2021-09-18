@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/components/progressindicaror_circle.dart';
@@ -63,9 +64,16 @@ class _ProgressAreaState extends State<ProgressArea> {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WeightScreen()));
+              onTap: () async {
+                List<Weight> weightlist = await pd.getweight(widget.petname);
+                print("=============================");
+                print(weightlist);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WeightScreen(
+                              weights: weightlist,
+                            )));
               },
               child: ProgreesCricle(
                 centerText: Text(
