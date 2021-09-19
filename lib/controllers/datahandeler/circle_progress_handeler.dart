@@ -8,15 +8,6 @@ class CircelProgressHandeler {
   var pethandeler = PetdbHandeler();
 
   // CircelProgress
-  Future<CircelProgress> weightprogress(String doc) async {
-    List<Weight> w = await pethandeler.getweight(doc);
-    CircelProgress c = CircelProgress();
-    c.centerText = "center";
-    c.footerText = "Weight";
-    c.progress = 1.0;
-    c.color = Colors.blue;
-    return c;
-  }
 
   Future<CircelProgress> bathtprogress(String doc) async {
     CircelProgress c = CircelProgress();
@@ -127,6 +118,23 @@ class CircelProgressHandeler {
       c.color = Colors.white54;
     }
     c.footerText = "Workout";
+    return c;
+  }
+
+  Future<CircelProgress> weightProgress(String doc) async {
+    CircelProgress c = CircelProgress();
+    List<Weight> b = await pethandeler.getweight(doc);
+    print(b);
+    if (b.isNotEmpty) {
+      c.centerText = b.last.value.toString() + " kg";
+      c.progress = 1;
+      c.color = Colors.greenAccent;
+    } else {
+      c.centerText = "Tap";
+      c.progress = 0.0;
+      c.color = Colors.white54;
+    }
+    c.footerText = "Weight";
     return c;
   }
 }

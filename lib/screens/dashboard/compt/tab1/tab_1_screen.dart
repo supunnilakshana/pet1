@@ -4,11 +4,8 @@ import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/dashboard/compt/backgound.dart';
-import 'package:pet1/screens/dashboard/compt/weight_screen/weight_screen.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
-
 import '../circleprogress_area.dart';
-import 'compt/weight_input.dart';
 
 class Tab1 extends StatelessWidget {
   const Tab1({
@@ -32,15 +29,8 @@ class Tab1 extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ProgressArea(petname: petname),
-            RoundedButton(
-              text: "Signout",
-              onpress: () async {
-                await gauth.logout();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-              },
-            ),
-            RoundedButton(
+
+            /* RoundedButton(
               text: "Get ",
               onpress: () async {
                 /* PopupDialog.showPopupDilog(
@@ -60,7 +50,7 @@ class Tab1 extends StatelessWidget {
                   print(element.dateTime);
                 });
               },
-            )
+            )*/
           ],
         ),
       ),

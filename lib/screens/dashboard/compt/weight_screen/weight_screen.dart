@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
+import 'package:pet1/controllers/models/petmodel.dart';
+import 'package:pet1/screens/dashboard/compt/tab1/compt/weight_input.dart';
 
 import 'backgound.dart';
 import 'weight_chart.dart';
 
 class WeightScreen extends StatelessWidget {
   final List<Weight> weights;
+  final String petname;
 
-  const WeightScreen({Key? key, required this.weights}) : super(key: key);
+  const WeightScreen({Key? key, required this.weights, required this.petname})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,7 +38,9 @@ class WeightScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            WeightInput.popupWeight(context, petname);
+          },
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ),

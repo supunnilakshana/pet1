@@ -28,9 +28,13 @@ class _ProgressAreaState extends State<ProgressArea> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    TextStyle centertextstyle =
+        TextStyle(fontWeight: FontWeight.bold, fontSize: size.width * 0.04);
+    TextStyle footertextstyle =
+        TextStyle(fontWeight: FontWeight.bold, fontSize: size.width * 0.048);
     return Container(
       width: size.width,
-      decoration: BoxDecoration(color: kprimarylightcolor),
+      decoration: BoxDecoration(),
       child: Column(
         children: <Widget>[
           SizedBox(height: size.height * 0.03),
@@ -53,11 +57,11 @@ class _ProgressAreaState extends State<ProgressArea> {
               child: ProgreesCricle(
                 centerText: Text(
                   bath.centerText,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                  style: centertextstyle,
                 ),
                 footerText: Text(
                   "Bath",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                  style: footertextstyle,
                 ),
                 progresscolor: bath.color,
                 precentage: bath.progress,
@@ -72,21 +76,21 @@ class _ProgressAreaState extends State<ProgressArea> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => WeightScreen(
+                              petname: widget.petname,
                               weights: weightlist,
                             )));
               },
               child: ProgreesCricle(
-                centerText: Text(
-                  "Tap",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
-                ),
-                footerText: Text(
-                  "Weight",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-                ),
-                progresscolor: Colors.white54,
-                precentage: 0,
-              ),
+                  centerText: Text(
+                    weight.centerText,
+                    style: centertextstyle,
+                  ),
+                  footerText: Text(
+                    "Weight",
+                    style: footertextstyle,
+                  ),
+                  progresscolor: weight.color,
+                  precentage: weight.progress),
             ),
             GestureDetector(
               onTap: () {
@@ -107,13 +111,11 @@ class _ProgressAreaState extends State<ProgressArea> {
               child: ProgreesCricle(
                 centerText: Text(
                   workout.centerText,
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15.0),
+                  style: centertextstyle,
                 ),
                 footerText: Text(
                   "Work out",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17.0),
+                  style: footertextstyle,
                 ),
                 progresscolor: workout.color,
                 precentage: workout.progress,
@@ -139,13 +141,11 @@ class _ProgressAreaState extends State<ProgressArea> {
               child: ProgreesCricle(
                 centerText: Text(
                   hair.centerText,
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15.0),
+                  style: centertextstyle,
                 ),
                 footerText: Text(
                   "Hair",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17.0),
+                  style: footertextstyle,
                 ),
                 progresscolor: hair.color,
                 precentage: hair.progress,
@@ -169,13 +169,11 @@ class _ProgressAreaState extends State<ProgressArea> {
               child: ProgreesCricle(
                 centerText: Text(
                   teeth.centerText,
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15.0),
+                  style: centertextstyle,
                 ),
                 footerText: Text(
                   "Teeth",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17.0),
+                  style: footertextstyle,
                 ),
                 progresscolor: teeth.color,
                 precentage: teeth.progress,
@@ -184,13 +182,11 @@ class _ProgressAreaState extends State<ProgressArea> {
             ProgreesCricle(
               centerText: Text(
                 "1/3",
-                style:
-                    new TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
+                style: centertextstyle,
               ),
               footerText: Text(
                 "Vaccine",
-                style:
-                    new TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+                style: footertextstyle,
               ),
               progresscolor: Colors.lightBlue,
               precentage: 0.4,
@@ -208,7 +204,7 @@ class _ProgressAreaState extends State<ProgressArea> {
   }
 
   void loadData() async {
-    // weight = await c.weightprogress(widget.petname);
+    weight = await c.weightProgress(widget.petname);
     bath = await c.bathtprogress(widget.petname);
     hair = await c.hairprogress(widget.petname);
     teeth = await c.teethProgress(widget.petname);
@@ -216,7 +212,7 @@ class _ProgressAreaState extends State<ProgressArea> {
 
     setState(() {});
 
-    print(bath.centerText);
+    print(weight.centerText);
     print("--------------....................-------------");
   }
 }

@@ -18,13 +18,6 @@ class Background extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          /* Positioned(
-              top: 0,
-              left: 0,
-              child: Image.asset(
-                "assets/images/signin.png",
-                width: size.width,
-              )),*/
           child,
         ],
       ),

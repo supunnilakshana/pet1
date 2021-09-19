@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/screens/components/constansts.dart';
+import 'package:pet1/screens/dashboard/compt/tab2/tab2.dart';
+import 'package:pet1/screens/dashboard/compt/tab3/tab3.dart';
 import 'compt/Tab1/tab_1_screen.dart';
+import 'compt/drawer.dart';
 
 class Dasboard extends StatefulWidget {
   final String petname;
@@ -14,28 +18,13 @@ class Dasboard extends StatefulWidget {
 }
 
 class _DasboardState extends State<Dasboard> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final user = FirebaseAuth.instance.currentUser;
   var pd = PetdbHandeler();
   var gauth = GoogleSignInProvider();
   CircelProgressHandeler c = CircelProgressHandeler();
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -46,98 +35,65 @@ class _DasboardState extends State<Dasboard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    List<Widget> _widgetOptions = <Widget>[
+      Tab1(gauth: gauth, pd: pd, petname: widget.petname),
+      Tab2(),
+      Tab3()
+    ];
 
-    return DefaultTabController(
-      length: 4,
-      initialIndex: 0,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(size.height * 0.2),
-          child: AppBar(
-            elevation: 0,
-            leading: Container(
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(size.height * 0.2),
+        child: AppBar(
+          elevation: 0,
+          leading: Container(
               margin: EdgeInsets.only(left: 5),
+              child: IconButton(
+                icon: Icon(Icons.menu_open_sharp),
+                iconSize: size.width * 0.1,
+                onPressed: () {
+                  _scaffoldKey.currentState!.openDrawer();
+                },
+              )),
+          actions: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 5),
               child: CircleAvatar(
                 radius: size.width * 0.08,
-                backgroundImage: AssetImage("assets/images/dog.png"),
+                backgroundImage: AssetImage(
+                    "assets/images/dog.png"), // NetworkImage(user!.photoURL.toString()),
               ),
-            ),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: CircleAvatar(
-                  radius: size.width * 0.06,
-                  backgroundImage: NetworkImage(user!.photoURL.toString()),
-                ),
-              ),
-            ],
-            flexibleSpace: Image.asset(
-              "assets/images/appbackground.png",
-              fit: BoxFit.cover,
-            ),
-            bottom: const TabBar(
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                  color: Colors.purple),
-              tabs: <Widget>[
-                Tab(
-                  text: "Home",
-                ),
-                Tab(
-                  text: "Events",
-                ),
-                Tab(
-                  text: "Updates",
-                ),
-                Tab(
-                  text: "Contacts",
-                )
-              ],
-            ),
-          ),
-        ),
-        body: TabBarView(children: <Widget>[
-          Tab(
-            child: SingleChildScrollView(
-              child: Tab1(
-                gauth: gauth,
-                pd: pd,
-                petname: widget.petname,
-              ),
-            ),
-          ),
-          Tab(
-            icon: Icon(Icons.beach_access_sharp),
-          ),
-          Tab(
-            icon: Icon(Icons.brightness_5_sharp),
-          ),
-          Tab(
-            icon: Icon(Icons.brightness_5_sharp),
-          ),
-        ]),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Business',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
+          flexibleSpace: Image.asset(
+            "assets/images/dashappbar.jpg",
+            fit: BoxFit.cover,
+          ),
         ),
+      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_available_rounded),
+            label: 'Events',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.update),
+            label: 'Updates',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: kprimaryColor,
+        onTap: _onItemTapped,
+      ),
+      drawer: MenuDrawer(
+        gauth: gauth,
       ),
     );
   }

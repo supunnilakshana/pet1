@@ -18,7 +18,7 @@ class Tab2 extends StatelessWidget {
                 height: size.height * 0.58,
               ),
               Stack(
-                alignment: new FractionalOffset(0.5, 1.0),
+                alignment: FractionalOffset(0.5, 1.0),
                 children: <Widget>[
                   new FloatingActionButton(
                       elevation: 0.0,
