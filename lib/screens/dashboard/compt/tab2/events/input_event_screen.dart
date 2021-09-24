@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pet1/screens/components/constansts.dart';
@@ -28,109 +29,120 @@ class _InputEventState extends State<InputEvent> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Create event"),
-      ),
-      body: SingleChildScrollView(
-        child: Background(
-          child: Container(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: size.height * 0.1,
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: TextFormField(
-                        controller: titelcontroller,
-                        decoration: InputDecoration(
-                          labelText: 'Titel',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {},
-                        onSaved: (value) {},
-                      ),
+    return GestureDetector(
+      onTap: () {
+        keyboardhide(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Create event"),
+        ),
+        body: SingleChildScrollView(
+          child: Background(
+            child: Container(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: size.height * 0.1,
                     ),
-                  ),
-                  Container(
-                    width: size.width * 0.9,
-                    child: Padding(
+                    Container(
+                      child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: TextButton.icon(
-                          style: TextButton.styleFrom(
-                            backgroundColor: kprimaryColor,
-                          ),
-                          icon: Icon(
-                            Icons.date_range,
-                            color: Colors.white,
-                          ),
-                          label: Text(
-                            "Choose Date",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {},
-                        )),
-                  ),
-                  Container(
-                    width: size.width * 0.9,
-                    child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: TextButton.icon(
-                          style: TextButton.styleFrom(
-                            backgroundColor: kprimaryColor,
-                          ),
-                          icon: Icon(
-                            Icons.timer_rounded,
-                            color: Colors.white,
-                          ),
-                          label: Text(
-                            "Choose Time",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {},
-                        )),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: TextFormField(
-                          controller: descontroller,
+                        child: TextFormField(
+                          controller: titelcontroller,
                           decoration: InputDecoration(
-                            labelText: 'Description',
+                            labelText: 'Titel',
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (value) {},
                           onSaved: (value) {},
-                          keyboardType: TextInputType.multiline,
-                          textInputAction: TextInputAction.newline,
-                          minLines: 8,
-                          maxLines: null),
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.07,
-                  ),
-                  Container(
-                    width: size.width * 0.9,
-                    height: size.height * 0.09,
-                    child: Padding(
+                    Container(
+                      width: size.width * 0.9,
+                      child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextButton.icon(
+                            style: TextButton.styleFrom(
+                              backgroundColor: kprimaryColor,
+                            ),
+                            icon: Icon(
+                              Icons.date_range,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              "Choose Date",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              keyboardhide(context);
+                              _selectDate(context);
+                            },
+                          )),
+                    ),
+                    Container(
+                      width: size.width * 0.9,
+                      child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextButton.icon(
+                            style: TextButton.styleFrom(
+                              backgroundColor: kprimaryColor,
+                            ),
+                            icon: Icon(
+                              Icons.timer_rounded,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              "Choose Time",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              keyboardhide(context);
+                              _selectTime(context);
+                            },
+                          )),
+                    ),
+                    Container(
+                      child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: kmenucolor,
-                          ),
-                          child: Text(
-                            "Create",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {},
-                        )),
-                  )
-                ],
+                        child: TextFormField(
+                            controller: descontroller,
+                            decoration: InputDecoration(
+                              labelText: 'Description',
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (value) {},
+                            onSaved: (value) {},
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            minLines: 8,
+                            maxLines: null),
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.07,
+                    ),
+                    Container(
+                      width: size.width * 0.9,
+                      height: size.height * 0.09,
+                      child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: kmenucolor,
+                            ),
+                            child: Text(
+                              "Create",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {},
+                          )),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -165,11 +177,17 @@ class _InputEventState extends State<InputEvent> {
         _hour = selectedTime.hour.toString();
         _minute = selectedTime.minute.toString();
         _time = _hour + ' : ' + _minute;
-
-        eventtime = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute)
-                .toString(),
+        eventtime = formatDate(DateTime(selectedTime.hour, selectedTime.minute),
             [hh, ':', nn, " ", am]).toString();
+        print(eventtime);
       });
+  }
+
+  keyboardhide(context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      FocusManager.instance.primaryFocus!.unfocus();
+    }
   }
 }
