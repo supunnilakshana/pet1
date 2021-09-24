@@ -3,6 +3,7 @@ import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/custermized_rounded_button.dart';
+import 'package:pet1/screens/dashboard/compt/tab2/events/input_event_screen.dart';
 
 import 'backgound.dart';
 
@@ -91,7 +92,12 @@ class _Tab2State extends State<Tab2> {
                       elevation: 0.0,
                       child: new Icon(Icons.add),
                       backgroundColor: kprimaryColor,
-                      onPressed: () {})
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InputEvent()));
+                      })
                 ],
               ),
             ],
