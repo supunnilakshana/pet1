@@ -1,11 +1,16 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pet1/controllers/datahandeler/event_handaer.dart';
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/screens/components/constansts.dart';
 
 import 'backgound.dart';
 
 class InputEvent extends StatefulWidget {
+  final String petname;
+
+  const InputEvent({Key? key, required this.petname}) : super(key: key);
   @override
   _InputEventState createState() => _InputEventState();
 }
@@ -138,7 +143,11 @@ class _InputEventState extends State<InputEvent> {
                               "Create",
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Event e = Event("s", "des", "d", "cd", 0);
+                              var eventhanlder = Eventhanderler(widget.petname);
+                              eventhanlder.addevent(e);
+                            },
                           )),
                     )
                   ],

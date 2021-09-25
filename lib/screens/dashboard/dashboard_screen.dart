@@ -37,7 +37,7 @@ class _DasboardState extends State<Dasboard> {
     Size size = MediaQuery.of(context).size;
     List<Widget> _widgetOptions = <Widget>[
       Tab1(gauth: gauth, pd: pd, petname: widget.petname),
-      Tab2(),
+      Tab2(petname: widget.petname),
       Tab3()
     ];
 

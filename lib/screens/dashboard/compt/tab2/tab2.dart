@@ -8,6 +8,9 @@ import 'package:pet1/screens/dashboard/compt/tab2/events/input_event_screen.dart
 import 'backgound.dart';
 
 class Tab2 extends StatefulWidget {
+  final String petname;
+
+  const Tab2({Key? key, required this.petname}) : super(key: key);
   @override
   _Tab2State createState() => _Tab2State();
 }
@@ -41,7 +44,7 @@ class _Tab2State extends State<Tab2> {
           child: Column(
             children: <Widget>[
               Container(
-                height: size.height * 0.58,
+                height: size.height * 0.6,
                 child: ListView.builder(
                     itemCount: eventlist.length,
                     itemBuilder: (context, indext) {
@@ -86,7 +89,7 @@ class _Tab2State extends State<Tab2> {
                     }),
               ),
               Stack(
-                alignment: FractionalOffset(0.5, 1.0),
+                alignment: FractionalOffset(0.7, 1.0),
                 children: <Widget>[
                   new FloatingActionButton(
                       elevation: 0.0,
@@ -96,7 +99,9 @@ class _Tab2State extends State<Tab2> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InputEvent()));
+                                builder: (context) => InputEvent(
+                                      petname: widget.petname,
+                                    )));
                       })
                 ],
               ),

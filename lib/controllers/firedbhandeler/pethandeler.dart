@@ -294,13 +294,16 @@ class PetdbHandeler {
   }
   //--------------------------------------set pet events----------------------------------------------------------------------------
 
-  Future setEvents(String docname, List<dynamic> events) async {
+  Future setEvents(String docname, List<Event> events) async {
     String userpath = user!.email.toString();
-
+    List<dynamic> eventlist = [];
+    events.forEach((element) {
+      eventlist.add(element.toMap());
+    });
     firestoreInstance
         .collection("/users/" + userpath + "/pet")
         .doc(docname)
-        .update({"weight": events}).then((_) {
+        .update({"events": eventlist}).then((_) {
       print("success!");
     });
   }
