@@ -1,9 +1,15 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pet1/controllers/datahandeler/event_handaer.dart';
+import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
+import 'package:pet1/controllers/validators/date.dart';
+import 'package:pet1/controllers/validators/validate_handeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
+import 'package:pet1/screens/components/popup_dilog.dart';
+import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 
 import 'backgound.dart';
 
@@ -21,9 +27,11 @@ class _InputEventState extends State<InputEvent> {
   final titelcontroller = TextEditingController();
   final descontroller = TextEditingController();
 
-  String date = "";
-  String eventdate = "";
-  String eventtime = "";
+  String currentdate = Date.getStringdate();
+  String eventdate = "Choose Date";
+  String eventtime = "Choose Time";
+  String titel = "";
+  String description = "";
   String _setTime = "";
   String _hour = "", _minute = "", _time = "";
 
@@ -56,14 +64,18 @@ class _InputEventState extends State<InputEvent> {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: TextFormField(
-                          controller: titelcontroller,
-                          decoration: InputDecoration(
-                            labelText: 'Titel',
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (value) {},
-                          onSaved: (value) {},
-                        ),
+                            controller: titelcontroller,
+                            decoration: InputDecoration(
+                              labelText: 'Titel',
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (value) {
+                              titel = value;
+                            },
+                            onSaved: (value) {},
+                            validator: (text) {
+                              return Validater.genaralvalid(text!);
+                            }),
                       ),
                     ),
                     Container(
@@ -79,7 +91,7 @@ class _InputEventState extends State<InputEvent> {
                               color: Colors.white,
                             ),
                             label: Text(
-                              "Choose Date",
+                              eventdate,
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
@@ -101,7 +113,7 @@ class _InputEventState extends State<InputEvent> {
                               color: Colors.white,
                             ),
                             label: Text(
-                              "Choose Time",
+                              eventtime,
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
@@ -119,7 +131,12 @@ class _InputEventState extends State<InputEvent> {
                               labelText: 'Description',
                               border: OutlineInputBorder(),
                             ),
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              description = value;
+                            },
+                            validator: (text) {
+                              return Validater.genaralvalid(text!);
+                            },
                             onSaved: (value) {},
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.newline,
@@ -143,10 +160,40 @@ class _InputEventState extends State<InputEvent> {
                               "Create",
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {
-                              Event e = Event("s", "des", "d", "cd", 0);
-                              var eventhanlder = Eventhanderler(widget.petname);
-                              eventhanlder.addevent(e);
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                if (eventdate != "Choose Date" ||
+                                    eventtime != "Choose Time") {
+                                  print("ok");
+                                  var pd = PetdbHandeler();
+                                  int count =
+                                      await pd.eventcount(widget.petname);
+                                  Event e = Event(count + 1, titel, description,
+                                      eventdate, eventtime, currentdate, 0);
+                                  var eventhanlder =
+                                      Eventhanderler(widget.petname);
+                                  pd.updarePetcount(widget.petname);
+
+                                  await eventhanlder.addevent(e);
+                                  Fluttertoast.showToast(
+                                      msg: "Event is created",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.green,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Dasboard(
+                                                petname: widget.petname,
+                                                index: 1,
+                                              )));
+                                } else {
+                                  PopupDialog.showPopupErorr(context, "Error",
+                                      "Please choose event date and time..");
+                                }
+                              }
                             },
                           )),
                     )
@@ -172,6 +219,7 @@ class _InputEventState extends State<InputEvent> {
         selectedDate = selected;
         eventdate =
             "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+        setState(() {});
       });
   }
 
@@ -189,6 +237,7 @@ class _InputEventState extends State<InputEvent> {
         eventtime = formatDate(DateTime(selectedTime.hour, selectedTime.minute),
             [hh, ':', nn, " ", am]).toString();
         print(eventtime);
+        setState(() {});
       });
   }
 

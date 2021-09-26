@@ -8,14 +8,21 @@ class Eventhanderler {
 
   Eventhanderler(this.docname);
 
-  addevent(Event e) async {
+  Future addevent(Event e) async {
     List<Event> eventlist = [];
-    print("pass");
+
     eventlist = await pethandeler.getEvents(docname);
-    print("pass");
+
     eventlist.add(e);
-    print("pass");
+
     await pethandeler.setEvents(docname, eventlist);
-    print("pass");
+  }
+
+  Future<List<Event>> getallevent() async {
+    List<Event> eventlist = [];
+
+    eventlist = await pethandeler.getEvents(docname);
+
+    return eventlist;
   }
 }

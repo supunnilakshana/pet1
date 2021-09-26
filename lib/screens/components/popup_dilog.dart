@@ -31,6 +31,23 @@ class PopupDialog {
       btnOkOnPress: actionFun,
     )..show();
   }
+
+  static showPopupErorr(
+    BuildContext context,
+    String titel,
+    String description,
+  ) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.ERROR,
+      animType: AnimType.BOTTOMSLIDE,
+      title: titel,
+      desc: description,
+      btnOkText: "Ok",
+      btnCancel: null,
+      btnOkOnPress: () {},
+    )..show();
+  }
 }
 
 

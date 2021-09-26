@@ -11,8 +11,10 @@ import 'compt/drawer.dart';
 
 class Dasboard extends StatefulWidget {
   final String petname;
+  final int index;
 
-  const Dasboard({Key? key, required this.petname}) : super(key: key);
+  const Dasboard({Key? key, required this.petname, this.index = 0})
+      : super(key: key);
   @override
   _DasboardState createState() => _DasboardState();
 }
@@ -30,6 +32,12 @@ class _DasboardState extends State<Dasboard> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    _selectedIndex = widget.index;
+    super.initState();
   }
 
   @override

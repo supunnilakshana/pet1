@@ -31,6 +31,7 @@ class PetdbHandeler {
       "vaccines": pet.vaccines,
       "vitamins": pet.vitamins,
       "events": pet.events,
+      "eventcount": 0,
 
       //"weight": pet.weight
     }).then((_) async {
@@ -322,6 +323,7 @@ class PetdbHandeler {
         .then((value) {
       print("--------------------------------------------");
       events = (value.data()!['events']);
+      print(events);
       events.forEach((element) {
         Event a = Event.fromMap(element);
         eventlist.add(a);
@@ -331,6 +333,36 @@ class PetdbHandeler {
     });
     print(events);
     return eventlist;
+  }
+
+  //--------------------------------------get pet event count----------------------------------------------------------------------------
+  Future eventcount(String docname) async {
+    String userpath = user!.email.toString();
+
+    int count = 0;
+    await firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(docname)
+        .get()
+        .then((value) {
+      print(value.data()!["eventcount"]);
+      count = (value.data()!["eventcount"]);
+      // print("----------------------------------------------------------------" +  count.toString());
+    });
+    return count;
+  }
+
+//--------------------------------------update user pet count----------------------------------------------------------------------------
+  Future updarePetcount(String doc) async {
+    String userpath = user!.email.toString();
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    int count = await eventcount(doc);
+    await firestoreInstance
+        .collection("/users/" + userpath + "/pet")
+        .doc(doc)
+        .update({"eventcount": count + 1}).then((_) {
+      print("success!");
+    });
   }
 }
 

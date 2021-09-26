@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet1/controllers/datahandeler/event_handaer.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/screens/components/constansts.dart';
@@ -16,26 +17,20 @@ class Tab2 extends StatefulWidget {
 }
 
 class _Tab2State extends State<Tab2> {
-  List<Event> eventlist = [
-    Event("titel 1", "This is description ", "2020/21/1", Date.getStringdate(),
-        0),
-    Event(
-        "titel 2", "This is description", "2020/21/1", Date.getStringdate(), 0),
-    Event(
-        "titel 3", "This is description", "2020/21/1", Date.getStringdate(), 0),
-    Event(
-        "titel 2", "This is description", "2020/21/1", Date.getStringdate(), 0),
-    Event(
-        "titel 3", "This is description", "2020/21/1", Date.getStringdate(), 0),
-    Event(
-        "titel 2", "This is description", "2020/21/1", Date.getStringdate(), 0),
-    Event(
-        "titel 3", "This is description", "2020/21/1", Date.getStringdate(), 0),
-  ];
+  List<Event> eventlist = [];
+
+  @override
+  void initState() {
+    loaddata();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print("xxxxxxxxxxxxxxxxxxxxxxx");
+    print(eventlist);
     return SingleChildScrollView(
       child: Background(
           child: Scaffold(
@@ -110,5 +105,10 @@ class _Tab2State extends State<Tab2> {
         ),
       )),
     );
+  }
+
+  loaddata() async {
+    var eventhandeler = Eventhanderler(widget.petname);
+    eventlist = await eventhandeler.getallevent();
   }
 }
