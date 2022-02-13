@@ -8,8 +8,8 @@ class Eventhanderler {
 
   Eventhanderler(this.docname);
 
-  Future addevent(Event e) async {
-    List<Event> eventlist = [];
+  Future addevent(EventModel e) async {
+    List<EventModel> eventlist = [];
 
     eventlist = await pethandeler.getEvents(docname);
 
@@ -18,8 +18,8 @@ class Eventhanderler {
     await pethandeler.setEvents(docname, eventlist);
   }
 
-  Future<List<Event>> getallevent() async {
-    List<Event> eventlist = [];
+  Future<List<EventModel>> getallevent() async {
+    List<EventModel> eventlist = [];
 
     eventlist = await pethandeler.getEvents(docname);
 

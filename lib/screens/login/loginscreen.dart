@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
           return LoadingcheckScreen();
         } else if (snapshot.hasError) {
           return Center(
-            child: Text("Somthing wrong"),
+            child: Text("Somthing wrong!!"),
           );
         } else {
           return Body();

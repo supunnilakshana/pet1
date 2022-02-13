@@ -53,8 +53,8 @@ class Vitamin {
         status = map["status"] as int;
 }
 
-class Event {
-  final int id;
+class EventModel {
+  final String id;
   final String title;
   final String description;
   final String eventDatetime;
@@ -62,7 +62,7 @@ class Event {
   final String createDatetime;
   final int status;
 
-  Event(this.id, this.title, this.description, this.eventDatetime,
+  EventModel(this.id, this.title, this.description, this.eventDatetime,
       this.eventtime, this.createDatetime, this.status);
 
   Map<String, dynamic> toMap() => {
@@ -75,12 +75,34 @@ class Event {
         "status": this.status,
       };
 
-  Event.fromMap(Map<dynamic, dynamic> map)
-      : id = map["id"] as int,
+  EventModel.fromMap(Map<dynamic, dynamic> map)
+      : id = map["id"],
         title = map["title"] as String,
         description = map["description"] as String,
         eventDatetime = map["eventDate"] as String,
         eventtime = map["eventtime"] as String,
         createDatetime = map["createDate"] as String,
         status = map["status"] as int;
+}
+
+class PetDayActivity {
+  final List<String>? bath;
+  final List<String>? teeth;
+  final List<String>? hair;
+  final List<String>? workout;
+
+  PetDayActivity({this.bath, this.teeth, this.hair, this.workout});
+
+  Map<String, dynamic> toMap() => {
+        "bath": this.bath,
+        "teeth": this.teeth,
+        "hair": this.hair,
+        "workout": this.workout,
+      };
+
+  PetDayActivity.fromMap(Map<dynamic, dynamic> map)
+      : bath = map["bath"] as List<String>,
+        teeth = map["teeth"] as List<String>,
+        hair = map["hair"] as List<String>,
+        workout = map["workout"] as List<String>;
 }

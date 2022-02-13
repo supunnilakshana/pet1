@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 class Date {
@@ -20,4 +22,31 @@ class Date {
     DateTime to = DateTime.now();
     return (to.difference(from).inDays);
   }
+
+  static datetimeBetween() {
+    DateTime from;
+    from = DateTime(2021, 09, 26, 22, 15, 0);
+
+    DateTime to = DateTime.now();
+    var d = (to.difference(from));
+    
+    return (to.difference(from).inDays);
+  }
+
+  // static timeBetween(String time, int days) {
+  //   var divdetime = time.split(":");
+  //   var datetime = DateTime.now();
+  //   int chours = datetime.hour;
+  //   int cminitus = datetime.minute;
+  //   int ehours = divdetime[0] as int;
+  //   int eminitus = divdetime[1] as int;
+  //   List<int> between = [];
+
+  //   if (days > 0) {
+  //     between[0] = 24 - (max(ehours, chours) - min(ehours, chours));
+  //   } else {
+  //     between[0] = max(ehours, chours) - min(ehours, chours);
+  //   }
+  //   print(between);
+  // }
 }

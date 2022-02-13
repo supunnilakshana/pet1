@@ -58,11 +58,23 @@ class UserdbHandeler {
   static Future updatePetcount() async {
     var firebaseUser = FirebaseAuth.instance.currentUser;
     int count = await userPetcount();
-    firestoreInstance
+    await firestoreInstance
         .collection("users")
         .doc(firebaseUser!.email.toString())
         .update({"pets": count + 1}).then((_) {
       print("success!");
+    });
+  }
+
+  static Future updatePetlist(String name) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    List<String> currentlist = await getPetlist();
+    currentlist.add(name);
+    await firestoreInstance
+        .collection("users")
+        .doc(user!.email.toString())
+        .update({"pet_list": currentlist}).then((_) {
+      print("added");
     });
   }
 }

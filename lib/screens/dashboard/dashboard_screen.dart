@@ -4,6 +4,7 @@ import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
+import 'package:pet1/screens/dashboard/compt/account_tab/account_screen.dart';
 import 'package:pet1/screens/dashboard/compt/tab2/tab2.dart';
 import 'package:pet1/screens/dashboard/compt/tab3/tab3.dart';
 import 'compt/Tab1/tab_1_screen.dart';
@@ -26,7 +27,7 @@ class _DasboardState extends State<Dasboard> {
   var gauth = GoogleSignInProvider();
   CircelProgressHandeler c = CircelProgressHandeler();
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -44,45 +45,23 @@ class _DasboardState extends State<Dasboard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     List<Widget> _widgetOptions = <Widget>[
-      Tab1(gauth: gauth, pd: pd, petname: widget.petname),
-      Tab2(petname: widget.petname),
+      AccountScreen(),
+      Tab3(),
+      Tab3(),
+      // Tab1(gauth: gauth, pd: pd, petname: widget.petname),
+      // Tab2(petname: widget.petname),
       Tab3()
     ];
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(size.height * 0.2),
-        child: AppBar(
-          elevation: 0,
-          leading: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: IconButton(
-                icon: Icon(Icons.menu_open_sharp),
-                iconSize: size.width * 0.1,
-                onPressed: () {
-                  _scaffoldKey.currentState!.openDrawer();
-                },
-              )),
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 5),
-              child: CircleAvatar(
-                radius: size.width * 0.08,
-                backgroundImage: AssetImage(
-                    "assets/images/dog.png"), // NetworkImage(user!.photoURL.toString()),
-              ),
-            ),
-          ],
-          flexibleSpace: Image.asset(
-            "assets/images/dashappbar.jpg",
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Account',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -98,10 +77,8 @@ class _DasboardState extends State<Dasboard> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: kprimaryColor,
+        unselectedItemColor: Colors.black.withOpacity(0.75),
         onTap: _onItemTapped,
-      ),
-      drawer: MenuDrawer(
-        gauth: gauth,
       ),
     );
   }

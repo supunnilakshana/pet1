@@ -161,39 +161,40 @@ class _InputEventState extends State<InputEvent> {
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                if (eventdate != "Choose Date" ||
-                                    eventtime != "Choose Time") {
-                                  print("ok");
-                                  var pd = PetdbHandeler();
-                                  int count =
-                                      await pd.eventcount(widget.petname);
-                                  Event e = Event(count + 1, titel, description,
-                                      eventdate, eventtime, currentdate, 0);
-                                  var eventhanlder =
-                                      Eventhanderler(widget.petname);
-                                  pd.updarePetcount(widget.petname);
+                              print(Date.datetimeBetween());
+                              // if (_formKey.currentState!.validate()) {
+                              //   if (eventdate != "Choose Date" ||
+                              //       eventtime != "Choose Time") {
+                              //     print("ok");
+                              //     var pd = PetdbHandeler();
+                              //     int count =
+                              //         await pd.eventcount(widget.petname);
+                              //     Event e = Event(count + 1, titel, description,
+                              //         eventdate, _time, currentdate, 0);
+                              //     var eventhanlder =
+                              //         Eventhanderler(widget.petname);
+                              //     pd.updarePetcount(widget.petname);
 
-                                  await eventhanlder.addevent(e);
-                                  Fluttertoast.showToast(
-                                      msg: "Event is created",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.green,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Dasboard(
-                                                petname: widget.petname,
-                                                index: 1,
-                                              )));
-                                } else {
-                                  PopupDialog.showPopupErorr(context, "Error",
-                                      "Please choose event date and time..");
-                                }
-                              }
+                              //     await eventhanlder.addevent(e);
+                              //     Fluttertoast.showToast(
+                              //         msg: "Event is created",
+                              //         toastLength: Toast.LENGTH_SHORT,
+                              //         gravity: ToastGravity.BOTTOM,
+                              //         backgroundColor: Colors.green,
+                              //         textColor: Colors.white,
+                              //         fontSize: 16.0);
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) => Dasboard(
+                              //                   petname: widget.petname,
+                              //                   index: 1,
+                              //                 )));
+                              //   } else {
+                              //     PopupDialog.showPopupErorr(context, "Error",
+                              //         "Please choose event date and time..");
+                              //   }
+                              // }
                             },
                           )),
                     )
@@ -233,10 +234,15 @@ class _InputEventState extends State<InputEvent> {
         selectedTime = picked;
         _hour = selectedTime.hour.toString();
         _minute = selectedTime.minute.toString();
-        _time = _hour + ' : ' + _minute;
-        eventtime = formatDate(DateTime(selectedTime.hour, selectedTime.minute),
+        _time = _hour + ':' + _minute;
+
+        ///  Date.timeBetween(_time,Date.daysBetween(from));
+
+        eventtime = formatDate(
+            DateTime(1999, 11, 30, selectedTime.hour, selectedTime.minute),
             [hh, ':', nn, " ", am]).toString();
-        print(eventtime);
+
+        print(_time);
         setState(() {});
       });
   }

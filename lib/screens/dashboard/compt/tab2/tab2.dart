@@ -17,7 +17,7 @@ class Tab2 extends StatefulWidget {
 }
 
 class _Tab2State extends State<Tab2> {
-  List<Event> eventlist = [];
+  List<EventModel> eventlist = [];
 
   @override
   void initState() {

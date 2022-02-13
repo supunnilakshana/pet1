@@ -1,4 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/controllers/models/pet_list.dart';
@@ -11,16 +19,19 @@ import 'package:pet1/screens/components/rounded_selectedbutton.dart';
 
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/components/roundedtextFiled.dart';
+import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
+import 'package:pet1/services/file_upload.dart';
 
 import 'backgound.dart';
 
 class Body extends StatefulWidget {
   final int pettype;
-
+  final GlobalKey<ScaffoldState> scaffoldKey;
   const Body({
     Key? key,
     required this.pettype,
+    required this.scaffoldKey,
   }) : super(key: key);
 
   @override
@@ -28,11 +39,23 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  var pet = Pet();
   PetdbHandeler pd = PetdbHandeler();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   String date = "";
   DateTime selectedDate = DateTime.now();
+  late String name;
+  late String type;
+  int spec = 0;
+  String dob = "";
+  late String color;
+  int gender = 0;
+  late String imgurl;
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+  bool isimgload = false;
+  late Uint8List imgunitfile;
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +66,16 @@ class _BodyState extends State<Body> {
     if (widget.pettype == 0) {
       proimg = "assets/images/dog.png";
       listitem = doglist;
-      pet.type = 'dog';
+      type = 'dog';
     } else {
       proimg = "assets/images/cat.png";
       listitem = catlist;
-      pet.type = 'cat';
+      type = 'cat';
     }
 
-    return SingleChildScrollView(
-      child: Background(
+    return Background(
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Form(
           key: _formKey,
           child: Column(
@@ -66,11 +90,42 @@ class _BodyState extends State<Body> {
                     fontSize: size.width * 0.08, color: kheadingcolorlight),
               ),
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height * 0.02,
               ),
-              CircleAvatar(
-                radius: size.width * 0.17,
-                backgroundImage: AssetImage(proimg),
+              SizedBox(
+                height: size.width * 0.4,
+                width: size.height * 0.17,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  fit: StackFit.expand,
+                  children: [
+                    _image != null
+                        ? CircleAvatar(
+                            radius: size.width * 0.17,
+                            backgroundImage: FileImage(File(_image!.path)),
+                          )
+                        : CircleAvatar(
+                            radius: size.width * 0.17,
+                            backgroundImage: AssetImage(proimg),
+                          ),
+                    Positioned(
+                        bottom: 0,
+                        right: -25,
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            _showPicker(context);
+                          },
+                          elevation: 2.0,
+                          fillColor: Color(0xFFF5F6F9),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            color: Colors.blue,
+                          ),
+                          padding: EdgeInsets.all(15.0),
+                          shape: CircleBorder(),
+                        )),
+                  ],
+                ),
               ),
               SizedBox(
                 height: size.height * 0.025,
@@ -78,7 +133,7 @@ class _BodyState extends State<Body> {
               RoundedInput(
                 hintText: "Pet Name",
                 onchange: (text) {
-                  pet.name = text;
+                  name = text;
                 },
                 valid: (text) {
                   return Validater.genaralvalid(text!);
@@ -87,18 +142,6 @@ class _BodyState extends State<Body> {
                 icon: Icons.pets,
                 // onChange: (value) {},
               ),
-              /*RoundedInput(
-                hintText: "Age",
-                onchange: (text) {
-                  pet.age = int.parse(text);
-                },
-                valid: (text) {
-                  return Validater.genaralvalid(text!);
-                },
-                save: (value) {},
-                textinput: TextInputType.number,
-                icon: Icons.pets,
-              ),*/
               RoundedSelectButton(
                 icon: Icons.date_range,
                 onpress: (context) => _selectDate(context),
@@ -108,13 +151,17 @@ class _BodyState extends State<Body> {
                 child: Text("press"),
                 onPressed: () => _selectDate(context),
               ),*/
-              Text(
-                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
+              dob != ""
+                  ? Text(
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
+                  : SizedBox(
+                      height: 0,
+                    ),
               DropdownList(
                 hinttext: Text("Select pet's species"),
                 onchange: (value) {
                   setState(() {
-                    pet.spec = value as int;
+                    spec = value as int;
                   });
 
                   print(value);
@@ -124,47 +171,88 @@ class _BodyState extends State<Body> {
               DropdownList(
                 hinttext: Text("Select pet's gender"),
                 onchange: (value) {
-                  pet.gender = value as int;
+                  gender = value as int;
 
                   print(value);
                 },
                 typelist: genderlist,
               ),
-              /* RoundedInput(
-                  hintText: "Weight",
+              RoundedInput(
+                  hintText: "Your pet's Color",
                   onchange: (text) {
-                    pet.weight = double.parse(text);
-                    print(pet.weight);
+                    color = text;
                   },
                   valid: (text) {
                     return Validater.genaralvalid(text!);
                   },
                   save: (value) {},
-                  textinput: TextInputType.datetime,
-                  icon: Icons.pets
-                  // onChange: (value) {},
-                  ),*/
+                  icon: Icons.color_lens_sharp),
               RoundedButton(
                 text: "Continue",
                 onpress: () async {
-                  if (_formKey.currentState!.validate()) {
+                  // print(gender);
+                  print(isimgload);
+                  if (_formKey.currentState!.validate() &&
+                      ((dob != "") && (spec != 0) && (gender != 0))) {
+                    // ignore: deprecated_member_use
+                    widget.scaffoldKey.currentState!.showSnackBar(new SnackBar(
+                      duration: new Duration(seconds: 2),
+                      backgroundColor: kprimaryColor,
+                      content: new Row(
+                        children: <Widget>[
+                          new CircularProgressIndicator(),
+                          new Text(" Registering...")
+                        ],
+                      ),
+                    ));
+                    String id = DateTime.now()
+                        .toString()
+                        .replaceAll("-", "")
+                        .replaceAll(":", "")
+                        .replaceAll(" ", "")
+                        .replaceAll(".", "");
                     print("pressed");
-                    print(pet);
-                    await UserdbHandeler.adduser();
-                    await pd.addPet(pet);
+                    if (isimgload) {
+                      print("imgeuploading");
+                      imgurl = await ImageUploader.uploadData(
+                          imgunitfile, user!.email!, id);
 
-                    await UserdbHandeler.updatePetcount();
-                    print("added");
-                    List<String> petlist = await UserdbHandeler.getPetlist();
-                    String petname = petlist.first;
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Dasboard(
-                                  petname: petname,
-                                )));
+                      print("imgeuploaded");
+                    }
+                    Pet pet = Pet(
+                        id: id,
+                        name: name,
+                        type: type,
+                        spec: spec,
+                        dob: dob,
+                        color: color,
+                        gender: gender);
+                    int respons = await FireDBHandeler.addPet(pet);
+                    if (respons == 1) {
+                      Customtost.commontost("Added Sucessfully", Colors.amber);
+
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Dasboard(
+                                    petname: pet.name,
+                                  )));
+                    } else {
+                      Customtost.commontost("Somthing went wrong", Colors.red);
+                    }
+                    // print("added");
+                    // List<String> petlist = await UserdbHandeler.getPetlist();
+                    // String petname = petlist.first;
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => Dasboard(
+                    //               petname: petname,
+                    //             )));
                   } else {
                     print("Not Complete");
+                    Customtost.commontost(
+                        "Complete the form", Colors.redAccent);
                   }
                 },
                 color: kprimaryColor,
@@ -188,8 +276,68 @@ class _BodyState extends State<Body> {
     if (selected != null && selected != selectedDate)
       setState(() {
         selectedDate = selected;
-        pet.dob =
-            "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+        dob = "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
       });
+  }
+
+  _imgFromCamera() async {
+    XFile? image =
+        await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+
+    if (image != null) {
+      setState(() {
+        _image = image;
+
+        File imageFile = new File(_image!.path);
+        imgunitfile = imageFile.readAsBytesSync();
+        isimgload = true;
+        // widget.onimgfileChanged(base64Image);
+      });
+    }
+  }
+
+  _imgFromGallery() async {
+    XFile? image =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    if (image != null) {
+      setState(() {
+        _image = image;
+        File imageFile = new File(_image!.path);
+        imgunitfile = imageFile.readAsBytesSync();
+        isimgload = true;
+        // widget.onimgfileChanged(base64Image);
+      });
+    }
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

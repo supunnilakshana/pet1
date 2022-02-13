@@ -9,51 +9,51 @@ class PetdbHandeler {
   final firestoreInstance = FirebaseFirestore.instance;
 
 //--------------------------------------add pet----------------------------------------------------------------------------
-  Future<void> addPet(Pet pet) async {
-    String userpath = user!.email.toString();
-    List<String> petlist = [];
+  // Future<void> addPet(Pet pet) async {
+  //   String userpath = user!.email.toString();
+  //   List<String> petlist = [];
 
-    await firestoreInstance
-        .collection("/users/" + userpath + "/pet")
-        .doc(pet.name)
-        .set({
-      "name": pet.name,
-      "type": pet.type,
-      "dob": pet.dob,
-      "species": pet.spec,
-      "gender": pet.gender,
-      "color": pet.color,
-      "weights": pet.weight,
-      "bath": pet.bath,
-      "teeth": pet.teeth,
-      "hair": pet.hair,
-      "workout": pet.workout,
-      "vaccines": pet.vaccines,
-      "vitamins": pet.vitamins,
-      "events": pet.events,
-      "eventcount": 0,
+  //   await firestoreInstance
+  //       .collection("/users/" + userpath + "/pet")
+  //       .doc(pet.name)
+  //       .set({
+  //     "name": pet.name,
+  //     "type": pet.type,
+  //     "dob": pet.dob,
+  //     "species": pet.spec,
+  //     "gender": pet.gender,
+  //     "color": pet.color,
+  //     "weights": pet.weight,
+  //     "bath": pet.bath,
+  //     "teeth": pet.teeth,
+  //     "hair": pet.hair,
+  //     "workout": pet.workout,
+  //     "vaccines": pet.vaccines,
+  //     "vitamins": pet.vitamins,
+  //     "events": pet.events,
+  //     "eventcount": 0,
 
-      //"weight": pet.weight
-    }).then((_) async {
-      petlist.add(pet.name);
-      await firestoreInstance
-          .collection("users")
-          .doc(user!.email.toString())
-          .update({"pet_list": petlist}).then((_) {
-        print("added");
-      });
-      print("success!");
-    });
-  }
+  //     //"weight": pet.weight
+  //   }).then((_) async {
+  //     petlist.add(pet.name);
+  //     await firestoreInstance
+  //         .collection("users")
+  //         .doc(user!.email.toString())
+  //         .update({"pet_list": petlist}).then((_) {
+  //       print("added");
+  //     });
+  //     print("success!");
+  //   });
+  // }
 
 //--------------------------------------get a pet----------------------------------------------------------------------------
   Future getpet(String docname) async {
-    Pet pet = Pet();
-    var firebaseUser = FirebaseAuth.instance.currentUser;
-    firestoreInstance.collection("users").doc(docname).get().then((value) {
-      pet.name = value.data()!["name"];
-      var weight = value.data()!["weight"];
-    });
+    // Pet pet = Pet();
+    // var firebaseUser = FirebaseAuth.instance.currentUser;
+    // firestoreInstance.collection("users").doc(docname).get().then((value) {
+    //   pet.name = value.data()!["name"];
+    //   var weight = value.data()!["weight"];
+    // });
   }
 
 //--------------------------------------get pet weight----------------------------------------------------------------------------
@@ -295,7 +295,7 @@ class PetdbHandeler {
   }
   //--------------------------------------set pet events----------------------------------------------------------------------------
 
-  Future setEvents(String docname, List<Event> events) async {
+  Future setEvents(String docname, List<EventModel> events) async {
     String userpath = user!.email.toString();
     List<dynamic> eventlist = [];
     events.forEach((element) {
@@ -310,9 +310,9 @@ class PetdbHandeler {
   }
 
 //--------------------------------------get pet events----------------------------------------------------------------------------
-  Future<List<Event>> getEvents(String docname) async {
+  Future<List<EventModel>> getEvents(String docname) async {
     List<dynamic> events = [];
-    List<Event> eventlist = [];
+    List<EventModel> eventlist = [];
 
     String userpath = user!.email.toString();
 
@@ -325,7 +325,7 @@ class PetdbHandeler {
       events = (value.data()!['events']);
       print(events);
       events.forEach((element) {
-        Event a = Event.fromMap(element);
+        EventModel a = EventModel.fromMap(element);
         eventlist.add(a);
       });
 
