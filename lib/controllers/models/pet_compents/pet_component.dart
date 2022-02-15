@@ -57,19 +57,19 @@ class EventModel {
   final String id;
   final String title;
   final String description;
-  final String eventDatetime;
+  final String eventDate;
   final String eventtime;
   final String createDatetime;
   final int status;
 
-  EventModel(this.id, this.title, this.description, this.eventDatetime,
+  EventModel(this.id, this.title, this.description, this.eventDate,
       this.eventtime, this.createDatetime, this.status);
 
   Map<String, dynamic> toMap() => {
         "id": this.id,
         "title": this.title,
         "description": this.description,
-        "eventDate": this.eventDatetime,
+        "eventDate": this.eventDate,
         "eventtime": this.eventtime,
         "createDate": this.createDatetime,
         "status": this.status,
@@ -79,7 +79,7 @@ class EventModel {
       : id = map["id"],
         title = map["title"] as String,
         description = map["description"] as String,
-        eventDatetime = map["eventDate"] as String,
+        eventDate = map["eventDate"] as String,
         eventtime = map["eventtime"] as String,
         createDatetime = map["createDate"] as String,
         status = map["status"] as int;

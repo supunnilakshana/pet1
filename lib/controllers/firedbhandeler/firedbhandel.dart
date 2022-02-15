@@ -75,7 +75,7 @@ class FireDBHandeler {
     return model;
   }
 
-  //update student
+  //update event
   static Future<int> updateEvent(EventModel model) async {
     String userpath = user!.email.toString();
     final String collectionpath = "/users/" + userpath + "/event";

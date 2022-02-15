@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pet1/controllers/datahandeler/event_handaer.dart';
+import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
@@ -50,8 +51,10 @@ class _InputEventState extends State<InputEvent> {
         appBar: AppBar(
           title: Text("Create event"),
         ),
-        body: SingleChildScrollView(
-          child: Background(
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Container(
               child: Form(
                 key: _formKey,
@@ -162,39 +165,44 @@ class _InputEventState extends State<InputEvent> {
                             ),
                             onPressed: () async {
                               print(Date.datetimeBetween());
-                              // if (_formKey.currentState!.validate()) {
-                              //   if (eventdate != "Choose Date" ||
-                              //       eventtime != "Choose Time") {
-                              //     print("ok");
-                              //     var pd = PetdbHandeler();
-                              //     int count =
-                              //         await pd.eventcount(widget.petname);
-                              //     Event e = Event(count + 1, titel, description,
-                              //         eventdate, _time, currentdate, 0);
-                              //     var eventhanlder =
-                              //         Eventhanderler(widget.petname);
-                              //     pd.updarePetcount(widget.petname);
+                              if (_formKey.currentState!.validate()) {
+                                if (eventdate != "Choose Date" ||
+                                    eventtime != "Choose Time") {
+                                  print("ok");
 
-                              //     await eventhanlder.addevent(e);
-                              //     Fluttertoast.showToast(
-                              //         msg: "Event is created",
-                              //         toastLength: Toast.LENGTH_SHORT,
-                              //         gravity: ToastGravity.BOTTOM,
-                              //         backgroundColor: Colors.green,
-                              //         textColor: Colors.white,
-                              //         fontSize: 16.0);
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) => Dasboard(
-                              //                   petname: widget.petname,
-                              //                   index: 1,
-                              //                 )));
-                              //   } else {
-                              //     PopupDialog.showPopupErorr(context, "Error",
-                              //         "Please choose event date and time..");
-                              //   }
-                              // }
+                                  EventModel event = EventModel(
+                                      Date.getDateTimeId(),
+                                      titelcontroller.text,
+                                      description,
+                                      eventdate,
+                                      eventtime,
+                                      DateTime.now().toString(),
+                                      1);
+                                  int res =
+                                      await FireDBHandeler.addEvent(event);
+                                  if (res == 1) {
+                                    Navigator.pop(context, true);
+                                    Fluttertoast.showToast(
+                                        msg: "Event is created",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.green,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: "Event creating is failed",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
+                                } else {
+                                  PopupDialog.showPopupErorr(context, "Error",
+                                      "Please choose event date and time..");
+                                }
+                              }
                             },
                           )),
                     )

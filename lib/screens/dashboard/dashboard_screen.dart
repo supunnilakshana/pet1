@@ -5,7 +5,7 @@ import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/dashboard/compt/account_tab/account_screen.dart';
-import 'package:pet1/screens/dashboard/compt/tab2/tab2.dart';
+import 'package:pet1/screens/dashboard/compt/tab2/event_tab.dart';
 import 'package:pet1/screens/dashboard/compt/tab3/tab3.dart';
 import 'compt/Tab1/tab_1_screen.dart';
 import 'compt/drawer.dart';
@@ -47,7 +47,7 @@ class _DasboardState extends State<Dasboard> {
     List<Widget> _widgetOptions = <Widget>[
       AccountScreen(),
       Tab3(),
-      Tab3(),
+      EventTab(petname: widget.petname),
       // Tab1(gauth: gauth, pd: pd, petname: widget.petname),
       // Tab2(petname: widget.petname),
       Tab3()

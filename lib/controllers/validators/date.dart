@@ -29,8 +29,17 @@ class Date {
 
     DateTime to = DateTime.now();
     var d = (to.difference(from));
-    
+
     return (to.difference(from).inDays);
+  }
+
+  static String getDateTimeId() {
+    return DateTime.now()
+        .toString()
+        .replaceAll("-", "")
+        .replaceAll(":", "")
+        .replaceAll(" ", "")
+        .replaceAll(".", "");
   }
 
   // static timeBetween(String time, int days) {
@@ -49,4 +58,5 @@ class Date {
   //   }
   //   print(between);
   // }
+
 }
