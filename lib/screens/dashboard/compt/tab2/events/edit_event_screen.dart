@@ -12,17 +12,17 @@ import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 
-import 'backgound.dart';
-
-class InputEvent extends StatefulWidget {
+class EditEvent extends StatefulWidget {
   final String petname;
+  final EventModel eventModel;
 
-  const InputEvent({Key? key, required this.petname}) : super(key: key);
+  const EditEvent({Key? key, required this.petname, required this.eventModel})
+      : super(key: key);
   @override
-  _InputEventState createState() => _InputEventState();
+  _EditEventState createState() => _EditEventState();
 }
 
-class _InputEventState extends State<InputEvent> {
+class _EditEventState extends State<EditEvent> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final titelcontroller = TextEditingController();
@@ -35,10 +35,17 @@ class _InputEventState extends State<InputEvent> {
   String description = "";
   String _setTime = "";
   String _hour = "", _minute = "", _time = "";
+  int status = 0;
 
   DateTime selectedDate = DateTime.now();
 
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+
+  @override
+  void initState() {
+    loaddata();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,23 @@ class _InputEventState extends State<InputEvent> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text("Create event"),
+          backgroundColor: Colors.deepPurple.shade500,
+          title: Text("Edit event"),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: size.width * 0.04),
+              child: GestureDetector(onTap: () {}, child: Icon(Icons.share)),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: size.width * 0.04),
+              child: GestureDetector(
+                  onTap: () {}, child: Icon(Icons.done_outline_rounded)),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: size.width * 0.04),
+              child: GestureDetector(onTap: () {}, child: Icon(Icons.delete)),
+            )
+          ],
         ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -161,7 +184,7 @@ class _InputEventState extends State<InputEvent> {
                               backgroundColor: kmenucolor,
                             ),
                             child: Text(
-                              "Create",
+                              "Update",
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () async {
@@ -180,11 +203,11 @@ class _InputEventState extends State<InputEvent> {
                                       DateTime.now().toString(),
                                       1);
                                   int res =
-                                      await FireDBHandeler.addEvent(event);
+                                      await FireDBHandeler.updateEvent(event);
                                   if (res == 1) {
                                     Navigator.pop(context, true);
                                     Fluttertoast.showToast(
-                                        msg: "Event is created",
+                                        msg: "Event is updated",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         backgroundColor: Colors.green,
@@ -192,7 +215,7 @@ class _InputEventState extends State<InputEvent> {
                                         fontSize: 16.0);
                                   } else {
                                     Fluttertoast.showToast(
-                                        msg: "Event creating is failed",
+                                        msg: "Event updating is failed",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         backgroundColor: Colors.red,
@@ -254,6 +277,15 @@ class _InputEventState extends State<InputEvent> {
         print(_time);
         setState(() {});
       });
+  }
+
+  loaddata() {
+    titelcontroller.text = widget.eventModel.title;
+    descontroller.text = widget.eventModel.description;
+    eventdate = widget.eventModel.eventDate;
+    eventtime = widget.eventModel.eventtime;
+    status = widget.eventModel.status;
+    setState(() {});
   }
 
   keyboardhide(context) {

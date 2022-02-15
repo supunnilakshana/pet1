@@ -7,6 +7,7 @@ import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/custermized_rounded_button.dart';
 
+import 'events/edit_event_screen.dart';
 import 'events/input_event_screen.dart';
 
 class EventTab extends StatefulWidget {
@@ -67,6 +68,14 @@ class _EventTabState extends State<EventTab> {
                             child: GestureDetector(
                               onTap: () {
                                 print(indext);
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditEvent(
+                                                  eventModel: data[indext],
+                                                  petname: widget.petname,
+                                                )))
+                                    .then((val) => val ? loaddata() : null);
                               },
                               child: ListTile(
                                   contentPadding: EdgeInsets.symmetric(
@@ -97,7 +106,7 @@ class _EventTabState extends State<EventTab> {
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   ),
-                                  trailing: Icon(Icons.keyboard_arrow_right,
+                                  trailing: Icon(Icons.done_rounded,
                                       color: Colors.white, size: 30.0)),
                             ),
                           );
@@ -118,5 +127,6 @@ class _EventTabState extends State<EventTab> {
 
   loaddata() async {
     futureData = FireDBHandeler.getallEvents();
+    setState(() {});
   }
 }
