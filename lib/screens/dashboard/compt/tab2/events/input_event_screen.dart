@@ -178,7 +178,7 @@ class _InputEventState extends State<InputEvent> {
                                       eventdate,
                                       eventtime,
                                       DateTime.now().toString(),
-                                      1);
+                                      0);
                                   int res =
                                       await FireDBHandeler.addEvent(event);
                                   if (res == 1) {

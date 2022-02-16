@@ -60,7 +60,7 @@ class EventModel {
   final String eventDate;
   final String eventtime;
   final String createDatetime;
-  final int status;
+  int status;
 
   EventModel(this.id, this.title, this.description, this.eventDate,
       this.eventtime, this.createDatetime, this.status);

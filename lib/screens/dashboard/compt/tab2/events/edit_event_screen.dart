@@ -11,6 +11,7 @@ import 'package:pet1/controllers/validators/validate_handeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EditEvent extends StatefulWidget {
   final String petname;
@@ -40,6 +41,7 @@ class _EditEventState extends State<EditEvent> {
   DateTime selectedDate = DateTime.now();
 
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  bool donestatus = true;
 
   @override
   void initState() {
@@ -62,16 +64,84 @@ class _EditEventState extends State<EditEvent> {
           actions: [
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
-              child: GestureDetector(onTap: () {}, child: Icon(Icons.share)),
+              child: GestureDetector(
+                  onTap: donestatus
+                      ? () async {
+                          String url = "mailto:supunnilakshana@gmail.com";
+                          if (!await launch(url)) throw 'Could not launch $url';
+                        }
+                      : null,
+                  child: Icon(Icons.share)),
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
               child: GestureDetector(
-                  onTap: () {}, child: Icon(Icons.done_outline_rounded)),
+                  onTap: donestatus
+                      ? () async {
+                          PopupDialog.showPopupDilog(
+                              context, "Hello", "Did you done this event ?",
+                              () async {
+                            EventModel event = widget.eventModel;
+                            event.status = 1;
+                            int res = await FireDBHandeler.updateEvent(event);
+                            if (res == 0) {
+                              loaddata();
+                              Fluttertoast.showToast(
+                                  msg: "Done",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.green,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                              donestatus = false;
+                              setState(() {});
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Updating is failed",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+                          });
+                        }
+                      : null,
+                  child: Icon(Icons.done_outline_rounded)),
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
-              child: GestureDetector(onTap: () {}, child: Icon(Icons.delete)),
+              child: GestureDetector(
+                  onTap: () async {
+                    PopupDialog.showPopupWarning(
+                        context, "Delete", "Are you sure to delete this event?",
+                        () async {
+                      int res = await FireDBHandeler.deletedoc(
+                          widget.eventModel.id,
+                          FireDBHandeler.MainUserpath + "event");
+                      if (res == 0) {
+                        Navigator.pop(context, true);
+                        Fluttertoast.showToast(
+                            msg: "Done",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                        donestatus = false;
+                        setState(() {});
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Updating is failed",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                    });
+                  },
+                  child: Icon(Icons.delete)),
             )
           ],
         ),
@@ -91,6 +161,7 @@ class _EditEventState extends State<EditEvent> {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: TextFormField(
+                            enabled: donestatus,
                             controller: titelcontroller,
                             decoration: InputDecoration(
                               labelText: 'Titel',
@@ -121,10 +192,12 @@ class _EditEventState extends State<EditEvent> {
                               eventdate,
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {
-                              keyboardhide(context);
-                              _selectDate(context);
-                            },
+                            onPressed: donestatus
+                                ? () {
+                                    keyboardhide(context);
+                                    _selectDate(context);
+                                  }
+                                : null,
                           )),
                     ),
                     Container(
@@ -143,16 +216,19 @@ class _EditEventState extends State<EditEvent> {
                               eventtime,
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {
-                              keyboardhide(context);
-                              _selectTime(context);
-                            },
+                            onPressed: donestatus
+                                ? () {
+                                    keyboardhide(context);
+                                    _selectTime(context);
+                                  }
+                                : null,
                           )),
                     ),
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: TextFormField(
+                            enabled: donestatus,
                             controller: descontroller,
                             decoration: InputDecoration(
                               labelText: 'Description',
@@ -187,47 +263,52 @@ class _EditEventState extends State<EditEvent> {
                               "Update",
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () async {
-                              print(Date.datetimeBetween());
-                              if (_formKey.currentState!.validate()) {
-                                if (eventdate != "Choose Date" ||
-                                    eventtime != "Choose Time") {
-                                  print("ok");
+                            onPressed: donestatus
+                                ? () async {
+                                    print(Date.datetimeBetween());
+                                    if (_formKey.currentState!.validate()) {
+                                      if (eventdate != "Choose Date" ||
+                                          eventtime != "Choose Time") {
+                                        print("ok");
 
-                                  EventModel event = EventModel(
-                                      Date.getDateTimeId(),
-                                      titelcontroller.text,
-                                      description,
-                                      eventdate,
-                                      eventtime,
-                                      DateTime.now().toString(),
-                                      1);
-                                  int res =
-                                      await FireDBHandeler.updateEvent(event);
-                                  if (res == 1) {
-                                    Navigator.pop(context, true);
-                                    Fluttertoast.showToast(
-                                        msg: "Event is updated",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        backgroundColor: Colors.green,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg: "Event updating is failed",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
+                                        EventModel event = EventModel(
+                                            Date.getDateTimeId(),
+                                            titelcontroller.text,
+                                            description,
+                                            eventdate,
+                                            eventtime,
+                                            DateTime.now().toString(),
+                                            widget.eventModel.status);
+                                        int res =
+                                            await FireDBHandeler.updateEvent(
+                                                event);
+                                        if (res == 0) {
+                                          Navigator.pop(context, true);
+                                          Fluttertoast.showToast(
+                                              msg: "Event is updated",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: "Event updating is failed",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        }
+                                      } else {
+                                        PopupDialog.showPopupErorr(
+                                            context,
+                                            "Error",
+                                            "Please choose event date and time..");
+                                      }
+                                    }
                                   }
-                                } else {
-                                  PopupDialog.showPopupErorr(context, "Error",
-                                      "Please choose event date and time..");
-                                }
-                              }
-                            },
+                                : null,
                           )),
                     )
                   ],
@@ -285,6 +366,11 @@ class _EditEventState extends State<EditEvent> {
     eventdate = widget.eventModel.eventDate;
     eventtime = widget.eventModel.eventtime;
     status = widget.eventModel.status;
+    if (widget.eventModel.status == 0) {
+      donestatus = true;
+    } else {
+      donestatus = false;
+    }
     setState(() {});
   }
 

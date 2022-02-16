@@ -7,6 +7,7 @@ import 'package:pet1/controllers/models/petmodel.dart';
 class FireDBHandeler {
   static final firestoreInstance = FirebaseFirestore.instance;
   static final user = FirebaseAuth.instance.currentUser;
+  static String MainUserpath = "/users/" + user!.email.toString() + "/";
 
 //check doc is exists
   static Future<int> checkdocstatus(String collectionpath, String docid) async {

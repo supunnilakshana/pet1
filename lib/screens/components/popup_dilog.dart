@@ -17,6 +17,21 @@ class PopupDialog {
     )..show();
   }
 
+  static showPopupWarning(BuildContext context, String titel,
+      String description, Function actionFun) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.WARNING,
+      animType: AnimType.BOTTOMSLIDE,
+      title: titel,
+      desc: description,
+      btnCancelText: "No",
+      btnOkText: "Yes",
+      btnCancelOnPress: () {},
+      btnOkOnPress: actionFun,
+    )..show();
+  }
+
   static showPopuplogout(BuildContext context, String titel, String description,
       Function actionFun) {
     AwesomeDialog(

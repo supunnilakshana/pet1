@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pet1/controllers/datahandeler/event_handaer.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
@@ -6,6 +7,7 @@ import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/custermized_rounded_button.dart';
+import 'package:pet1/screens/components/popup_dilog.dart';
 
 import 'events/edit_event_screen.dart';
 import 'events/input_event_screen.dart';
@@ -64,7 +66,9 @@ class _EventTabState extends State<EventTab> {
                         itemCount: data.length,
                         itemBuilder: (context, indext) {
                           return Card(
-                            color: kmenucolor,
+                            color: data[indext].status == 0
+                                ? kmenucolor
+                                : Colors.blueGrey,
                             child: GestureDetector(
                               onTap: () {
                                 print(indext);
@@ -94,20 +98,65 @@ class _EventTabState extends State<EventTab> {
                                     data[indext].title,
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                        fontSize: size.width * 0.05,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
 
                                   subtitle: Row(
-                                    children: <Widget>[
+                                    children: [
                                       Icon(Icons.timer,
                                           color: Colors.yellowAccent),
                                       Text(" remaining time",
                                           style: TextStyle(color: Colors.white))
                                     ],
                                   ),
-                                  trailing: Icon(Icons.done_rounded,
-                                      color: Colors.white, size: 30.0)),
+                                  trailing: GestureDetector(
+                                    onTap: data[indext].status == 0
+                                        ? () async {
+                                            PopupDialog.showPopupDilog(
+                                                context,
+                                                "Hello",
+                                                "Did you done this event ?",
+                                                () async {
+                                              EventModel event = data[indext];
+                                              event.status = 1;
+                                              int res = await FireDBHandeler
+                                                  .updateEvent(event);
+                                              if (res == 0) {
+                                                loaddata();
+                                                Fluttertoast.showToast(
+                                                    msg: "Done",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0);
+                                              } else {
+                                                Fluttertoast.showToast(
+                                                    msg: "Updating is failed",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0);
+                                              }
+                                            });
+                                          }
+                                        : null,
+                                    child: data[indext].status == 0
+                                        ? Icon(Icons.done_rounded,
+                                            color: Colors.yellowAccent,
+                                            size: size.width * 0.08)
+                                        : Icon(Icons.check_circle,
+                                            color: Colors.yellow.shade500,
+                                            size: size.width * 0.08),
+                                  )),
                             ),
                           );
                         }),
