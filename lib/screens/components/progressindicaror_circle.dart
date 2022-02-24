@@ -21,7 +21,7 @@ class ProgreesCricle extends StatelessWidget {
       margin: EdgeInsets.all(size.width * 0.04),
       child: CircularPercentIndicator(
         radius: size.width * 0.25,
-        lineWidth: size.width * 0.025,
+        lineWidth: size.width * 0.020,
         animation: true,
         percent: precentage,
         center: centerText,

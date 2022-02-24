@@ -69,7 +69,7 @@ class _EditEventState extends State<EditEvent> {
                       ? () async {
                           String url = "mailto:supunnilakshana@gmail.com";
                           if (!await launch(url)) throw 'Could not launch $url';
-                        }
+                        } 
                       : null,
                   child: Icon(Icons.share)),
             ),

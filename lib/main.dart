@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pet1/screens/add_pet/add_pet_screen.dart';
 
 import 'package:pet1/screens/welcom/welcome_screen.dart';
@@ -21,6 +22,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Petzy',
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            textTheme: GoogleFonts.balsamiqSansTextTheme(
+              Theme.of(context).textTheme,
+            )),
         home: WelcomeScreen(),
       ));
 }

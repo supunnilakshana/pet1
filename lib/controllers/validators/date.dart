@@ -42,6 +42,22 @@ class Date {
         .replaceAll(".", "");
   }
 
+  static String greeting() {
+    String greeet = "";
+    var datetime = DateTime.now();
+    int hour = datetime.hour;
+    if (hour < 12) {
+      greeet = "Good Morning";
+    } else if (hour < 16) {
+      greeet = "Good Affternoon";
+    } else if (hour < 20) {
+      greeet = "Good Evening";
+    } else if (hour < 24) {
+      greeet = "Good Night";
+    }
+    return greeet;
+  }
+
   // static timeBetween(String time, int days) {
   //   var divdetime = time.split(":");
   //   var datetime = DateTime.now();

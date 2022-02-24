@@ -9,9 +9,8 @@ class CircelProgressHandeler {
 
   // CircelProgress
 
-  Future<CircelProgress> bathtprogress(String doc) async {
+  static CircelProgress  bathtprogress( List<String> b)  {
     CircelProgress c = CircelProgress();
-    List<String> b = await pethandeler.getBath(doc);
     print(b);
     if (b.isNotEmpty) {
       int count = Date.daysBetween(Date.convertDatetime(b.last));
@@ -37,9 +36,9 @@ class CircelProgressHandeler {
     return c;
   }
 
-  Future<CircelProgress> hairprogress(String doc) async {
+ static CircelProgress hairprogress( List<String> b)  {
     CircelProgress c = CircelProgress();
-    List<String> b = await pethandeler.getHair(doc);
+   
     print(b);
     if (b.isNotEmpty) {
       int count = Date.daysBetween(Date.convertDatetime(b.last));
@@ -65,9 +64,9 @@ class CircelProgressHandeler {
     return c;
   }
 
-  Future<CircelProgress> teethProgress(String doc) async {
+ static CircelProgress teethProgress( List<String> b) {
     CircelProgress c = CircelProgress();
-    List<String> b = await pethandeler.getTeeth(doc);
+    
     print(b);
     if (b.isNotEmpty) {
       int count = Date.daysBetween(Date.convertDatetime(b.last));
@@ -93,9 +92,8 @@ class CircelProgressHandeler {
     return c;
   }
 
-  Future<CircelProgress> workoutProgress(String doc) async {
+  static CircelProgress workoutProgress( List<String> b)  {
     CircelProgress c = CircelProgress();
-    List<String> b = await pethandeler.getWorkout(doc);
     print(b);
     if (b.isNotEmpty) {
       int count = Date.daysBetween(Date.convertDatetime(b.last));

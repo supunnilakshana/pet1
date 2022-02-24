@@ -113,6 +113,7 @@ class _BodyState extends State<Body> {
                         right: -25,
                         child: RawMaterialButton(
                           onPressed: () {
+                            FocusScope.of(context).unfocus();
                             _showPicker(context);
                           },
                           elevation: 2.0,
@@ -144,7 +145,10 @@ class _BodyState extends State<Body> {
               ),
               RoundedSelectButton(
                 icon: Icons.date_range,
-                onpress: (context) => _selectDate(context),
+                onpress: (context) {
+                  FocusScope.of(context).unfocus();
+                  _selectDate(context);
+                },
                 text: "Choose your pet's birthday",
               ),
               /*ElevatedButton(
@@ -163,6 +167,7 @@ class _BodyState extends State<Body> {
                   setState(() {
                     spec = value as int;
                   });
+                  FocusScope.of(context).unfocus();
 
                   print(value);
                 },
@@ -174,6 +179,7 @@ class _BodyState extends State<Body> {
                   gender = value as int;
 
                   print(value);
+                  FocusScope.of(context).unfocus();
                 },
                 typelist: genderlist,
               ),
@@ -228,7 +234,9 @@ class _BodyState extends State<Body> {
                         color: color,
                         gender: gender);
                     int respons = await FireDBHandeler.addPet(pet);
+
                     if (respons == 1) {
+                      await FireDBHandeler.initDayactivity(name);
                       Customtost.commontost("Added Sucessfully", Colors.amber);
 
                       Navigator.pushReplacement(

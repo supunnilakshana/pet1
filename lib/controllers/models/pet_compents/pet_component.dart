@@ -86,14 +86,15 @@ class EventModel {
 }
 
 class PetDayActivity {
-  final List<String>? bath;
-  final List<String>? teeth;
-  final List<String>? hair;
-  final List<String>? workout;
+  final List<String> bath;
+  final List<String> teeth;
+  final List<String> hair;
+  final List<String> workout;
 
-  PetDayActivity({this.bath, this.teeth, this.hair, this.workout});
+  PetDayActivity({required this.bath, required this.teeth, required this.hair, required this.workout});
 
   Map<String, dynamic> toMap() => {
+    
         "bath": this.bath,
         "teeth": this.teeth,
         "hair": this.hair,
@@ -101,8 +102,8 @@ class PetDayActivity {
       };
 
   PetDayActivity.fromMap(Map<dynamic, dynamic> map)
-      : bath = map["bath"] as List<String>,
-        teeth = map["teeth"] as List<String>,
-        hair = map["hair"] as List<String>,
-        workout = map["workout"] as List<String>;
+      : bath = List<String>.from(map["bath"]),
+        teeth =   List<String>.from(map["teeth"]),
+        hair =  List<String>.from(map["hair"]),
+        workout =  List<String>.from(map["workout"]);
 }

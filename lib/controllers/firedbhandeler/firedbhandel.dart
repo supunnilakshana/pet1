@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
+import 'package:pet1/controllers/validators/date.dart';
 
 class FireDBHandeler {
   static final firestoreInstance = FirebaseFirestore.instance;
@@ -112,6 +113,63 @@ class FireDBHandeler {
     }
 
     return list;
+  }
+
+//day activity
+  static initDayactivity(String petname) async {
+    PetDayActivity model =
+        PetDayActivity(bath: [], hair: [], teeth: [], workout: []);
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/pet/" + petname+"/activities";
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("dayactivity")
+        .set(model.toMap())
+        .then((_) {
+      print("create pet day activity doc");
+    });
+  }
+
+  static Future<PetDayActivity> getdayActivity(String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/pet/" + petname+"/activities";
+    PetDayActivity model;
+    DocumentSnapshot documentSnapshot = await firestoreInstance
+        .collection(collectionpath)
+        .doc("dayactivity")
+        .get();
+    model =
+        PetDayActivity.fromMap(documentSnapshot.data() as Map<String, dynamic>);
+    return model;
+  }
+
+  static Future<int> updatedayActivity(
+      String activityley, String petname) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/pet/" + petname+"/activities";
+    List<dynamic> datalist;
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("dayactivity")
+        .get()
+        .then((value) async {
+      datalist = value.data()![activityley];
+      // print(teeth.last.toString());
+      print("--------------------------");
+      datalist.add(Date.getStringdate());
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc("dayactivity")
+          .update({activityley: datalist}).then((_) {
+        res = 1;
+        print("success!");
+      });
+    });
+
+    return res;
   }
 
   //delete doc
