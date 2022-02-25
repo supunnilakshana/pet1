@@ -47,6 +47,27 @@ class FireDBHandeler {
     return status;
   }
 
+  //get all pet
+
+  static Future<List<Pet>> getallPets() async {
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/pet";
+    List<Pet> list = [];
+    Pet petModel;
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection(collectionpath).get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      // EventModel = EventModel.fromSnapshot(a);
+      petModel = Pet.fromMap(a.data() as Map<String, dynamic>);
+      list.add(petModel);
+      print(petModel.id);
+      //return list;
+    }
+
+    return list;
+  }
+
 //---------------------------------------events-----------------------------------------
   static Future<int> addEvent(EventModel model) async {
     String userpath = user!.email.toString();
@@ -120,7 +141,8 @@ class FireDBHandeler {
     PetDayActivity model =
         PetDayActivity(bath: [], hair: [], teeth: [], workout: []);
     String userpath = user!.email.toString();
-    final String collectionpath = "/users/" + userpath + "/pet/" + petname+"/activities";
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/activities";
 
     await firestoreInstance
         .collection(collectionpath)
@@ -133,7 +155,8 @@ class FireDBHandeler {
 
   static Future<PetDayActivity> getdayActivity(String petname) async {
     String userpath = user!.email.toString();
-    final String collectionpath = "/users/" + userpath + "/pet/" + petname+"/activities";
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/activities";
     PetDayActivity model;
     DocumentSnapshot documentSnapshot = await firestoreInstance
         .collection(collectionpath)
@@ -148,7 +171,8 @@ class FireDBHandeler {
       String activityley, String petname) async {
     int res = 0;
     String userpath = user!.email.toString();
-    final String collectionpath = "/users/" + userpath + "/pet/" + petname+"/activities";
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/activities";
     List<dynamic> datalist;
 
     await firestoreInstance

@@ -41,7 +41,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   PetdbHandeler pd = PetdbHandeler();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool isupload = true;
   String date = "";
   DateTime selectedDate = DateTime.now();
   late String name;
@@ -50,12 +50,12 @@ class _BodyState extends State<Body> {
   String dob = "";
   late String color;
   int gender = 0;
-  late String imgurl;
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   bool isimgload = false;
   late Uint8List imgunitfile;
   final user = FirebaseAuth.instance.currentUser;
+  String imgurl = "";
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +64,11 @@ class _BodyState extends State<Body> {
 
     final List<ListItem> listitem;
     if (widget.pettype == 0) {
-      proimg = "assets/images/dog.png";
+      proimg = "assets/images/previewdog1.jpg";
       listitem = doglist;
       type = 'dog';
     } else {
-      proimg = "assets/images/cat.png";
+      proimg = "assets/images/previewcat1.jpg";
       listitem = catlist;
       type = 'cat';
     }
@@ -79,11 +79,8 @@ class _BodyState extends State<Body> {
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: size.height * 0.05,
-              ),
               Text(
                 "Tell us about your  pet ",
                 style: TextStyle(
@@ -195,74 +192,79 @@ class _BodyState extends State<Body> {
                   icon: Icons.color_lens_sharp),
               RoundedButton(
                 text: "Continue",
-                onpress: () async {
-                  // print(gender);
-                  print(isimgload);
-                  if (_formKey.currentState!.validate() &&
-                      ((dob != "") && (spec != 0) && (gender != 0))) {
-                    // ignore: deprecated_member_use
-                    widget.scaffoldKey.currentState!.showSnackBar(new SnackBar(
-                      duration: new Duration(seconds: 2),
-                      backgroundColor: kprimaryColor,
-                      content: new Row(
-                        children: <Widget>[
-                          new CircularProgressIndicator(),
-                          new Text(" Registering...")
-                        ],
-                      ),
-                    ));
-                    String id = DateTime.now()
-                        .toString()
-                        .replaceAll("-", "")
-                        .replaceAll(":", "")
-                        .replaceAll(" ", "")
-                        .replaceAll(".", "");
-                    print("pressed");
-                    if (isimgload) {
-                      print("imgeuploading");
-                      imgurl = await ImageUploader.uploadData(
-                          imgunitfile, user!.email!, id);
+                onpress: isupload
+                    ? () async {
+                        // print(gender);
+                        print(isimgload);
+                        if (_formKey.currentState!.validate() &&
+                            ((dob != "") && (spec != 0) && (gender != 0))) {
+                          isupload = false;
+                          // ignore: deprecated_member_use
+                          widget.scaffoldKey.currentState!
+                              .showSnackBar(new SnackBar(
+                            duration: new Duration(seconds: 2),
+                            backgroundColor: Colors.purpleAccent.shade700,
+                            content: new Row(
+                              children: <Widget>[
+                                new CircularProgressIndicator(),
+                                new Text(" Registering...")
+                              ],
+                            ),
+                          ));
+                          String id = "petproimg";
+                          String imgsetpath =
+                              "users/" + user!.email! + "/" + name;
+                          print("pressed");
+                          if (isimgload) {
+                            print("imgeuploading");
+                            imgurl = await ImageUploader.uploadData(
+                                imgunitfile, imgsetpath, id);
 
-                      print("imgeuploaded");
-                    }
-                    Pet pet = Pet(
-                        id: id,
-                        name: name,
-                        type: type,
-                        spec: spec,
-                        dob: dob,
-                        color: color,
-                        gender: gender);
-                    int respons = await FireDBHandeler.addPet(pet);
+                            print("imgeuploaded");
+                          }
+                          Pet pet = Pet(
+                              id: id,
+                              name: name,
+                              type: type,
+                              spec: spec,
+                              dob: dob,
+                              color: color,
+                              gender: gender,
+                              imgurl: imgurl);
+                          int respons = await FireDBHandeler.addPet(pet);
 
-                    if (respons == 1) {
-                      await FireDBHandeler.initDayactivity(name);
-                      Customtost.commontost("Added Sucessfully", Colors.amber);
+                          if (respons == 1) {
+                            await FireDBHandeler.initDayactivity(name);
+                            Customtost.commontost(
+                                "Added Sucessfully", Colors.amber);
 
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Dasboard(
-                                    petname: pet.name,
-                                  )));
-                    } else {
-                      Customtost.commontost("Somthing went wrong", Colors.red);
-                    }
-                    // print("added");
-                    // List<String> petlist = await UserdbHandeler.getPetlist();
-                    // String petname = petlist.first;
-                    // Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => Dasboard(
-                    //               petname: petname,
-                    //             )));
-                  } else {
-                    print("Not Complete");
-                    Customtost.commontost(
-                        "Complete the form", Colors.redAccent);
-                  }
-                },
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Dasboard(
+                                          petname: pet.name,
+                                        )));
+                          } else {
+                            isupload = true;
+                            Customtost.commontost(
+                                "Somthing went wrong", Colors.red);
+                          }
+                          // print("added");
+                          // List<String> petlist = await UserdbHandeler.getPetlist();
+                          // String petname = petlist.first;
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => Dasboard(
+                          //               petname: petname,
+                          //             )));
+                        } else {
+                          print("Not Complete");
+                          Customtost.commontost(
+                              "Complete the form", Colors.redAccent);
+                        }
+                      }
+                    : null,
                 color: kprimaryColor,
                 textcolor: Colors.white,
               ),

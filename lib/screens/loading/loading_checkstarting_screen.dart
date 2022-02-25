@@ -7,6 +7,7 @@ import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen.dart';
+import 'package:pet1/screens/select_pet/selectpet_screen_new.dart';
 
 import 'compt/background.dart';
 
@@ -48,7 +49,7 @@ class StartState extends State<LoadingcheckScreen> {
       petlist = await UserdbHandeler.getPetlist();
       if (count == 0) {
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => SelectPetscreen()));
+            MaterialPageRoute(builder: (context) => SelectPetScreenNew()));
       } else {
         petlist = await UserdbHandeler.getPetlist();
         petname = petlist.first;

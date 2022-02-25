@@ -16,7 +16,7 @@ class Pet {
       required this.dob,
       required this.color,
       required this.gender,
-      this.imgurl = ""});
+      required this.imgurl});
 
   Map<String, dynamic> toMap() => {
         "id": this.id,

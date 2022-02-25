@@ -12,6 +12,12 @@ class AddPetscreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
         key: _scaffoldKey,
         //resizeToAvoidBottomInset: false,
         body: Body(
