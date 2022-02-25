@@ -40,6 +40,10 @@ class Iconbutton extends StatelessWidget {
         style: TextStyle(color: textcolor, fontSize: fontsize),
       ),
       style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          elevation: 15.0,
           primary: color,
           padding: EdgeInsets.only(
               left: pleft, right: pright, top: ptop, bottom: pbottom)),
@@ -83,6 +87,10 @@ class Genaralbutton extends StatelessWidget {
         style: TextStyle(color: textcolor, fontSize: fontsize),
       ),
       style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          elevation: 15.0,
           primary: color,
           padding: EdgeInsets.only(
               left: pleft, right: pright, top: ptop, bottom: pbottom)),

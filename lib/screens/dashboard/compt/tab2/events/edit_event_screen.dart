@@ -59,8 +59,9 @@ class _EditEventState extends State<EditEvent> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.deepPurple.shade500,
-          title: Text("Edit event"),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black87),
           actions: [
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
@@ -69,9 +70,12 @@ class _EditEventState extends State<EditEvent> {
                       ? () async {
                           String url = "mailto:supunnilakshana@gmail.com";
                           if (!await launch(url)) throw 'Could not launch $url';
-                        } 
+                        }
                       : null,
-                  child: Icon(Icons.share)),
+                  child: Image.asset(
+                    "assets/icons/shareicon.png",
+                    width: size.width * 0.08,
+                  )),
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
@@ -107,7 +111,10 @@ class _EditEventState extends State<EditEvent> {
                           });
                         }
                       : null,
-                  child: Icon(Icons.done_outline_rounded)),
+                  child: Image.asset(
+                    "assets/icons/checkicon.png",
+                    width: size.width * 0.08,
+                  )),
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
@@ -141,7 +148,10 @@ class _EditEventState extends State<EditEvent> {
                       }
                     });
                   },
-                  child: Icon(Icons.delete)),
+                  child: Image.asset(
+                    "assets/icons/trashicon.png",
+                    width: size.width * 0.08,
+                  )),
             )
           ],
         ),
@@ -155,17 +165,37 @@ class _EditEventState extends State<EditEvent> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: size.height * 0.07,
+                      height: size.height * 0.02,
+                    ),
+                    Text(
+                      "Edit your event",
+                      style: TextStyle(
+                          fontSize: size.width * 0.08,
+                          color: kheadingcolorlight),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.04,
                     ),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.only(
+                            left: size.width * 0.04,
+                            bottom: size.width * 0.04,
+                            right: size.height * 0.04),
                         child: TextFormField(
                             enabled: donestatus,
                             controller: titelcontroller,
                             decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20))),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                borderSide:
+                                    BorderSide(width: 1, color: kprimaryColor),
+                              ),
                               labelText: 'Titel',
-                              border: OutlineInputBorder(),
                             ),
                             onChanged: (value) {
                               titel = value;
@@ -182,6 +212,9 @@ class _EditEventState extends State<EditEvent> {
                           padding: const EdgeInsets.all(8),
                           child: TextButton.icon(
                             style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              elevation: 2,
                               backgroundColor: kprimaryColor,
                             ),
                             icon: Icon(
@@ -206,6 +239,9 @@ class _EditEventState extends State<EditEvent> {
                           padding: const EdgeInsets.all(8),
                           child: TextButton.icon(
                             style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              elevation: 2,
                               backgroundColor: kprimaryColor,
                             ),
                             icon: Icon(
@@ -226,13 +262,24 @@ class _EditEventState extends State<EditEvent> {
                     ),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.only(
+                            left: size.width * 0.04,
+                            top: size.height * 0.02,
+                            right: size.width * 0.04),
                         child: TextFormField(
                             enabled: donestatus,
                             controller: descontroller,
                             decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                borderSide:
+                                    BorderSide(width: 1, color: kprimaryColor),
+                              ),
                               labelText: 'Description',
-                              border: OutlineInputBorder(),
+                              border: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20))),
                             ),
                             onChanged: (value) {
                               description = value;
@@ -248,7 +295,7 @@ class _EditEventState extends State<EditEvent> {
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.07,
+                      height: size.height * 0.05,
                     ),
                     Container(
                       width: size.width * 0.9,
@@ -258,6 +305,9 @@ class _EditEventState extends State<EditEvent> {
                           child: TextButton(
                             style: TextButton.styleFrom(
                               backgroundColor: kmenucolor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              elevation: 2,
                             ),
                             child: Text(
                               "Update",

@@ -119,7 +119,7 @@ class _HomeTabState extends State<HomeTab> {
                       child: Card(
                         shadowColor: Colors.red,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18)),
+                            borderRadius: BorderRadius.circular(20)),
                         color: kmenucolor,
                         child: ListTile(
                           leading: Container(
@@ -221,7 +221,7 @@ class _HomeTabState extends State<HomeTab> {
                               return Center(
                                   child: Lottie.asset(
                                       "assets/animations/emptybox.json",
-                                      width: size.width * 0.4));
+                                      width: size.width * 0.8));
                             }
                           } else if (snapshot.hasError) {
                             return Errorpage(size: size.width * 0.7);
@@ -229,8 +229,8 @@ class _HomeTabState extends State<HomeTab> {
                           // By default show a loading spinner.
                           return Center(
                               child: Lottie.asset(
-                                  "assets/animations/loading4.json",
-                                  width: size.width * 0.24));
+                                  "assets/animations/loadingdots.json",
+                                  width: size.width * 0.6));
                         },
                       )))
                 ],

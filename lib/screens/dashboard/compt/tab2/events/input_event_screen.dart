@@ -50,7 +50,9 @@ class _InputEventState extends State<InputEvent> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text("Create event"),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black87),
         ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -61,17 +63,35 @@ class _InputEventState extends State<InputEvent> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    Text(
+                      "Create an event",
+                      style: TextStyle(
+                          fontSize: size.width * 0.08,
+                          color: kheadingcolorlight),
+                    ),
                     SizedBox(
-                      height: size.height * 0.07,
+                      height: size.height * 0.05,
                     ),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.only(
+                            left: size.width * 0.04,
+                            bottom: size.width * 0.04,
+                            right: size.height * 0.04),
                         child: TextFormField(
                             controller: titelcontroller,
                             decoration: InputDecoration(
                               labelText: 'Titel',
-                              border: OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                borderSide:
+                                    BorderSide(width: 1, color: kprimaryColor),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20))),
                             ),
                             onChanged: (value) {
                               titel = value;
@@ -88,8 +108,10 @@ class _InputEventState extends State<InputEvent> {
                           padding: const EdgeInsets.all(8),
                           child: TextButton.icon(
                             style: TextButton.styleFrom(
-                              backgroundColor: kprimaryColor,
-                            ),
+                                backgroundColor: kprimaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                elevation: 2),
                             icon: Icon(
                               Icons.date_range,
                               color: Colors.white,
@@ -111,6 +133,10 @@ class _InputEventState extends State<InputEvent> {
                           child: TextButton.icon(
                             style: TextButton.styleFrom(
                               backgroundColor: kprimaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 2,
                             ),
                             icon: Icon(
                               Icons.timer_rounded,
@@ -128,12 +154,23 @@ class _InputEventState extends State<InputEvent> {
                     ),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.only(
+                            left: size.width * 0.05,
+                            right: size.width * 0.05,
+                            top: size.height * 0.02),
                         child: TextFormField(
                             controller: descontroller,
                             decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                borderSide:
+                                    BorderSide(width: 1, color: kprimaryColor),
+                              ),
                               labelText: 'Description',
-                              border: OutlineInputBorder(),
+                              border: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20))),
                             ),
                             onChanged: (value) {
                               description = value;
@@ -149,7 +186,7 @@ class _InputEventState extends State<InputEvent> {
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.07,
+                      height: size.height * 0.05,
                     ),
                     Container(
                       width: size.width * 0.9,
@@ -159,6 +196,10 @@ class _InputEventState extends State<InputEvent> {
                           child: TextButton(
                             style: TextButton.styleFrom(
                               backgroundColor: kmenucolor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 2,
                             ),
                             child: Text(
                               "Create",

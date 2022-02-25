@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/constansts.dart';
 
-class SingelPetItem extends StatelessWidget {
+class SingelPetItem extends StatefulWidget {
   final Pet pet;
   const SingelPetItem({
     Key? key,
@@ -11,10 +11,17 @@ class SingelPetItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _SingelPetItemState createState() => _SingelPetItemState();
+}
+
+class _SingelPetItemState extends State<SingelPetItem> {
+  bool isShadow = false;
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Container(
+        color: Colors.white,
         child: GestureDetector(
             onTap: () {
               // Image.network(
@@ -41,7 +48,7 @@ class SingelPetItem extends StatelessWidget {
                             Radius.circular(size.width * 0.05)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blueGrey.shade100,
+                            color: Colors.deepPurple.shade100,
                             blurRadius:
                                 2.0, // has the effect of softening the shadow
                             spreadRadius:
@@ -56,16 +63,16 @@ class SingelPetItem extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                             Radius.circular(size.width * 0.05)),
-                        child: pet.imgurl != ""
+                        child: widget.pet.imgurl != ""
                             ? CachedNetworkImage(
-                                imageUrl: pet.imgurl,
+                                imageUrl: widget.pet.imgurl,
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) =>
                                         Container(
                                   //  height: size.height * 0.01,
                                   child: Center(
                                     child: CircularProgressIndicator(
-                                        color: Colors.blueGrey,
+                                        color: Colors.deepPurple.shade800,
                                         value: downloadProgress.progress),
                                   ),
                                 ),
@@ -79,7 +86,7 @@ class SingelPetItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: size.height * 0.01),
                     child: Text(
-                      pet.name,
+                      widget.pet.name,
                       style: TextStyle(
                           fontSize: size.width * 0.07,
                           color: kprimaryColor.withOpacity(0.8),

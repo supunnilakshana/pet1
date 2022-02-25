@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet1/screens/add_pet/add_pet_screen.dart';
+import 'package:pet1/screens/components/constansts.dart';
 
 import 'package:pet1/screens/welcom/welcome_screen.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Petzy',
         theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.purple,
+            primaryColor: kprimaryColor,
+            focusColor: kprimaryColor,
+            backgroundColor: Colors.white,
             textTheme: GoogleFonts.balsamiqSansTextTheme(
               Theme.of(context).textTheme,
             )),
