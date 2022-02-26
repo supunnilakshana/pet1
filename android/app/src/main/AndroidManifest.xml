@@ -4,8 +4,8 @@
   <uses-permission android:name="android.permission.INTERNET"/>
 
    <application
-        android:label="pet1"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Petzy"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
