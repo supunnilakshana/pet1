@@ -38,6 +38,17 @@ class ImageUploader {
     a = 1;
     return a;
   }
+
+  // static Future<int> deletecollection(String collection) async {
+  //   int a = 0;
+  //   try {
+  //     await storage.ref(collection).delete();
+  //   } on Exception catch (e) {
+  //     print(e.toString());
+  //   }
+  //   a = 1;
+  //   return a;
+  // }
 }
 
 

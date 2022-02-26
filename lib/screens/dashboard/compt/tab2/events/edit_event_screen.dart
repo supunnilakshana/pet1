@@ -1,4 +1,5 @@
 import 'package:date_format/date_format.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +11,7 @@ import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/controllers/validators/validate_handeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
+import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +30,6 @@ class _EditEventState extends State<EditEvent> {
 
   final titelcontroller = TextEditingController();
   final descontroller = TextEditingController();
-
   String currentdate = Date.getStringdate();
   String eventdate = "Choose Date";
   String eventtime = "Choose Time";
@@ -85,6 +86,9 @@ class _EditEventState extends State<EditEvent> {
                           PopupDialog.showPopupDilog(
                               context, "Hello", "Did you done this event ?",
                               () async {
+                            setState(() {
+                              donestatus = false;
+                            });
                             EventModel event = widget.eventModel;
                             event.status = 1;
                             int res = await FireDBHandeler.updateEvent(event);
@@ -97,9 +101,10 @@ class _EditEventState extends State<EditEvent> {
                                   backgroundColor: Colors.green,
                                   textColor: Colors.white,
                                   fontSize: 16.0);
-                              donestatus = false;
-                              setState(() {});
                             } else {
+                              setState(() {
+                                donestatus = true;
+                              });
                               Fluttertoast.showToast(
                                   msg: "Updating is failed",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -123,6 +128,9 @@ class _EditEventState extends State<EditEvent> {
                     PopupDialog.showPopupWarning(
                         context, "Delete", "Are you sure to delete this event?",
                         () async {
+                      setState(() {
+                        donestatus = false;
+                      });
                       int res = await FireDBHandeler.deletedoc(
                           widget.eventModel.id,
                           FireDBHandeler.MainUserpath + "event");
@@ -135,11 +143,12 @@ class _EditEventState extends State<EditEvent> {
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
                             fontSize: 16.0);
-                        donestatus = false;
-                        setState(() {});
                       } else {
+                        setState(() {
+                          donestatus = true;
+                        });
                         Fluttertoast.showToast(
-                            msg: "Updating is failed",
+                            msg: "Deleting is failed",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             backgroundColor: Colors.red,
@@ -317,6 +326,9 @@ class _EditEventState extends State<EditEvent> {
                                 ? () async {
                                     print(Date.datetimeBetween());
                                     if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        donestatus = false;
+                                      });
                                       if (eventdate != "Choose Date" ||
                                           eventtime != "Choose Time") {
                                         print("ok");
@@ -341,7 +353,13 @@ class _EditEventState extends State<EditEvent> {
                                               backgroundColor: Colors.green,
                                               textColor: Colors.white,
                                               fontSize: 16.0);
+                                          setState(() {
+                                            donestatus = true;
+                                          });
                                         } else {
+                                          setState(() {
+                                            donestatus = true;
+                                          });
                                           Fluttertoast.showToast(
                                               msg: "Event updating is failed",
                                               toastLength: Toast.LENGTH_SHORT,
@@ -358,7 +376,11 @@ class _EditEventState extends State<EditEvent> {
                                       }
                                     }
                                   }
-                                : null,
+                                : () {
+                                    Customtost.commontost(
+                                        "Uploading is progress",
+                                        Colors.lightBlue);
+                                  },
                           )),
                     )
                   ],

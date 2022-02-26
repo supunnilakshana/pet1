@@ -198,7 +198,9 @@ class _BodyState extends State<Body> {
                         print(isimgload);
                         if (_formKey.currentState!.validate() &&
                             ((dob != "") && (spec != 0) && (gender != 0))) {
-                          isupload = false;
+                          setState(() {
+                            isupload = false;
+                          });
                           // ignore: deprecated_member_use
                           widget.scaffoldKey.currentState!
                               .showSnackBar(new SnackBar(
@@ -245,7 +247,9 @@ class _BodyState extends State<Body> {
                                           petname: pet.name,
                                         )));
                           } else {
-                            isupload = true;
+                            setState(() {
+                              isupload = true;
+                            });
                             Customtost.commontost(
                                 "Somthing went wrong", Colors.red);
                           }
@@ -264,7 +268,10 @@ class _BodyState extends State<Body> {
                               "Complete the form", Colors.redAccent);
                         }
                       }
-                    : null,
+                    : () {
+                        Customtost.commontost(
+                            "Uploading is progress", Colors.lightBlue);
+                      },
                 color: kprimaryColor,
                 textcolor: Colors.white,
               ),

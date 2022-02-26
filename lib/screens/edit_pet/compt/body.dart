@@ -64,8 +64,8 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    super.initState();
     loadingdata();
+    super.initState();
   }
 
   @override
@@ -86,7 +86,7 @@ class _BodyState extends State<Body> {
                     fontSize: size.width * 0.08, color: kheadingcolorlight),
               ),
               SizedBox(
-                height: size.height * 0.02,
+                height: size.height * 0.01,
               ),
               SizedBox(
                 height: size.width * 0.4,
@@ -102,6 +102,8 @@ class _BodyState extends State<Body> {
                           )
                         : widget.pet.imgurl != ""
                             ? CircleAvatar(
+                                backgroundColor:
+                                    Colors.deepPurpleAccent.shade100,
                                 radius: size.width * 0.17,
                                 backgroundImage: NetworkImage(imgurl),
                               )
@@ -165,6 +167,7 @@ class _BodyState extends State<Body> {
                       height: 0,
                     ),
               DropdownList(
+                intialvalue: spec,
                 hinttext: Text("Select pet's species"),
                 onchange: (value) {
                   setState(() {
@@ -177,6 +180,7 @@ class _BodyState extends State<Body> {
                 typelist: listitem,
               ),
               DropdownList(
+                intialvalue: gender,
                 hinttext: Text("Select pet's gender"),
                 onchange: (value) {
                   gender = value as int;
@@ -198,16 +202,19 @@ class _BodyState extends State<Body> {
                   save: (value) {},
                   icon: Icons.color_lens_sharp),
               RoundedButton(
-                text: "Continue",
+                text: "Update",
                 onpress: isupload
                     ? () async {
-                        // print(gender);
+                        print(gender);
                         print(isimgload);
                         if (_formKey.currentState!.validate() &&
                             ((dob != "") && (spec != 0) && (gender != 0))) {
-                          isupload = false;
-                          // ignore: deprecated_member_use
+                          setState(() {
+                            isupload = false;
+                          });
+
                           widget.scaffoldKey.currentState!
+                              // ignore: deprecated_member_use
                               .showSnackBar(new SnackBar(
                             duration: new Duration(seconds: 2),
                             backgroundColor: Colors.purpleAccent.shade700,
@@ -220,7 +227,7 @@ class _BodyState extends State<Body> {
                           ));
                           String id = "petproimg";
                           String imgsetpath =
-                              "users/" + user!.email! + "/" + name;
+                              "users/" + user!.email! + "/" + widget.pet.name;
                           print("pressed");
                           if (isimgload) {
                             print("imgeuploading");
@@ -235,7 +242,7 @@ class _BodyState extends State<Body> {
                               type: widget.pet.type,
                               spec: spec,
                               dob: dob,
-                              color: color,
+                              color: colorcon.text,
                               gender: gender,
                               imgurl: imgurl);
                           int respons = await FireDBHandeler.updatePet(pet);
@@ -250,7 +257,9 @@ class _BodyState extends State<Body> {
                                     builder: (context) =>
                                         SingelPetScreen(pet: pet)));
                           } else {
-                            isupload = true;
+                            setState(() {
+                              isupload = true;
+                            });
                             Customtost.commontost(
                                 "Somthing went wrong", Colors.red);
                           }
@@ -269,7 +278,10 @@ class _BodyState extends State<Body> {
                               "Complete the form", Colors.redAccent);
                         }
                       }
-                    : null,
+                    : () {
+                        Customtost.commontost(
+                            "Uploading is progress", Colors.lightBlue);
+                      },
                 color: kprimaryColor,
                 textcolor: Colors.white,
               ),
@@ -357,11 +369,12 @@ class _BodyState extends State<Body> {
   }
 
   loadingdata() {
-    namecon.text = widget.pet.name;
+    namecon.text = "dsd"; //widget.pet.name;
     colorcon.text = widget.pet.color;
     imgurl = widget.pet.imgurl;
     dob = widget.pet.dob;
     spec = widget.pet.spec;
+    color = widget.pet.color;
     type = widget.pet.type;
     gender = widget.pet.gender;
 

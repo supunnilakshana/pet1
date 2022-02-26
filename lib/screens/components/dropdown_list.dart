@@ -6,12 +6,14 @@ class DropdownList extends StatefulWidget {
   final List<ListItem> typelist;
   final Function(int?) onchange;
   final Text hinttext;
+  final int intialvalue;
 
   const DropdownList({
     Key? key,
     required this.typelist,
     required this.onchange,
     required this.hinttext,
+    this.intialvalue = 0,
   }) : super(key: key);
   @override
   _DropdownListState createState() => _DropdownListState();
@@ -19,6 +21,13 @@ class DropdownList extends StatefulWidget {
 
 class _DropdownListState extends State<DropdownList> {
   int valueitem = 0;
+  @override
+  void initState() {
+    valueitem = widget.intialvalue;
+    setState(() {});
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Textfiledcontainer(

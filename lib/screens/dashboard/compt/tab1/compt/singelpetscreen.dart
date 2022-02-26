@@ -1,11 +1,17 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/constansts.dart';
+import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/dashboard/compt/tab1/compt/singelpet_tabbar.dart';
+import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:pet1/screens/edit_pet/edit_pet_screen.dart';
+import 'package:pet1/services/file_upload.dart';
 
 class SingelPetScreen extends StatelessWidget {
   final Pet pet;
@@ -14,7 +20,7 @@ class SingelPetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -27,11 +33,11 @@ class SingelPetScreen extends StatelessWidget {
                 child: IconButton(
                   focusColor: Colors.pink,
                   icon: Icon(
-                    Icons.edit,
+                    Icons.info_outline,
                     size: size.width * 0.08,
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => EditPetScreen(pet: pet)));
@@ -45,7 +51,39 @@ class SingelPetScreen extends StatelessWidget {
                     Icons.delete_outline_rounded,
                     size: size.width * 0.08,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    PopupDialog.showPopupWarning(
+                        context, "Delete", "Are you sure to delete this pet?",
+                        () async {
+                      int res = await FireDBHandeler.deletedoc(
+                          pet.name, FireDBHandeler.MainUserpath + "pet");
+                      String deletecollectpath =
+                          "users/" + user!.email! + "/" + pet.name;
+                      ImageUploader.deletefile(deletecollectpath, "petproimg");
+                      if (res == 0) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Dasboard(petname: pet.name)));
+                        Fluttertoast.showToast(
+                            msg: "Sucessfully Deleted",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Deleting is failed",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                    });
+                  },
                 )),
           ],
         ),

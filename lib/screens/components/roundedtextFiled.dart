@@ -81,6 +81,7 @@ class _RoundedInputWithControllState extends State<RoundedInputWithControll> {
     return Textfiledcontainer(
       child: TextFormField(
         enabled: widget.isenabel,
+        controller: widget.controller,
         // onChanged: onChange,
         onChanged: widget.onchange,
         onSaved: widget.save,

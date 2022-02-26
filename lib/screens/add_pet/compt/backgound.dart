@@ -23,7 +23,7 @@ class Background extends StatelessWidget {
           // ),
         ),
         child: Stack(
-          alignment: Alignment.center,
+          alignment: Alignment.topCenter,
           children: <Widget>[
             child,
           ],
