@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/constansts.dart';
+import 'package:pet1/screens/dashboard/compt/tab1/compt/singelpetscreen.dart';
 
 class SingelPetItem extends StatefulWidget {
   final Pet pet;
@@ -28,13 +29,12 @@ class _SingelPetItemState extends State<SingelPetItem> {
               //   fiximagelink + data[index].image,
               // ),
 
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => Singelitemfull(
-              //               imglist: imglist,
-              //               product: data[index],
-              //             )));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SingelPetScreen(
+                            pet: widget.pet,
+                          )));
             },
             child: Container(
               // color: Colors.amber,
@@ -57,7 +57,7 @@ class _SingelPetItemState extends State<SingelPetItem> {
                               3.0, // horizontal, move right 10
                               3.0, // vertical, move down 10
                             ),
-                          )
+                          ),
                         ],
                       ),
                       child: ClipRRect(

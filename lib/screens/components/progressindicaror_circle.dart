@@ -18,7 +18,10 @@ class ProgreesCricle extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.all(size.width * 0.04),
+      margin: EdgeInsets.only(
+          left: size.width * 0.05,
+          right: size.width * 0.05,
+          top: size.width * 0.04),
       child: CircularPercentIndicator(
         radius: size.width * 0.25,
         lineWidth: size.width * 0.020,
