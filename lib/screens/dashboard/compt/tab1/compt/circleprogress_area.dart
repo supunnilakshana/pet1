@@ -31,15 +31,15 @@ class _ProgressAreaState extends State<ProgressArea> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextStyle centertextstyle =
-        TextStyle(fontWeight: FontWeight.bold, fontSize: size.width * 0.04);
+        TextStyle(fontWeight: FontWeight.w500, fontSize: size.width * 0.04);
     TextStyle footertextstyle =
-        TextStyle(fontWeight: FontWeight.bold, fontSize: size.width * 0.048);
+        TextStyle(fontWeight: FontWeight.w400, fontSize: size.width * 0.048);
     return Column(
       children: [
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(
-              bottom: size.height * 0.02,
+              // bottom: size.height * 0.02,
               top: size.height * 0.013,
               right: size.width * 0.06,
               left: size.width * 0.06,
@@ -49,7 +49,7 @@ class _ProgressAreaState extends State<ProgressArea> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.pinkAccent.withOpacity(0.2),
+                      color: Colors.deepPurpleAccent.withOpacity(0.3),
                       borderRadius: BorderRadius.all(
                         Radius.circular(size.width * 0.08),
                       ),
@@ -79,7 +79,7 @@ class _ProgressAreaState extends State<ProgressArea> {
                           return Container(
                             child: Column(
                               children: <Widget>[
-                                SizedBox(height: size.height * 0.03),
+                                SizedBox(height: size.height * 0.005),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -263,6 +263,9 @@ class _ProgressAreaState extends State<ProgressArea> {
                                         ),
                                       ),
                                     ]),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                )
                               ],
                             ),
                           );

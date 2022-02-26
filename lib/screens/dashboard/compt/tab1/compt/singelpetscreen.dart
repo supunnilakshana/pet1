@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/dashboard/compt/tab1/compt/singelpet_tabbar.dart';
+import 'package:pet1/screens/edit_pet/edit_pet_screen.dart';
 
 class SingelPetScreen extends StatelessWidget {
   final Pet pet;
@@ -20,6 +21,33 @@ class SingelPetScreen extends StatelessWidget {
           backgroundColor: Colors.deepPurple.shade700,
           elevation: 0,
           shadowColor: Colors.deepPurple.shade700,
+          actions: [
+            Padding(
+                padding: EdgeInsets.only(right: size.width * 0.02),
+                child: IconButton(
+                  focusColor: Colors.pink,
+                  icon: Icon(
+                    Icons.edit,
+                    size: size.width * 0.08,
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditPetScreen(pet: pet)));
+                  },
+                )),
+            Padding(
+                padding: EdgeInsets.only(right: size.width * 0.02),
+                child: IconButton(
+                  focusColor: Colors.pink,
+                  icon: Icon(
+                    Icons.delete_outline_rounded,
+                    size: size.width * 0.08,
+                  ),
+                  onPressed: () {},
+                )),
+          ],
         ),
         body: Container(
           height: double.infinity,

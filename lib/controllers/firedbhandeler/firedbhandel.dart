@@ -47,6 +47,26 @@ class FireDBHandeler {
     return status;
   }
 
+  // register pet
+  static Future<int> updatePet(Pet pet) async {
+    String userpath = user!.email.toString();
+    int status = await checkdocstatus("/users/" + userpath + "/pet", pet.name);
+    if (status == 0) {
+      await firestoreInstance
+          .collection("/users/" + userpath + "/pet")
+          .doc(pet.name)
+          .update(pet.toMap())
+          .then((_) async {
+        await UserdbHandeler.updatePetlist(pet.name);
+        await UserdbHandeler.updatePetcount();
+        print("update pet doc");
+      });
+    } else {
+      print(" pet name not exsists");
+    }
+    return status;
+  }
+
   //get all pet
 
   static Future<List<Pet>> getallPets() async {
