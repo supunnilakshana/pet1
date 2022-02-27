@@ -66,8 +66,8 @@ class StartState extends State<LoadingcheckScreen> {
       print("not exists");
 
       UserdbHandeler.adduser();
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => SelectPetscreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => SelectPetScreenNew()));
     } else {
       print("error");
       return Center(

@@ -28,6 +28,7 @@ class _DasboardState extends State<Dasboard> {
   int _selectedIndex = 1;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  DateTime pre_backpress = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -39,58 +40,77 @@ class _DasboardState extends State<Dasboard> {
       // Tab2(petname: widget.petname),
       Tab3()
     ];
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 20,
-              color: Colors.black.withOpacity(.1),
-            )
-          ],
+    return WillPopScope(
+      onWillPop: () {
+        final timegap = DateTime.now().difference(pre_backpress);
+        final cantExit = timegap >= Duration(seconds: 2);
+        pre_backpress = DateTime.now();
+        if (cantExit) {
+          //show snackbar
+          final snack = SnackBar(
+            content: Text('Press Back button again to Exit'),
+            duration: Duration(seconds: 2),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snack);
+          return Future<bool>.value(false);
+        } else {
+          return Future<bool>.value(true);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: GNav(
-              rippleColor: kprimaryColor,
-              hoverColor: kmenucolor,
-              gap: 8,
-              activeColor: Colors.black,
-              iconSize: 24,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 300),
-              tabBackgroundColor: kmenucolor.withOpacity(0.7),
-              color: Colors.black,
-              tabs: [
-                GButton(
-                  icon: LineIcons.user,
-                  text: 'Account',
-                ),
-                GButton(
-                  icon: LineIcons.home,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: LineIcons.calendarAlt,
-                  text: 'Events',
-                ),
-                GButton(
-                  icon: LineIcons.globe,
-                  text: 'Updates',
-                ),
-              ],
-              selectedIndex: _selectedIndex,
-              onTabChange: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 20,
+                color: Colors.black.withOpacity(.1),
+              )
+            ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+              child: GNav(
+                rippleColor: kprimaryColor,
+                hoverColor: kmenucolor,
+                gap: 8,
+                activeColor: Colors.black,
+                iconSize: 24,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                duration: Duration(milliseconds: 300),
+                tabBackgroundColor: kmenucolor.withOpacity(0.7),
+                color: Colors.black,
+                tabs: [
+                  GButton(
+                    icon: LineIcons.user,
+                    text: 'Account',
+                  ),
+                  GButton(
+                    icon: LineIcons.home,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    icon: LineIcons.calendarAlt,
+                    text: 'Events',
+                  ),
+                  GButton(
+                    icon: LineIcons.globe,
+                    text: 'Updates',
+                  ),
+                ],
+                selectedIndex: _selectedIndex,
+                onTabChange: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+              ),
             ),
           ),
         ),

@@ -8,6 +8,7 @@ import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/custermized_rounded_button.dart';
+import 'package:pet1/screens/components/errorpage.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 
 import 'events/edit_event_screen.dart';
@@ -85,15 +86,49 @@ class _EventTabState extends State<EventTab> {
                             snapshot.data as List<EventModel>;
                         print(data);
                         if (data.isEmpty) {
-                          return Center(
-                              child: Lottie.asset(
-                                  "assets/animations/emptybox.json",
-                                  width: size.width * 0.3)); //nodatafound.json
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset(
+                                  "assets/animations/createinimation.json",
+                                  width: size.width * 0.75),
+                              Text(
+                                "Create event & enjoy with pet",
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: size.width * 0.045,
+                                    color: kheadingcolorlight),
+                              ),
+                            ],
+                          ); //nodatafound.json
                         } else {
                           return Container(
                             child: ListView.builder(
                                 itemCount: data.length,
                                 itemBuilder: (context, indext) {
+                                  String d = "";
+                                  String h = "";
+                                  String m = "";
+                                  RemainingTime remainingTime =
+                                      Date.datetimeBetween(
+                                          data[indext].eventDate,
+                                          data[indext].eventtime);
+
+                                  if (remainingTime.days != 0) {
+                                    d = remainingTime.days.toString() + "days ";
+                                  }
+                                  if (remainingTime.hours != 0) {
+                                    h = remainingTime.hours.toString() +
+                                        " hours ";
+                                  }
+                                  if (remainingTime.minits != 0) {
+                                    m = remainingTime.minits.toString() +
+                                        "minitus ";
+                                  }
+
+                                  String remainintext = d + h + m;
+
                                   return Padding(
                                     padding: EdgeInsets.only(
                                         left: size.width * 0.02,
@@ -103,8 +138,10 @@ class _EventTabState extends State<EventTab> {
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       color: data[indext].status == 0
-                                          ? kmenucolor
-                                          : Colors.blueGrey,
+                                          ? remainingTime.isoverdue
+                                              ? Colors.red.shade400
+                                              : kmenucolor
+                                          : Colors.green.shade400,
                                       child: GestureDetector(
                                         onTap: () {
                                           print(indext);
@@ -161,9 +198,24 @@ class _EventTabState extends State<EventTab> {
                                               children: [
                                                 Icon(Icons.timer,
                                                     color: Colors.yellowAccent),
-                                                Text(" remaining time",
-                                                    style: TextStyle(
-                                                        color: Colors.white))
+                                                SizedBox(
+                                                    width: size.width * 0.01),
+                                                Expanded(
+                                                  child: Text(
+                                                      data[indext].status == 0
+                                                          ? remainingTime
+                                                                  .isoverdue
+                                                              ? "Overdue " +
+                                                                  remainintext
+                                                              : "Remaining " +
+                                                                  remainintext
+                                                          : "Done",
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                )
                                               ],
                                             ),
                                             trailing: GestureDetector(
@@ -230,7 +282,7 @@ class _EventTabState extends State<EventTab> {
                           );
                         }
                       } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
+                        return Errorpage(size: size.width * 0.7);
                       }
                       // By default show a loading spinner.
                       return Center(

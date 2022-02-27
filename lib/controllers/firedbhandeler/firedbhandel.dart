@@ -153,6 +153,8 @@ class FireDBHandeler {
       //return list;
     }
 
+    list.sort((a, b) => b.id.compareTo(a.id));
+
     return list;
   }
 
@@ -216,6 +218,75 @@ class FireDBHandeler {
     return res;
   }
 
+//weight
+
+  static initweightDoc(String petname) async {
+    List<dynamic> initlist = [];
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("weight")
+        .set({"weights": initlist}).then((_) {
+      print("create pet day weight doc");
+    });
+  }
+
+  static Future<int> updateWeight(String petname, Weight data) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    List<dynamic> datalist = [];
+    print("okkkkkkkkkkkkkkkkkk");
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("weight")
+        .get()
+        .then((value) async {
+      datalist = value.data()!["weights"];
+
+      print("--------------------------");
+      datalist.add(data.toMap());
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc("weight")
+          .update({"weights": datalist}).then((_) {
+        res = 1;
+        print("success!");
+      });
+    });
+
+    return res;
+  }
+
+  static Future<List<Weight>> geteWeight(String petname) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    List<dynamic> datalist = [];
+    List<Weight> restrunlist = [];
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("weight")
+        .get()
+        .then((value) async {
+      datalist = value.data()!["weights"];
+
+      datalist.forEach((element) {
+        restrunlist.add(Weight.fromMap(element));
+      });
+      print("--------------------------");
+    });
+
+    return restrunlist;
+  }
   //delete doc
 
 //delete document

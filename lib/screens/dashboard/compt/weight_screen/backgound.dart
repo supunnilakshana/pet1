@@ -12,13 +12,8 @@ class Background extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
+      color: Colors.white,
       height: size.height,
-      decoration: BoxDecoration(
-          /*  image: DecorationImage(
-          image: AssetImage("assets/images/petback.jpg"),
-          fit: BoxFit.cover,
-        ),*/
-          ),
       child: Stack(
         // alignment: Alignment.center,
         children: <Widget>[

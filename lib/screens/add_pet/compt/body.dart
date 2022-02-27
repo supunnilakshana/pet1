@@ -237,6 +237,7 @@ class _BodyState extends State<Body> {
 
                           if (respons == 1) {
                             await FireDBHandeler.initDayactivity(name);
+                            await FireDBHandeler.initweightDoc(name);
                             Customtost.commontost(
                                 "Added Sucessfully", Colors.amber);
 

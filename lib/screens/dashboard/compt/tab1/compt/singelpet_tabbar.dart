@@ -74,7 +74,8 @@ class SingelPetTabBar extends StatelessWidget {
                   ),
                 ],
               ),
-              Expanded(
+              Container(
+                height: size.height * 0.5,
                 child: TabBarView(
                   children: <Widget>[
                     ProgressArea(petname: petname),

@@ -23,14 +23,59 @@ class Date {
     return (to.difference(from).inDays);
   }
 
-  static datetimeBetween() {
+  static RemainingTime datetimeBetween(String fdate, String ftime) {
+    // String fdate = "28/2/2022";
+    // String ftime = "12:00 AM";
+    var fdatelist = fdate.split("/");
+    var ftimelisttemp = ftime.split(" ");
+    var ftimelist = ftimelisttemp[0].split(":");
+    print(fdatelist);
+    print(ftimelist);
+    print(ftimelisttemp);
+    int hour = 0;
+    int temp = 0;
+    temp = int.parse(ftimelist[0]);
+    if (ftimelisttemp[1] == 'AM') {
+      print("inam");
+      if (temp == 12) {
+        hour = 0;
+      } else {
+        hour = temp;
+      }
+    } else {
+      if (temp == 12) {
+        hour = temp;
+      } else {
+        hour = temp + 12;
+      }
+    }
+    print(hour);
     DateTime from;
-    from = DateTime(2021, 09, 26, 22, 15, 0);
+    from = DateTime(
+      int.parse(fdatelist[2]),
+      int.parse(fdatelist[1]),
+      int.parse(fdatelist[0]),
+      hour,
+      int.parse(ftimelist[1]),
+    );
 
     DateTime to = DateTime.now();
-    var d = (to.difference(from));
+    print(to);
+    var d = (from.difference(to));
+    print(d.inHours);
+    print(d.inDays);
+    int days = d.inDays;
+    int dateminit = d.inMinutes;
+    int hours = (dateminit - (days * 60 * 24)) ~/ 60;
+    int minitus = (dateminit - (days * 60 * 24)) % 60;
+    print(minitus.toString() + " " + hours.toString() + " " + days.toString());
+    bool isoverdue = false;
+    if (days.isNegative || hours.isNegative || minitus.isNegative) {
+      isoverdue = true;
+    }
 
-    return (to.difference(from).inDays);
+    return (RemainingTime(
+        days: days, hours: hours, minits: minitus, isoverdue: isoverdue));
   }
 
   static String getDateTimeId() {
@@ -58,21 +103,34 @@ class Date {
     return greeet;
   }
 
-  // static timeBetween(String time, int days) {
-  //   var divdetime = time.split(":");
-  //   var datetime = DateTime.now();
-  //   int chours = datetime.hour;
-  //   int cminitus = datetime.minute;
-  //   int ehours = divdetime[0] as int;
-  //   int eminitus = divdetime[1] as int;
-  //   List<int> between = [];
+  static timeBetween(String time, int days) {
+    var divdetime = time.split(":");
+    var datetime = DateTime.now();
+    int chours = datetime.hour;
+    int cminitus = datetime.minute;
+    int ehours = divdetime[0] as int;
+    int eminitus = divdetime[1] as int;
+    List<int> between = [];
 
-  //   if (days > 0) {
-  //     between[0] = 24 - (max(ehours, chours) - min(ehours, chours));
-  //   } else {
-  //     between[0] = max(ehours, chours) - min(ehours, chours);
-  //   }
-  //   print(between);
-  // }
+    if (days > 0) {
+      between[0] = 24 - (max(ehours, chours) - min(ehours, chours));
+    } else {
+      between[0] = max(ehours, chours) - min(ehours, chours);
+    }
+    print(between);
+  }
+}
 
+class RemainingTime {
+  final int days;
+  final int hours;
+  final int minits;
+  final bool isoverdue;
+
+  RemainingTime({
+    required this.days,
+    required this.hours,
+    required this.minits,
+    required this.isoverdue,
+  });
 }

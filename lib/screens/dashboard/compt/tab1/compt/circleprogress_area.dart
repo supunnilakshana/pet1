@@ -278,7 +278,7 @@ class _ProgressAreaState extends State<ProgressArea> {
                         // By default show a loading spinner.
                         return Center(
                             child: Lottie.asset(
-                                "assets/animations/loadinghand.json",
+                                "assets/animations/loadingdots.json",
                                 width: size.width * 0.75));
                       },
                     ),
