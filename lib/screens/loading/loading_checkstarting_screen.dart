@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,25 @@ class LoadingcheckScreen extends StatefulWidget {
 }
 
 class StartState extends State<LoadingcheckScreen> {
+  String animi1 = "assets/animations/walkingdoganimi.json";
+  String animi2 = "assets/animations/rundogaimi.json";
+  String animi3 = "assets/animations/walkinwtihdoganimi.json";
+  Color color1 = Color(0xFF8456C4);
+  Color color2 = Color(0xFFa72ff7);
+  Color color3 = Color(0xFFc1b3e8);
+  Random random = new Random();
+
   @override
   Widget build(BuildContext context) {
-    return initScreen(context);
+    int scno = random.nextInt(3);
+    print("-----------" + scno.toString());
+    if (scno == 0) {
+      return loadingnewScreen(context, animi1, color1);
+    } else if (scno == 0) {
+      return loadingnewScreen(context, animi2, color2);
+    } else {
+      return loadingnewScreen(context, animi3, color3);
+    }
   }
 
   @override
@@ -87,5 +104,23 @@ class StartState extends State<LoadingcheckScreen> {
             width: size.width * 0.9),
       ),
     ));
+  }
+
+  loadingnewScreen(BuildContext context, String animi, Color color) {
+    Size size = MediaQuery.of(context).size;
+    print("loading");
+    return Scaffold(
+        backgroundColor: color,
+        body: Container(
+          color: color,
+          width: size.width,
+          height: size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Lottie.asset(animi, width: size.width),
+            ],
+          ),
+        ));
   }
 }
