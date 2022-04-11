@@ -1,13 +1,16 @@
 class Weight {
+  final String id;
   final String dateTime;
   final double value;
 
-  Weight(this.dateTime, this.value);
+  Weight(this.id, this.dateTime, this.value);
 
-  Map<String, dynamic> toMap() => {"date": this.dateTime, "value": this.value};
+  Map<String, dynamic> toMap() =>
+      {'id': this.id, "date": this.dateTime, "value": this.value};
 
   Weight.fromMap(Map<dynamic, dynamic> map)
-      : dateTime = map["date"] as String,
+      : id = map["id"] as String,
+        dateTime = map["date"] as String,
         value = map["value"] as double;
 }
 
@@ -91,10 +94,13 @@ class PetDayActivity {
   final List<String> hair;
   final List<String> workout;
 
-  PetDayActivity({required this.bath, required this.teeth, required this.hair, required this.workout});
+  PetDayActivity(
+      {required this.bath,
+      required this.teeth,
+      required this.hair,
+      required this.workout});
 
   Map<String, dynamic> toMap() => {
-    
         "bath": this.bath,
         "teeth": this.teeth,
         "hair": this.hair,
@@ -103,7 +109,7 @@ class PetDayActivity {
 
   PetDayActivity.fromMap(Map<dynamic, dynamic> map)
       : bath = List<String>.from(map["bath"]),
-        teeth =   List<String>.from(map["teeth"]),
-        hair =  List<String>.from(map["hair"]),
-        workout =  List<String>.from(map["workout"]);
+        teeth = List<String>.from(map["teeth"]),
+        hair = List<String>.from(map["hair"]),
+        workout = List<String>.from(map["workout"]);
 }

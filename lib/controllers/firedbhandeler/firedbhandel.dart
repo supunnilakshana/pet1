@@ -263,6 +263,35 @@ class FireDBHandeler {
     return res;
   }
 
+  static Future<int> updateWeightlist(
+      String petname, List<Weight> weightlist) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    try {
+      List<dynamic> datalist = [];
+      print("okkkkkkkkkkkkkkkkkk");
+
+      weightlist.forEach((element) {
+        datalist.add(element.toMap());
+      });
+
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc("weight")
+          .update({"weights": datalist}).then((_) {
+        res = 1;
+        print("success!");
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
   static Future<List<Weight>> geteWeight(String petname) async {
     int res = 0;
     String userpath = user!.email.toString();

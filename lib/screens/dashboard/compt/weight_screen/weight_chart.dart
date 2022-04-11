@@ -224,74 +224,74 @@ class BarChartSample2State extends State<BarChartSample2> {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GroupedFillColorBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
-  final bool animate;
+// class GroupedFillColorBarChart extends StatelessWidget {
+//   final List<charts.Series<dynamic, String>> seriesList;
+//   final bool animate;
 
-  GroupedFillColorBarChart(
-    this.seriesList, {
-    this.animate = false,
-  });
+//   GroupedFillColorBarChart(
+//     this.seriesList, {
+//     this.animate = false,
+//   });
 
-  factory GroupedFillColorBarChart.withSampleData() {
-    return new GroupedFillColorBarChart(
-      _createData(),
-      // Disable animations for image tests.
-      animate: true,
-    );
-  }
+//   factory GroupedFillColorBarChart.withSampleData() {
+//     return new GroupedFillColorBarChart(
+//       _createData(),
+//       // Disable animations for image tests.
+//       animate: true,
+//     );
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
-      // Configure a stroke width to enable borders on the bars.
-      defaultRenderer: new charts.BarRendererConfig(
-          groupingType: charts.BarGroupingType.grouped, strokeWidthPx: 2.0),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return charts.BarChart(
+//       seriesList,
+//       animate: animate,
+//       // Configure a stroke width to enable borders on the bars.
+//       defaultRenderer: new charts.BarRendererConfig(
+//           groupingType: charts.BarGroupingType.grouped, strokeWidthPx: 2.0),
+//     );
+//   }
 
-  /// Create series list with multiple series
-  static List<charts.Series<Weight, String>> _createData() {
-    final weightData = [
-      new Weight("2021/02/25", 15.2),
-      new Weight("2021/02/26", 16.2),
-      new Weight("2021/02/27", 15.2),
-      new Weight("2021/02/26", 16.2),
-      new Weight("2021/02/29", 15.2),
-      new Weight("2021/02/30", 16.2)
-    ];
+//   /// Create series list with multiple series
+//   static List<charts.Series<Weight, String>> _createData() {
+//     final weightData = [
+//       new Weight("2021/02/25", 15.2),
+//       new Weight("2021/02/26", 16.2),
+//       new Weight("2021/02/27", 15.2),
+//       new Weight("2021/02/26", 16.2),
+//       new Weight("2021/02/29", 15.2),
+//       new Weight("2021/02/30", 16.2)
+//     ];
 
-    final tableSalesData = [
-      new Weight("2021/02/25", 15.2),
-      new Weight("2021/02/26", 16.2)
-    ];
+//     final tableSalesData = [
+//       new Weight("2021/02/25", 15.2),
+//       new Weight("2021/02/26", 16.2)
+//     ];
 
-    return [
-      // Blue bars with a lighter center color.
-      new charts.Series<Weight, String>(
-        id: 'Desktop',
-        domainFn: (Weight w, _) => w.dateTime,
-        measureFn: (Weight w, _) => w.value,
-        data: weightData,
-        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
-        fillColorFn: (_, __) =>
-            charts.MaterialPalette.blue.shadeDefault.lighter,
-      ),
-      // Solid red bars. Fill color will default to the series color if no
-      // fillColorFn is configured.
-      new charts.Series<Weight, String>(
-        id: 'Tablet',
-        measureFn: (Weight w, _) => w.value,
-        data: tableSalesData,
-        colorFn: (_, __) => charts.MaterialPalette.purple.shadeDefault,
-        domainFn: (Weight w, _) => w.dateTime,
-      ),
-      // Hollow green bars.
-    ];
-  }
-}
+//     return [
+//       // Blue bars with a lighter center color.
+//       new charts.Series<Weight, String>(
+//         id: 'Desktop',
+//         domainFn: (Weight w, _) => w.dateTime,
+//         measureFn: (Weight w, _) => w.value,
+//         data: weightData,
+//         colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+//         fillColorFn: (_, __) =>
+//             charts.MaterialPalette.blue.shadeDefault.lighter,
+//       ),
+//       // Solid red bars. Fill color will default to the series color if no
+//       // fillColorFn is configured.
+//       new charts.Series<Weight, String>(
+//         id: 'Tablet',
+//         measureFn: (Weight w, _) => w.value,
+//         data: tableSalesData,
+//         colorFn: (_, __) => charts.MaterialPalette.purple.shadeDefault,
+//         domainFn: (Weight w, _) => w.dateTime,
+//       ),
+//       // Hollow green bars.
+//     ];
+//   }
+// }
 
 /// Sample ordinal data type.
 class OrdinalSales {

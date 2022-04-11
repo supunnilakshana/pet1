@@ -48,7 +48,8 @@ class WeightInput {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 print("pressed");
-                Weight w = Weight(Date.getStringdate(), weightValue);
+                Weight w = Weight(
+                    Date.getDateTimeId(), Date.getStringdate(), weightValue);
 
                 int res = await FireDBHandeler.updateWeight(petname, w);
                 if (res == 1) {

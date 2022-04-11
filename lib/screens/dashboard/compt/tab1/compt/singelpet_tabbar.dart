@@ -80,7 +80,7 @@ class SingelPetTabBar extends StatelessWidget {
                   children: <Widget>[
                     ProgressArea(petname: petname),
                     Center(
-                      child: Icon(Icons.directions_transit),
+                      child: Text("screen stil developing"),
                     ),
                   ],
                 ),

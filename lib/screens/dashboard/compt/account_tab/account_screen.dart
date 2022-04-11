@@ -49,6 +49,9 @@ class _AccountScreenState extends State<AccountScreen> {
       drawer: MenuDrawer(
         gauth: gauth,
       ),
+      body: Center(
+        child: Text("screen stil developing"),
+      ),
     );
   }
 }

@@ -5,6 +5,8 @@ import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/errorpage.dart';
+import 'package:pet1/screens/components/popup_dilog.dart';
+import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/compt/tab1/compt/weight_input.dart';
 import 'package:pet1/screens/dashboard/compt/weight_screen/weighbar_chart.dart';
 
@@ -32,6 +34,8 @@ class _WeightScreenState extends State<WeightScreen> {
     futureData = FireDBHandeler.geteWeight(widget.petname);
     super.initState();
   }
+
+  bool candelete = true;
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +104,63 @@ class _WeightScreenState extends State<WeightScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
-                                  child: Column(children: [
-                                    Text(element.value.toString(),
-                                        style: TextStyle(
-                                            fontSize: size.width * 0.045,
-                                            fontWeight: FontWeight.w500))
+                                  child: Row(children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(element.value.toString(),
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.045,
+                                                fontWeight: FontWeight.w500)),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: GestureDetector(
+                                            onTap: candelete
+                                                ? () async {
+                                                    PopupDialog.showPopupWarning(
+                                                        context,
+                                                        'Are you sure to delete?',
+                                                        "weight date:" +
+                                                            element.dateTime,
+                                                        () async {
+                                                      List<Weight> tempdata =
+                                                          data;
+                                                      print(tempdata.length);
+                                                      tempdata.removeWhere(
+                                                          (item) =>
+                                                              item.id ==
+                                                              element.id);
+                                                      print(tempdata.length);
+                                                      int res =
+                                                          await FireDBHandeler
+                                                              .updateWeightlist(
+                                                                  widget
+                                                                      .petname,
+                                                                  tempdata);
+                                                      // int res = 1;
+
+                                                      if (res == 1) {
+                                                        Customtost.commontost(
+                                                            "Succefully deleted",
+                                                            Colors.greenAccent);
+                                                      } else {
+                                                        Customtost.commontost(
+                                                            "Somthing went wrong",
+                                                            Colors.redAccent);
+                                                      }
+                                                      loaddata();
+                                                      widget.reloadbutton();
+                                                    });
+                                                  }
+                                                : null,
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.blueGrey
+                                                  .withOpacity(0.8),
+                                            )))
                                   ]),
                                 ),
                               ]));

@@ -9,6 +9,7 @@ import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
+import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/compt/tab1/compt/singelpet_tabbar.dart';
 import 'package:pet1/screens/dashboard/compt/weight_screen/weight_screen.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
@@ -224,55 +225,61 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(size.width * 0.05)),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          right: size.width * 0.02),
-                                      child: Image.asset(
-                                        "assets/icons/vaccineiconnon.png",
-                                        height: size.height * 0.05,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Customtost.commontost(
+                                        "button stil developing", Colors.amber);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            right: size.width * 0.02),
+                                        child: Image.asset(
+                                          "assets/icons/vaccineiconnon.png",
+                                          height: size.height * 0.05,
+                                        ),
                                       ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Vaccine",
-                                          style: TextStyle(
-                                              fontSize: size.width * 0.03,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        Text(
-                                          "2/3",
-                                          style: TextStyle(
-                                              fontSize: size.width * 0.055,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                        // RichText(
-                                        //   text: TextSpan(
-                                        //     text: "51",
-                                        //     style: TextStyle(
-                                        //         fontSize: size.width * 0.055,
-                                        //         color: Colors.white,
-                                        //         fontWeight: FontWeight.w900),
-                                        //     children: <TextSpan>[
-                                        //       TextSpan(
-                                        //           text: 'KG',
-                                        //           style: TextStyle(
-                                        //               fontSize: size.width * 0.03,
-                                        //               color: Colors.white,
-                                        //               fontWeight: FontWeight.w400)),
-                                        //     ],
-                                        //   ),
-                                        // )
-                                      ],
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                    ),
-                                  ],
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "Vaccine",
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.03,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Text(
+                                            "2/3",
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.055,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                          // RichText(
+                                          //   text: TextSpan(
+                                          //     text: "51",
+                                          //     style: TextStyle(
+                                          //         fontSize: size.width * 0.055,
+                                          //         color: Colors.white,
+                                          //         fontWeight: FontWeight.w900),
+                                          //     children: <TextSpan>[
+                                          //       TextSpan(
+                                          //           text: 'KG',
+                                          //           style: TextStyle(
+                                          //               fontSize: size.width * 0.03,
+                                          //               color: Colors.white,
+                                          //               fontWeight: FontWeight.w400)),
+                                          //     ],
+                                          //   ),
+                                          // )
+                                        ],
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               )),
                               SizedBox(

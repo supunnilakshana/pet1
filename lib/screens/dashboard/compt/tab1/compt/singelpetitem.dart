@@ -18,6 +18,12 @@ class SingelPetItem extends StatefulWidget {
 class _SingelPetItemState extends State<SingelPetItem> {
   bool isShadow = false;
   @override
+  void initState() {
+    setshadow();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
@@ -47,17 +53,21 @@ class _SingelPetItemState extends State<SingelPetItem> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(size.width * 0.05)),
                         boxShadow: [
-                          BoxShadow(
-                            color: Colors.deepPurple.shade100,
-                            blurRadius:
-                                2.0, // has the effect of softening the shadow
-                            spreadRadius:
-                                2.0, // has the effect of extending the shadow
-                            offset: Offset(
-                              3.0, // horizontal, move right 10
-                              3.0, // vertical, move down 10
-                            ),
-                          ),
+                          isShadow
+                              ? BoxShadow(
+                                  color: Colors.deepPurple.shade100,
+                                  blurRadius:
+                                      2.0, // has the effect of softening the shadow
+                                  spreadRadius:
+                                      2.0, // has the effect of extending the shadow
+                                  offset: Offset(
+                                    3.0, // horizontal, move right 10
+                                    3.0, // vertical, move down 10
+                                  ),
+                                )
+                              : BoxShadow(
+                                  color: Colors.white,
+                                ),
                         ],
                       ),
                       child: ClipRRect(
@@ -96,5 +106,12 @@ class _SingelPetItemState extends State<SingelPetItem> {
                 ],
               ),
             )));
+  }
+
+  setshadow() {
+    Future.delayed(const Duration(milliseconds: 3700), () {
+      isShadow = true;
+      setState(() {});
+    });
   }
 }

@@ -32,7 +32,7 @@ class StartState extends State<LoadingcheckScreen> {
     print("-----------" + scno.toString());
     if (scno == 0) {
       return loadingnewScreen(context, animi1, color1);
-    } else if (scno == 0) {
+    } else if (scno == 1) {
       return loadingnewScreen(context, animi2, color2);
     } else {
       return loadingnewScreen(context, animi3, color3);

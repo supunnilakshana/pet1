@@ -38,6 +38,7 @@ class _HomeTabState extends State<HomeTab> {
   var gauth = GoogleSignInProvider();
   late String greate;
   String name = "";
+  bool isshadow = false;
 
   @override
   void initState() {
