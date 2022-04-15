@@ -109,8 +109,8 @@ class _HomeEventItemState extends State<HomeEventItem> {
               );
             } else {
               return Container(
-                  child: Lottie.asset("assets/animations/loadingdots.json",
-                      height: size.height * 0.26));
+                  child: Lottie.asset("assets/animations/peteventhome.json",
+                      width: size.width * 0.5));
             }
           } else if (snapshot.hasError) {
             return Errorpage(size: size.width * 0.56);

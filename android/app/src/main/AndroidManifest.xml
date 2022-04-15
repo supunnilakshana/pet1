@@ -6,6 +6,7 @@
    <application
         android:label="Petzy"
         android:icon="@mipmap/launcher_icon">
+        
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -50,6 +51,10 @@
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" 
         android:value="@string/facebook_app_id"/>
+        <activity
+    android:name="com.yalantis.ucrop.UCropActivity"
+    android:screenOrientation="portrait"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     
     <activity android:name="com.facebook.FacebookActivity"
         android:configChanges=

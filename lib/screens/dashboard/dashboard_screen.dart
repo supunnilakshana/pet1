@@ -38,7 +38,7 @@ class _DasboardState extends State<Dasboard> {
       EventTab(petname: widget.petname),
       // Tab1(gauth: gauth, pd: pd, petname: widget.petname),
       // Tab2(petname: widget.petname),
-      Tab3()
+      PetNewsTab()
     ];
     return WillPopScope(
       onWillPop: () {

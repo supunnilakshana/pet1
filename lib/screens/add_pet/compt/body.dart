@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
@@ -38,6 +39,12 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
+enum AppState {
+  free,
+  picked,
+  cropped,
+}
+
 class _BodyState extends State<Body> {
   PetdbHandeler pd = PetdbHandeler();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -53,9 +60,18 @@ class _BodyState extends State<Body> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   bool isimgload = false;
+  bool iscroped = false;
   late Uint8List imgunitfile;
   final user = FirebaseAuth.instance.currentUser;
   String imgurl = "";
+  File? cropedimg;
+  late AppState state;
+
+  @override
+  void initState() {
+    super.initState();
+    state = AppState.free;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +112,10 @@ class _BodyState extends State<Body> {
                   clipBehavior: Clip.none,
                   fit: StackFit.expand,
                   children: [
-                    _image != null
+                    cropedimg != null
                         ? CircleAvatar(
                             radius: size.width * 0.17,
-                            backgroundImage: FileImage(File(_image!.path)),
+                            backgroundImage: FileImage(File(cropedimg!.path)),
                           )
                         : CircleAvatar(
                             radius: size.width * 0.17,
@@ -109,7 +125,7 @@ class _BodyState extends State<Body> {
                         bottom: 0,
                         right: -25,
                         child: RawMaterialButton(
-                          onPressed: () {
+                          onPressed: () async {
                             FocusScope.of(context).unfocus();
                             _showPicker(context);
                           },
@@ -217,7 +233,7 @@ class _BodyState extends State<Body> {
                           String imgsetpath =
                               "users/" + user!.email! + "/" + name;
                           print("pressed");
-                          if (isimgload) {
+                          if (iscroped) {
                             print("imgeuploading");
                             imgurl = await ImageUploader.uploadData(
                                 imgunitfile, imgsetpath, id);
@@ -289,7 +305,7 @@ class _BodyState extends State<Body> {
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
+      lastDate: DateTime(2055),
     );
     if (selected != null && selected != selectedDate)
       setState(() {
@@ -298,7 +314,7 @@ class _BodyState extends State<Body> {
       });
   }
 
-  _imgFromCamera() async {
+  Future<Null> _imgFromCamera() async {
     XFile? image =
         await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
 
@@ -306,23 +322,20 @@ class _BodyState extends State<Body> {
       setState(() {
         _image = image;
 
-        File imageFile = new File(_image!.path);
-        imgunitfile = imageFile.readAsBytesSync();
         isimgload = true;
         // widget.onimgfileChanged(base64Image);
       });
     }
   }
 
-  _imgFromGallery() async {
+  Future<Null> _imgFromGallery() async {
     XFile? image =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     if (image != null) {
       setState(() {
         _image = image;
-        File imageFile = new File(_image!.path);
-        imgunitfile = imageFile.readAsBytesSync();
+
         isimgload = true;
         // widget.onimgfileChanged(base64Image);
       });
@@ -340,15 +353,16 @@ class _BodyState extends State<Body> {
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
                       title: new Text('Photo Library'),
-                      onTap: () {
-                        _imgFromGallery();
+                      onTap: () async {
+                        await _imgFromGallery();
+                        _cropImage();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('Camera'),
-                    onTap: () {
-                      _imgFromCamera();
+                    onTap: () async {
+                      await _imgFromCamera();
                       Navigator.of(context).pop();
                     },
                   ),
@@ -357,5 +371,46 @@ class _BodyState extends State<Body> {
             ),
           );
         });
+  }
+
+  Future<Null> _cropImage() async {
+    if (isimgload) {
+      File? croppedFile = await ImageCropper().cropImage(
+          sourcePath: _image!.path,
+          aspectRatioPresets: Platform.isAndroid
+              ? [
+                  CropAspectRatioPreset.square,
+                  // CropAspectRatioPreset.original,
+                ]
+              : [
+                  CropAspectRatioPreset.original,
+                  // CropAspectRatioPreset.square,
+                ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Crop your image',
+              toolbarColor: Colors.deepPurpleAccent,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            title: 'Crop your image',
+          ));
+      if (croppedFile != null) {
+        print("croped");
+        cropedimg = croppedFile;
+        imgunitfile = croppedFile.readAsBytesSync();
+        setState(() {
+          iscroped = true;
+          state = AppState.cropped;
+        });
+      }
+    }
+  }
+
+  void _clearImage() {
+    cropedimg = null;
+    setState(() {
+      state = AppState.free;
+    });
   }
 }

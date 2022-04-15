@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
+import 'package:pet1/controllers/models/Newsmodel.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/controllers/validators/date.dart';
@@ -316,6 +317,25 @@ class FireDBHandeler {
 
     return restrunlist;
   }
+
+  //news
+  static Future<List<NewsModel>> getallPetNews() async {
+    List<NewsModel> enlist = [];
+    NewsModel enmodel;
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection("eventnews").get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      print(a.data());
+      enmodel = NewsModel.fromMap(a.data() as Map<String, dynamic>);
+      enlist.add(enmodel);
+      print("passed");
+    }
+    print(enlist);
+    enlist.sort((a, b) => b.id.compareTo(a.id));
+    return enlist;
+  }
+
   //delete doc
 
 //delete document
