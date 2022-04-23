@@ -39,7 +39,8 @@ class MenuDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text(''),
+            leading: Icon(Icons.account_circle),
+            title: Text('Reset Password'),
             onTap: () {
               Navigator.pop(context);
             },
@@ -47,19 +48,22 @@ class MenuDrawer extends StatelessWidget {
           SizedBox(
             height: size.height * 0.3,
           ),
-          CustRoundedButton(
-            height: size.height * 0.07,
-            width: size.width * 0.3,
-            text: "Logout",
-            onpress: () async {
-              PopupDialog.showPopuplogout(
-                  context, "Signout", "Do you want to signout ? ", () async {
-                await gauth.logout();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-                print("logingout");
-              });
-            },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustRoundedButton(
+              height: size.height * 0.06,
+              width: size.width * 0.25,
+              text: "Logout",
+              onpress: () async {
+                PopupDialog.showPopuplogout(
+                    context, "Signout", "Do you want to signout ? ", () async {
+                  await gauth.logout();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  print("logingout");
+                });
+              },
+            ),
           )
         ],
       ),

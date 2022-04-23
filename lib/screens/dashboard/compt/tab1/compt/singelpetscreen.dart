@@ -51,7 +51,7 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
                 child: IconButton(
                   focusColor: Colors.pink,
                   icon: Icon(
-                    Icons.info_outline,
+                    Icons.edit,
                     size: size.width * 0.08,
                   ),
                   onPressed: () {
@@ -365,7 +365,9 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
 
   loadweight() async {
     List<Weight> weightlist = await FireDBHandeler.geteWeight(widget.pet.name);
-    weight = weightlist.last.value.toString() + " Kg";
+    if (weightlist.isNotEmpty) {
+      weight = weightlist.last.value.toString() + " Kg";
+    }
     setState(() {});
   }
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pet1/services/notrification_service/notification_service.dart';
 
 class Test1 extends StatefulWidget {
   final String title;
@@ -42,11 +43,17 @@ class _Test1State extends State<Test1> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepOrange,
         onPressed: () {
-          if (state == AppState.free)
-            _pickImage();
-          else if (state == AppState.picked)
-            _cropImage();
-          else if (state == AppState.cropped) _clearImage();
+          // NotificationService.showTimednotication(
+          //     1, "titelnotification", "contextnotification");
+          // NotificationService.shownotication(
+          //     2, "titelnotification", "contextnotification");
+
+          // if (state == AppState.free)
+          //   _pickImage();
+          // else if (state == AppState.picked)
+          //   _cropImage();
+
+          // else if (state == AppState.cropped) _clearImage();
         },
         child: _buildButtonIcon(),
       ),

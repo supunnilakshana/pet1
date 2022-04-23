@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/welcom/wecomecreen_new.dart';
+import 'package:pet1/services/notrification_service/notification_service.dart';
+import 'package:pet1/test/test1.dart';
 import 'package:provider/provider.dart';
 import 'controllers/authentication/google/GoogleSignAuth.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await NotificationService().init();
 
   runApp(MyApp());
 }
@@ -29,6 +32,6 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.balsamiqSansTextTheme(
               Theme.of(context).textTheme,
             )),
-        home: WelcomeScreenNew(),
+        home: Test1(title: "title"),
       ));
 }

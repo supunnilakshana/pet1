@@ -16,6 +16,7 @@ import 'package:pet1/screens/login/loginscreen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen_new.dart';
 
+import '../drawer.dart';
 import 'compt/circleprogress_area.dart';
 import 'compt/homeeventarea.dart';
 import 'compt/singelpetitem.dart';
@@ -39,6 +40,7 @@ class _HomeTabState extends State<HomeTab> {
   late String greate;
   String name = "";
   bool isshadow = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -52,6 +54,7 @@ class _HomeTabState extends State<HomeTab> {
     setdisplayname();
     greate = Date.greeting();
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
           actions: [
             Container(
@@ -69,7 +72,9 @@ class _HomeTabState extends State<HomeTab> {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _scaffoldKey.currentState!.openDrawer();
+            },
             icon: Icon(
               Icons.menu_open_sharp,
               color: kprimaryColor.withOpacity(0.8),
@@ -77,6 +82,9 @@ class _HomeTabState extends State<HomeTab> {
             ),
           )),
       backgroundColor: Colors.white,
+      drawer: MenuDrawer(
+        gauth: gauth,
+      ),
       body: Container(
         child: ListView(
           children: [
