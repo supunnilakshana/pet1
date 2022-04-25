@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,18 +16,21 @@ import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EditEvent extends StatefulWidget {
+class EditVitamin extends StatefulWidget {
   final String petname;
-  final EventModel eventModel;
+  final Vitamin vitaminModel;
 
-  const EditEvent({Key? key, required this.petname, required this.eventModel})
+  const EditVitamin(
+      {Key? key, required this.petname, required this.vitaminModel})
       : super(key: key);
   @override
-  _EditEventState createState() => _EditEventState();
+  _EditVitaminState createState() => _EditVitaminState();
 }
 
-class _EditEventState extends State<EditEvent> {
+class _EditVitaminState extends State<EditVitamin> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final firestoreInstance = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser;
 
   final titelcontroller = TextEditingController();
   final descontroller = TextEditingController();
@@ -37,7 +41,10 @@ class _EditEventState extends State<EditEvent> {
   String description = "";
   String _setTime = "";
   String _hour = "", _minute = "", _time = "";
-  int status = 0;
+  int repeatcount = 0;
+  bool isrepeat = true;
+  String repeatType = "D";
+  String repeateString = "Day";
 
   DateTime selectedDate = DateTime.now();
 
@@ -78,53 +85,54 @@ class _EditEventState extends State<EditEvent> {
                     width: size.width * 0.08,
                   )),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: size.width * 0.04),
-              child: GestureDetector(
-                  onTap: donestatus
-                      ? () async {
-                          PopupDialog.showPopupDilog(
-                              context, "Hello", "Did you done this event ?",
-                              () async {
-                            setState(() {
-                              donestatus = false;
-                            });
-                            EventModel event = widget.eventModel;
-                            event.status = 1;
-                            int res = await FireDBHandeler.updateEvent(event);
-                            if (res == 0) {
-                              loaddata();
-                              Fluttertoast.showToast(
-                                  msg: "Done",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  backgroundColor: Colors.green,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                            } else {
-                              setState(() {
-                                donestatus = true;
-                              });
-                              Fluttertoast.showToast(
-                                  msg: "Updating is failed",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                            }
-                          });
-                        }
-                      : null,
-                  child: Image.asset(
-                    "assets/icons/checkicon.png",
-                    width: size.width * 0.08,
-                  )),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: size.width * 0.04),
+            //   child: GestureDetector(
+            //       onTap: donestatus
+            //           ? () async {
+            //               PopupDialog.showPopupDilog(
+            //                   context, "Hello", "Did you done this event ?",
+            //                   () async {
+            //                 setState(() {
+            //                   donestatus = false;
+            //                 });
+            //                 vitaminModel event = widget.vitaminModel;
+            //                 event.status = 1;
+            //                 int res = await FireDBHandeler.updateEvent(event);
+            //                 if (res == 0) {
+            //                   loaddata();
+            //                   Fluttertoast.showToast(
+            //                       msg: "Done",
+            //                       toastLength: Toast.LENGTH_SHORT,
+            //                       gravity: ToastGravity.BOTTOM,
+            //                       backgroundColor: Colors.green,
+            //                       textColor: Colors.white,
+            //                       fontSize: 16.0);
+            //                 } else {
+            //                   setState(() {
+            //                     donestatus = true;
+            //                   });
+            //                   Fluttertoast.showToast(
+            //                       msg: "Updating is failed",
+            //                       toastLength: Toast.LENGTH_SHORT,
+            //                       gravity: ToastGravity.BOTTOM,
+            //                       backgroundColor: Colors.red,
+            //                       textColor: Colors.white,
+            //                       fontSize: 16.0);
+            //                 }
+            //               });
+            //             }
+            //           : null,
+            //       child: Image.asset(
+            //         "assets/icons/checkicon.png",
+            //         width: size.width * 0.08,
+            //       )),
+            // ),
             Padding(
               padding: EdgeInsets.only(right: size.width * 0.04),
               child: GestureDetector(
                   onTap: () async {
+                    String userpath = user!.email.toString();
                     PopupDialog.showPopupWarning(
                         context, "Delete", "Are you sure to delete this event?",
                         () async {
@@ -132,8 +140,13 @@ class _EditEventState extends State<EditEvent> {
                         donestatus = false;
                       });
                       int res = await FireDBHandeler.deletedoc(
-                          widget.eventModel.id,
-                          FireDBHandeler.MainUserpath + "event");
+                          widget.vitaminModel.id,
+                          FireDBHandeler.MainUserpath +
+                              "/users/" +
+                              userpath +
+                              "/pet/" +
+                              widget.petname +
+                              "/vitamins");
                       if (res == 0) {
                         Navigator.pop(context, true);
                         Fluttertoast.showToast(
@@ -177,7 +190,7 @@ class _EditEventState extends State<EditEvent> {
                       height: size.height * 0.02,
                     ),
                     Text(
-                      "Edit your event",
+                      "Edit your pet's Vitamin",
                       style: TextStyle(
                           fontSize: size.width * 0.08,
                           color: kheadingcolorlight),
@@ -204,7 +217,7 @@ class _EditEventState extends State<EditEvent> {
                                 borderSide:
                                     BorderSide(width: 1, color: kprimaryColor),
                               ),
-                              labelText: 'Titel',
+                              labelText: 'Vitamin Name',
                             ),
                             onChanged: (value) {
                               titel = value;
@@ -269,6 +282,165 @@ class _EditEventState extends State<EditEvent> {
                                 : null,
                           )),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(" Vitamin Repeat   ",
+                                style: TextStyle(
+                                  fontSize: size.width * 0.04,
+                                  color: Colors.black.withOpacity(0.7),
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            Container(
+                              child: Switch(
+                                onChanged: (value) {
+                                  isrepeat = value;
+                                  setState(() {});
+                                },
+                                value: isrepeat,
+                                activeColor: Colors.deepPurpleAccent,
+                                activeTrackColor: Colors.deepPurple.shade200,
+                                inactiveThumbColor: Colors.deepPurple.shade300,
+                                inactiveTrackColor: Colors.deepPurple.shade200,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    isrepeat
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: size.width * 0.9,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          Text("Repeat  ",
+                                              style: TextStyle(
+                                                fontSize: size.width * 0.04,
+                                                color: Colors.black
+                                                    .withOpacity(0.7),
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Container(
+                                            width: size.width * 0.19,
+                                            padding: EdgeInsets.all(
+                                                size.width * 0.007),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        size.width * 0.01),
+                                                color: kprimaryColor),
+                                            child: Row(
+                                              children: [
+                                                InkWell(
+                                                    onTap: () {
+                                                      if (repeatcount > 0) {
+                                                        setState(() {
+                                                          repeatcount--;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      color: Colors.white,
+                                                      size: size.width * 0.04,
+                                                    )),
+                                                Container(
+                                                  width: size.width * 0.075,
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          size.width * 0.007),
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          size.width * 0.007,
+                                                      vertical:
+                                                          size.width * 0.005),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              size.width *
+                                                                  0.007),
+                                                      color: Colors.white),
+                                                  child: Text(
+                                                    repeatcount.toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize:
+                                                            size.width * 0.04),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                    onTap: () {
+                                                      if (repeatcount < 1000) {
+                                                        setState(() {
+                                                          repeatcount++;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: Colors.white,
+                                                      size: size.width * 0.04,
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: size.width * 0.02),
+                                      child: PopupMenuButton(
+                                          color: Colors.deepPurpleAccent,
+                                          child: Text(repeateString,
+                                              style: TextStyle(
+                                                fontSize: size.width * 0.04,
+                                                color: Colors.black
+                                                    .withOpacity(0.7),
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          onSelected: (value) {
+                                            if (value == 1) {
+                                              repeatType = "D";
+                                              repeateString = "Days";
+                                            } else {
+                                              repeatType = "H";
+                                              repeateString = "Hours";
+                                            }
+                                            setState(() {});
+                                          },
+                                          itemBuilder: (context) => [
+                                                PopupMenuItem(
+                                                  child: Text(
+                                                    "Days",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  value: 1,
+                                                ),
+                                                PopupMenuItem(
+                                                  child: Text("Hours",
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  value: 2,
+                                                )
+                                              ]),
+                                    )
+                                  ],
+                                )),
+                          )
+                        : SizedBox(
+                            height: 0,
+                          ),
                     Container(
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -285,7 +457,7 @@ class _EditEventState extends State<EditEvent> {
                                 borderSide:
                                     BorderSide(width: 1, color: kprimaryColor),
                               ),
-                              labelText: 'Description',
+                              labelText: 'Note',
                               border: OutlineInputBorder(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(20))),
@@ -299,7 +471,7 @@ class _EditEventState extends State<EditEvent> {
                             onSaved: (value) {},
                             keyboardType: TextInputType.multiline,
                             textInputAction: TextInputAction.newline,
-                            minLines: 8,
+                            minLines: 3,
                             maxLines: null),
                       ),
                     ),
@@ -333,21 +505,31 @@ class _EditEventState extends State<EditEvent> {
                                           eventtime != "Choose Time") {
                                         print("ok");
 
-                                        EventModel event = EventModel(
-                                            widget.eventModel.id,
-                                            titelcontroller.text,
-                                            description,
-                                            eventdate,
-                                            eventtime,
-                                            DateTime.now().toString(),
-                                            widget.eventModel.status);
+                                        int repat = 0;
+                                        if (isrepeat) {
+                                          repat = 1;
+                                        } else {
+                                          repat = 0;
+                                        }
+
+                                        Vitamin vitamin = Vitamin(
+                                            id: widget.vitaminModel.id,
+                                            name: titelcontroller.text,
+                                            description: description,
+                                            vitCreateDate:
+                                                DateTime.now().toString(),
+                                            vitNextDate: eventdate,
+                                            repatestatus: repat,
+                                            repatecount: repeatcount,
+                                            repatetype: repeatType,
+                                            vitNextTime: eventtime);
                                         int res =
-                                            await FireDBHandeler.updateEvent(
-                                                event);
+                                            await FireDBHandeler.updateVitamin(
+                                                vitamin, widget.petname);
                                         if (res == 0) {
                                           Navigator.pop(context, true);
                                           Fluttertoast.showToast(
-                                              msg: "Event is updated",
+                                              msg: "Vitamin is updated",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               backgroundColor: Colors.green,
@@ -361,7 +543,7 @@ class _EditEventState extends State<EditEvent> {
                                             donestatus = true;
                                           });
                                           Fluttertoast.showToast(
-                                              msg: "Event updating is failed",
+                                              msg: "Vitamin updating is failed",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               backgroundColor: Colors.red,
@@ -372,7 +554,7 @@ class _EditEventState extends State<EditEvent> {
                                         PopupDialog.showPopupErorr(
                                             context,
                                             "Error",
-                                            "Please choose event date and time..");
+                                            "Please choose vitmain date and time..");
                                       }
                                     }
                                   }
@@ -433,12 +615,20 @@ class _EditEventState extends State<EditEvent> {
   }
 
   loaddata() {
-    titelcontroller.text = widget.eventModel.title;
-    descontroller.text = widget.eventModel.description;
-    eventdate = widget.eventModel.eventDate;
-    eventtime = widget.eventModel.eventtime;
-    status = widget.eventModel.status;
-    if (widget.eventModel.status == 0) {
+    titelcontroller.text = widget.vitaminModel.name;
+    descontroller.text = widget.vitaminModel.description;
+    eventdate = widget.vitaminModel.vitNextDate;
+    eventtime = widget.vitaminModel.vitNextTime;
+    if (widget.vitaminModel.repatestatus == 1) {
+      isrepeat = true;
+    } else {
+      isrepeat = false;
+    }
+    repeatcount = widget.vitaminModel.repatecount;
+    repeatType = widget.vitaminModel.repatetype;
+
+    // status = widget.vitaminModel.status;
+    if (widget.vitaminModel.repatestatus == 1) {
       donestatus = true;
     } else {
       donestatus = false;

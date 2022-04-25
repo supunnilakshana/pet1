@@ -336,6 +336,184 @@ class FireDBHandeler {
     return enlist;
   }
 
+  //init vitamins and vaccine
+
+//vitamins
+
+//---------------------------------------vitamins-----------------------------------------
+  static Future<int> addVitamin(Vitamin model, String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vitamins";
+    int status = await checkdocstatus(collectionpath, model.id);
+    if (status == 1) {
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc(model.id)
+          .set(model.toMap())
+          .then((_) {
+        print("create doc");
+      });
+    } else {
+      print(" this doc all ready exsists");
+    }
+    return status;
+  }
+
+  static Future<Vitamin> getVitamin(String id, String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vitamins";
+    Vitamin model;
+
+    DocumentSnapshot documentSnapshot =
+        await firestoreInstance.collection(collectionpath).doc(id).get();
+    model = Vitamin.fromMap(documentSnapshot.data() as Map<String, dynamic>);
+    return model;
+  }
+
+  //update event
+  static Future<int> updateVitamin(Vitamin model, String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vitamins";
+    int status = await checkdocstatus(collectionpath, model.id);
+    if (status == 0) {
+      firestoreInstance
+          .collection(collectionpath)
+          .doc(model.id)
+          .update(model.toMap())
+          .then((_) {
+        print("update vitamin doc");
+      });
+    } else {
+      print(" no exits vitamin");
+    }
+    return status;
+  }
+
+  static Future<List<Vitamin>> getallVitamin(String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vitamins";
+    List<Vitamin> list = [];
+    Vitamin vitaminModel;
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection(collectionpath).get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      // EventModel = EventModel.fromSnapshot(a);
+      vitaminModel = Vitamin.fromMap(a.data() as Map<String, dynamic>);
+      list.add(vitaminModel);
+      print(vitaminModel.id);
+      //return list;
+    }
+
+    list.sort((a, b) => b.id.compareTo(a.id));
+
+    return list;
+  }
+
+//vitamin history
+
+  static initVitHistoryDoc(String petname) async {
+    List<dynamic> initlist = [];
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("vitaminHistory")
+        .set({"history": initlist}).then((_) {
+      print("create pet day weight doc");
+    });
+  }
+
+  static Future<int> updateVitHistory(
+      String petname, VitaminHistoryModel data) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    List<dynamic> datalist = [];
+    print("okkkkkkkkkkkkkkkkkk");
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("vitaminHistory")
+        .get()
+        .then((value) async {
+      datalist = value.data()!["history"];
+
+      print("--------------------------");
+      datalist.add(data.toMap());
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc("vitaminHistory")
+          .update({"history": datalist}).then((_) {
+        res = 1;
+        print("success!");
+      });
+    });
+
+    return res;
+  }
+
+  static Future<int> updateVitHistorylist(
+      String petname, List<VitaminHistoryModel> weightlist) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    try {
+      List<dynamic> datalist = [];
+      print("okkkkkkkkkkkkkkkkkk");
+
+      weightlist.forEach((element) {
+        datalist.add(element.toMap());
+      });
+
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc("vitaminHistory")
+          .update({"history": datalist}).then((_) {
+        res = 1;
+        print("success!");
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
+  static Future<List<VitaminHistoryModel>> getVitHistory(String petname) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/petfundata";
+
+    List<dynamic> datalist = [];
+    List<VitaminHistoryModel> restrunlist = [];
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc("vitaminHistory")
+        .get()
+        .then((value) async {
+      datalist = value.data()!["history"];
+
+      datalist.forEach((element) {
+        restrunlist.add(VitaminHistoryModel.fromMap(element));
+      });
+      print("--------------------------");
+    });
+
+    return restrunlist;
+  }
+
   //delete doc
 
 //delete document

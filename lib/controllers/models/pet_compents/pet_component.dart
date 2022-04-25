@@ -35,25 +35,76 @@ class Vaccine {
         status = map["status"] as int;
 }
 
+class VitaminHistoryModel {
+  final String id;
+  final String dateTime;
+  final String vaccineid;
+  final String vaccinename;
+
+  VitaminHistoryModel(
+      {required this.id,
+      required this.dateTime,
+      required this.vaccineid,
+      required this.vaccinename});
+
+  Map<String, dynamic> toMap() => {
+        'id': this.id,
+        "date": this.dateTime,
+        "vaccineid": this.vaccineid,
+        'vaccinename': this.vaccinename
+      };
+
+  VitaminHistoryModel.fromMap(Map<dynamic, dynamic> map)
+      : id = map["id"] as String,
+        dateTime = map["date"] as String,
+        vaccineid = map["vaccineid"] as String,
+        vaccinename = map["vaccinename"] as String;
+}
+
 class Vitamin {
   final String id;
   final String name;
-  final String vitDate;
-  final int status;
+  final String description;
+  final String vitCreateDate;
+  String vitNextDate;
+  String vitNextTime;
+  final int repatestatus;
+  final int repatecount;
+  final String repatetype;
 
-  Vitamin(this.id, this.name, this.vitDate, this.status);
+  Vitamin({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.vitCreateDate,
+    required this.vitNextDate,
+    required this.vitNextTime,
+    required this.repatestatus,
+    required this.repatecount,
+    required this.repatetype,
+  });
 
   Map<String, dynamic> toMap() => {
         "id": this.id,
         "name": this.name,
-        "vitamintDate": this.vitDate,
-        "status": this.status,
+        "description": this.description,
+        "vitCreateDate": this.vitCreateDate,
+        "vitNextDate": this.vitNextDate,
+        "vitNextTime": this.vitNextTime,
+        "repatestatus": this.repatestatus,
+        "repatecount": this.repatecount,
+        "repatetype": this.repatetype,
       };
   Vitamin.fromMap(Map<dynamic, dynamic> map)
       : id = map["id"] as String,
         name = map["name"] as String,
-        vitDate = map["vitamintDate"] as String,
-        status = map["status"] as int;
+        description = map["description"] as String,
+        vitCreateDate = map["vitCreateDate"] as String,
+        vitNextDate = map["vitNextDate"] as String,
+        vitNextTime = map["vitNextTime"] as String,
+        repatestatus = map["repatestatus"] as int,
+        repatecount = map["repatecount"] as int,
+        repatetype = map["repatetype"] as String;
 }
 
 class EventModel {

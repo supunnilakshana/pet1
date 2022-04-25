@@ -2,6 +2,7 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet1/screens/dashboard/compt/tab1/compt/circleprogress_area.dart';
+import 'package:pet1/screens/dashboard/compt/tab1/compt/vitamins/vitaminstab.dart';
 
 class SingelPetTabBar extends StatelessWidget {
   final String petname;
@@ -79,9 +80,7 @@ class SingelPetTabBar extends StatelessWidget {
                 child: TabBarView(
                   children: <Widget>[
                     ProgressArea(petname: petname),
-                    Center(
-                      child: Text("screen stil developing"),
-                    ),
+                    VitaminTab(petname: petname),
                   ],
                 ),
               ),

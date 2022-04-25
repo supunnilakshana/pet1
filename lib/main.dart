@@ -32,6 +32,6 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.balsamiqSansTextTheme(
               Theme.of(context).textTheme,
             )),
-        home: Test1(title: "title"),
+        home: WelcomeScreenNew(),
       ));
 }
