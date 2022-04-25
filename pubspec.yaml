@@ -54,6 +54,8 @@ dependencies:
   image_cropper: ^1.5.1
   flutter_local_notifications: ^9.4.0
   timezone: ^0.8.0
+  webview_flutter: ^2.0.10
+  
   # awesome_notifications: ^0.6.19
  
   

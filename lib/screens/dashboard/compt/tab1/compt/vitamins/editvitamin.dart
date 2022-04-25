@@ -626,7 +626,11 @@ class _EditVitaminState extends State<EditVitamin> {
     }
     repeatcount = widget.vitaminModel.repatecount;
     repeatType = widget.vitaminModel.repatetype;
-
+    if (repeatType == "D") {
+      repeateString = "Days";
+    } else {
+      repeateString = "Hours";
+    }
     // status = widget.vitaminModel.status;
     if (widget.vitaminModel.repatestatus == 1) {
       donestatus = true;

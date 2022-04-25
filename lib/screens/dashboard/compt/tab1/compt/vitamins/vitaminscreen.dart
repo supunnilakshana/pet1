@@ -311,8 +311,30 @@ class _VitaminScreenState extends State<VitaminScreen> {
                                                                     vitaminmodel,
                                                                     widget
                                                                         .petname);
+                                                        VitaminHistoryModel
+                                                            vitaminHistoryModel =
+                                                            VitaminHistoryModel(
+                                                                id: Date
+                                                                    .getDateTimeId(),
+                                                                dateTime:
+                                                                    nextvitdate +
+                                                                        " " +
+                                                                        nextvittime,
+                                                                vitaminid:
+                                                                    data[indext]
+                                                                        .id,
+                                                                vitaminname:
+                                                                    data[indext]
+                                                                        .name);
+                                                        int hisres =
+                                                            await FireDBHandeler
+                                                                .updateVitHistory(
+                                                                    widget
+                                                                        .petname,
+                                                                    vitaminHistoryModel);
 
-                                                        if (res == 0) {
+                                                        if (res == 0 &&
+                                                            res == 0) {
                                                           loaddata();
                                                           Fluttertoast.showToast(
                                                               msg: "Done",

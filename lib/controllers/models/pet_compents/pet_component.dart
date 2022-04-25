@@ -38,27 +38,29 @@ class Vaccine {
 class VitaminHistoryModel {
   final String id;
   final String dateTime;
-  final String vaccineid;
-  final String vaccinename;
+  final String vitaminid;
+  final String vitaminname;
 
   VitaminHistoryModel(
       {required this.id,
       required this.dateTime,
-      required this.vaccineid,
-      required this.vaccinename});
+      required this.vitaminid,
+      required this.vitaminname,
+      vaccineid,
+      vaccinename});
 
   Map<String, dynamic> toMap() => {
         'id': this.id,
         "date": this.dateTime,
-        "vaccineid": this.vaccineid,
-        'vaccinename': this.vaccinename
+        "vitaminid": this.vitaminid,
+        'vitaminname': this.vitaminname
       };
 
   VitaminHistoryModel.fromMap(Map<dynamic, dynamic> map)
       : id = map["id"] as String,
         dateTime = map["date"] as String,
-        vaccineid = map["vaccineid"] as String,
-        vaccinename = map["vaccinename"] as String;
+        vitaminid = map["vitaminid"] as String,
+        vitaminname = map["vitaminname"] as String;
 }
 
 class Vitamin {
