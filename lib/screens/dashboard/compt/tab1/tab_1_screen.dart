@@ -15,6 +15,7 @@ import 'package:pet1/screens/dashboard/compt/backgound.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen_new.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 import '../drawer.dart';
 import 'compt/circleprogress_area.dart';
@@ -69,7 +70,7 @@ class _HomeTabState extends State<HomeTab> {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.deepPurpleAccent,
           elevation: 0,
           leading: IconButton(
             onPressed: () {
@@ -77,7 +78,7 @@ class _HomeTabState extends State<HomeTab> {
             },
             icon: Icon(
               Icons.menu_open_sharp,
-              color: kprimaryColor.withOpacity(0.8),
+              color: Colors.white,
               size: size.width * 0.1,
             ),
           )),
@@ -92,32 +93,47 @@ class _HomeTabState extends State<HomeTab> {
               width: size.width,
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: size.width * 0.06, top: size.height * 0.03),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Hello ' + name,
-                          style: TextStyle(
-                              fontSize: size.width * 0.09,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: size.width * 0.06, top: size.height * 0.008),
-                    child: Row(
-                      children: [
-                        Text(
-                          greate,
-                          style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                  ClipPath(
+                    clipper: WaveClipperOne(),
+                    child: Container(
+                      height: size.height * 0.2,
+                      color: Colors.deepPurpleAccent,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.06,
+                                top: size.height * 0.03),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Hello ' + name,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: size.width * 0.09,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.06,
+                                top: size.height * 0.008),
+                            child: Row(
+                              children: [
+                                Text(
+                                  greate,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: size.width * 0.04,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/controllers/models/Newsmodel.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
+import 'package:pet1/controllers/models/pet_list.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/controllers/validators/date.dart';
 
@@ -514,6 +515,120 @@ class FireDBHandeler {
     return restrunlist;
   }
 
+//vaccine
+
+//weight
+
+  static initvaccineDoc(String petname, Vaccine model) async {
+    final vaccine = model;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vaccine";
+
+    await firestoreInstance
+        .collection(collectionpath)
+        .doc(model.id)
+        .set(vaccine.toMap())
+        .then((_) {
+      print("create pet vacine doc");
+    });
+  }
+
+  static Future<Vaccine> getVaccine(String petname, String id) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vaccine";
+    Vaccine model;
+
+    DocumentSnapshot documentSnapshot =
+        await firestoreInstance.collection(collectionpath).doc(id).get();
+    model = Vaccine.fromMap(documentSnapshot.data() as Map<String, dynamic>);
+    return model;
+  }
+
+  static Future<int> updateVaccinelist(String petname, List<VaccineSub> list,
+      String id, String next, String dose) async {
+    int res = 0;
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vaccine";
+
+    try {
+      List<dynamic> datalist = [];
+      print("okkkkkkkkkkkkkkkkkk");
+
+      list.forEach((element) {
+        datalist.add(element.toMap());
+      });
+
+      await firestoreInstance.collection(collectionpath).doc(id).update(
+          {"vlist": datalist, "vitNextDate": next, "dose": dose}).then((_) {
+        res = 1;
+        print("success!");
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
+  static Future<List<Vaccine>> getallVaccine(String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vaccine";
+    List<Vaccine> list = [];
+    Vaccine vitaminModel;
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection(collectionpath).get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      // EventModel = EventModel.fromSnapshot(a);
+      vitaminModel = Vaccine.fromMap(a.data() as Map<String, dynamic>);
+      list.add(vitaminModel);
+      print(vitaminModel.id);
+      //return list;
+    }
+
+    list.sort((a, b) => a.id.compareTo(b.id));
+
+    return list;
+  }
+
+  static Future<List<VaccineHisotryItem>> getVaccineHistory(
+      String petname) async {
+    String userpath = user!.email.toString();
+    final String collectionpath =
+        "/users/" + userpath + "/pet/" + petname + "/vaccine";
+    List<VaccineHisotryItem> list = [];
+    List<VaccineSub> templist = [];
+    Vaccine vitaminModel;
+    VaccineHisotryItem hisotryItem;
+
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection(collectionpath).get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      // EventModel = EventModel.fromSnapshot(a);
+      vitaminModel = Vaccine.fromMap(a.data() as Map<String, dynamic>);
+      templist = vitaminModel.vaccinelist;
+      templist.forEach((element) {
+        hisotryItem = VaccineHisotryItem(
+            id: element.id,
+            vname: vitaminModel.name,
+            dateTime: element.dateTime,
+            dose: element.dose);
+        list.add(hisotryItem);
+      });
+
+      print(vitaminModel.id);
+      //return list;
+    }
+
+    list.sort((a, b) => b.id.compareTo(a.id));
+
+    return list;
+  }
   //delete doc
 
 //delete document

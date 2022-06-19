@@ -6,9 +6,11 @@ import 'package:pet1/screens/dashboard/compt/tab1/compt/vitamins/vitaminstab.dar
 
 class SingelPetTabBar extends StatelessWidget {
   final String petname;
+  final String type;
   const SingelPetTabBar({
     Key? key,
     required this.petname,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -80,7 +82,10 @@ class SingelPetTabBar extends StatelessWidget {
                 child: TabBarView(
                   children: <Widget>[
                     ProgressArea(petname: petname),
-                    VitaminTab(petname: petname),
+                    VitaminTab(
+                      petname: petname,
+                      type: type,
+                    ),
                   ],
                 ),
               ),

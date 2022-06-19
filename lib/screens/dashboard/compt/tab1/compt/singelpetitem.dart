@@ -89,7 +89,9 @@ class _SingelPetItemState extends State<SingelPetItem> {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
                               )
-                            : Image.asset("assets/images/previewdog1.jpg"),
+                            : Image.asset(widget.pet.type == 'dog'
+                                ? "assets/images/previewdog1.jpg"
+                                : "assets/images/previewcat1.jpg"),
                       ),
                     ),
                   ),

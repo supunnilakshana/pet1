@@ -21,16 +21,18 @@ class MenuDrawer extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/dashappbar.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
+                // image: DecorationImage(
+                //   image: AssetImage("assets/images/dashappbar.jpg"),
+                //   fit: BoxFit.cover,
+                // ),
+                color: Colors.deepPurpleAccent),
             accountEmail: Text(user!.email.toString()),
             accountName: Text(user.displayName.toString()),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(user.photoURL.toString()),
-            ),
+            currentAccountPicture: user.photoURL.toString() != ""
+                ? CircleAvatar(
+                    backgroundImage: NetworkImage(user.photoURL.toString()),
+                  )
+                : Image.asset("assets/icons/user.png"),
           ),
           ListTile(
             title: const Text(''),

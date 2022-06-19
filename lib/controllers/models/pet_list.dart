@@ -37,3 +37,54 @@ final List<ListItem> genderlist = [
   ListItem(1, "male"),
   ListItem(2, "female"),
 ];
+
+final List<VaccinedesItem> vaccineList = [
+  VaccinedesItem(
+      id: "0",
+      name: "Rabies Vaccine",
+      type: 'dog',
+      description:
+          "Rabies is a serious disease caused by a virus that attacks the nerves and brain of warm-blooded animals (mammals). In the United States, wild animals such as raccoons, skunks, foxes, and bats are most likely to carry rabies. Although rare, pet dogs and cats who have not been vaccinated can get it.",
+      imgurl: "assets/images/rabiesvaccine.jpg"),
+  VaccinedesItem(
+      id: "1",
+      name: "Parvovirus Vaccine",
+      type: 'dog',
+      description:
+          "Rabies is a serious disease caused by a virus that attacks the nerves and brain of warm-blooded animals (mammals). In the United States, wild animals such as raccoons, skunks, foxes, and bats are most likely to carry rabies. Although rare, pet dogs and cats who have not been vaccinated can get it.",
+      imgurl: "assets/images/parvovirusvaccine.jpg"),
+  VaccinedesItem(
+      id: "2",
+      name: "DHL Vaccine",
+      type: 'dog',
+      description:
+          "Rabies is a serious disease caused by a virus that attacks the nerves and brain of warm-blooded animals (mammals). In the United States, wild animals such as raccoons, skunks, foxes, and bats are most likely to carry rabies. Although rare, pet dogs and cats who have not been vaccinated can get it.",
+      imgurl: "assets/images/dhlvaccinepng.png"),
+  VaccinedesItem(
+      id: "3",
+      name: "Anti-Rabies Vaccine",
+      type: 'cat',
+      description: "description",
+      imgurl: "assets/images/antiRabiesVaccine.jpg"),
+  VaccinedesItem(
+      id: "4",
+      name: "Tricat Vaccine",
+      type: 'cat',
+      description: "description",
+      imgurl: "assets/images/tricat.jpg")
+];
+
+class VaccinedesItem {
+  final String id;
+  final String name;
+  final String type;
+  final String description;
+  final String imgurl;
+
+  VaccinedesItem(
+      {required this.id,
+      required this.name,
+      required this.type,
+      required this.description,
+      this.imgurl = "assets/icons/vaccineiconnon.png"});
+}

@@ -6,11 +6,14 @@ import 'package:pet1/screens/dashboard/compt/tab1/compt/vitamins/vitaminweview.d
 
 class VitaminTab extends StatelessWidget {
   final String petname;
+  final String type;
 
-  const VitaminTab({Key? key, required this.petname}) : super(key: key);
+  const VitaminTab({Key? key, required this.petname, required this.type})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // print(type);
     return Scaffold(
       backgroundColor: Colors.white,
       // floatingActionButton: FloatingActionButton.extended(
@@ -30,7 +33,9 @@ class VitaminTab extends StatelessWidget {
               borderRadius:
                   BorderRadius.all(Radius.circular(size.width * 0.05)),
               image: DecorationImage(
-                image: AssetImage("assets/images/vitaminback.jpg"),
+                image: AssetImage(type == 'dog'
+                    ? "assets/images/vitaminback.jpg"
+                    : "assets/images/catbackground.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

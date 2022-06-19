@@ -11,6 +11,7 @@ import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/compt/tab1/compt/singelpet_tabbar.dart';
+import 'package:pet1/screens/dashboard/compt/tab1/compt/vaccines/vaccinescreen.dart';
 import 'package:pet1/screens/dashboard/compt/weight_screen/weight_screen.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:pet1/screens/edit_pet/edit_pet_screen.dart';
@@ -193,8 +194,9 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
                                       errorWidget: (context, url, error) =>
                                           Icon(Icons.error),
                                     )
-                                  : Image.asset(
-                                      "assets/images/previewdog1.jpg"),
+                                  : Image.asset(widget.pet.type == 'dog'
+                                      ? "assets/images/previewdog1.jpg"
+                                      : "assets/images/previewcat1.jpg"),
                             ),
                           ),
                         ),
@@ -227,8 +229,11 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Customtost.commontost(
-                                        "button stil developing", Colors.amber);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => VaccineScreen(
+                                                petname: widget.pet.name)));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -251,7 +256,7 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           Text(
-                                            "2/3",
+                                            "Tap",
                                             style: TextStyle(
                                                 fontSize: size.width * 0.055,
                                                 color: Colors.white,
@@ -355,6 +360,7 @@ class _SingelPetScreenState extends State<SingelPetScreen> {
                   ),
                   SingelPetTabBar(
                     petname: widget.pet.name,
+                    type: widget.pet.type,
                   ),
                 ],
               ),

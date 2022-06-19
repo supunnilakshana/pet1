@@ -17,22 +17,40 @@ class Weight {
 class Vaccine {
   final String id;
   final String name;
-  final String vacDate;
-  final int status;
+  final String dose;
+  final String vitCreateDate;
+  String vitNextDate;
+  final int vid;
+  final List<VaccineSub> vaccinelist;
 
-  Vaccine(this.id, this.name, this.vacDate, this.status);
+  Vaccine(
+      {required this.id,
+      required this.name,
+      required this.dose,
+      required this.vitCreateDate,
+      required this.vitNextDate,
+      required this.vid,
+      required this.vaccinelist});
 
   Map<String, dynamic> toMap() => {
         "id": this.id,
         "name": this.name,
-        "vaccinedtDate": this.vacDate,
-        "status": this.status,
+        "dose": this.dose,
+        "vitCreateDate": this.vitCreateDate,
+        "vitNextDate": this.vitNextDate,
+        "vid": this.vid,
+        "vlist": this.vaccinelist
       };
   Vaccine.fromMap(Map<dynamic, dynamic> map)
       : id = map["id"] as String,
         name = map["name"] as String,
-        vacDate = map["vaccinedtDate"] as String,
-        status = map["status"] as int;
+        dose = map["dose"] as String,
+        vitCreateDate = map["vitCreateDate"] as String,
+        vitNextDate = map["vitNextDate"] as String,
+        vid = map["vid"] as int,
+        vaccinelist = (map["vlist"] as List)
+            .map((item) => VaccineSub.fromMap(item))
+            .toList();
 }
 
 class VitaminHistoryModel {
@@ -165,4 +183,33 @@ class PetDayActivity {
         teeth = List<String>.from(map["teeth"]),
         hair = List<String>.from(map["hair"]),
         workout = List<String>.from(map["workout"]);
+}
+
+class VaccineSub {
+  final String id;
+  final String dateTime;
+  final int dose;
+
+  VaccineSub(this.id, this.dateTime, this.dose);
+
+  Map<String, dynamic> toMap() =>
+      {'id': this.id, "date": this.dateTime, "dose": this.dose};
+
+  VaccineSub.fromMap(Map<dynamic, dynamic> map)
+      : id = map["id"] as String,
+        dateTime = map["date"] as String,
+        dose = map["dose"] as int;
+}
+
+class VaccineHisotryItem {
+  final String id;
+  final String dateTime;
+  final String vname;
+  final int dose;
+
+  VaccineHisotryItem(
+      {required this.id,
+      required this.vname,
+      required this.dateTime,
+      required this.dose});
 }

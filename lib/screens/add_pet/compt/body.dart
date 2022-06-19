@@ -10,8 +10,10 @@ import 'package:intl/intl.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
+import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/pet_list.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
+import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/controllers/validators/validate_handeler.dart';
 
 import 'package:pet1/screens/components/constansts.dart';
@@ -70,6 +72,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
+
     state = AppState.free;
   }
 
@@ -219,8 +222,9 @@ class _BodyState extends State<Body> {
                           });
                           // ignore: deprecated_member_use
                           widget.scaffoldKey.currentState!
+                              // ignore: deprecated_member_use
                               .showSnackBar(new SnackBar(
-                            duration: new Duration(seconds: 2),
+                            // duration: new Duration(seconds: 5),
                             backgroundColor: Colors.purpleAccent.shade700,
                             content: new Row(
                               children: <Widget>[
@@ -252,6 +256,60 @@ class _BodyState extends State<Body> {
                           int respons = await FireDBHandeler.addPet(pet);
 
                           if (respons == 1) {
+                            if (type == 'dog') {
+                              final vaccine0 = Vaccine(
+                                  id: "0",
+                                  name: vaccineList[0].name,
+                                  dose: "0",
+                                  vitCreateDate: Date.getStringdate(),
+                                  vitNextDate: "",
+                                  vid: 0,
+                                  vaccinelist: []);
+                              final vaccine1 = Vaccine(
+                                  id: "1",
+                                  name: vaccineList[1].name,
+                                  dose: "0",
+                                  vitCreateDate: Date.getStringdate(),
+                                  vitNextDate: "",
+                                  vid: 1,
+                                  vaccinelist: []);
+                              final vaccine2 = Vaccine(
+                                  id: "2",
+                                  name: vaccineList[2].name,
+                                  dose: "0",
+                                  vitCreateDate: Date.getStringdate(),
+                                  vitNextDate: "",
+                                  vid: 2,
+                                  vaccinelist: []);
+                              await FireDBHandeler.initvaccineDoc(
+                                  name, vaccine0);
+                              await FireDBHandeler.initvaccineDoc(
+                                  name, vaccine1);
+                              await FireDBHandeler.initvaccineDoc(
+                                  name, vaccine2);
+                            } else {
+                              final vaccine0 = Vaccine(
+                                  id: "3",
+                                  name: vaccineList[3].name,
+                                  dose: "0",
+                                  vitCreateDate: Date.getStringdate(),
+                                  vitNextDate: "",
+                                  vid: 3,
+                                  vaccinelist: []);
+                              final vaccine1 = Vaccine(
+                                  id: "4",
+                                  name: vaccineList[4].name,
+                                  dose: "0",
+                                  vitCreateDate: Date.getStringdate(),
+                                  vitNextDate: "",
+                                  vid: 4,
+                                  vaccinelist: []);
+
+                              await FireDBHandeler.initvaccineDoc(
+                                  name, vaccine0);
+                              await FireDBHandeler.initvaccineDoc(
+                                  name, vaccine1);
+                            }
                             await FireDBHandeler.initDayactivity(name);
                             await FireDBHandeler.initweightDoc(name);
                             await FireDBHandeler.initVitHistoryDoc(name);
