@@ -87,20 +87,25 @@ class Date {
         .replaceAll(".", "");
   }
 
-  static String greeting() {
+  static GreteItem greeting() {
     String greeet = "";
+    String greeeturl = "assets/icons/morning.png";
     var datetime = DateTime.now();
     int hour = datetime.hour;
     if (hour < 12) {
       greeet = "Good Morning";
+      greeeturl = "assets/icons/morning.png";
     } else if (hour < 16) {
       greeet = "Good Affternoon";
+      greeeturl = "assets/icons/morning.png";
     } else if (hour < 20) {
       greeet = "Good Evening";
+      greeeturl = "assets/icons/evening.png";
     } else if (hour < 24) {
       greeet = "Good Night";
+      greeeturl = "assets/icons/night.png";
     }
-    return greeet;
+    return GreteItem(greate: greeet, url: greeeturl);
   }
 
   static timeBetween(String time, int days) {
@@ -133,4 +138,11 @@ class RemainingTime {
     required this.minits,
     required this.isoverdue,
   });
+}
+
+class GreteItem {
+  final String greate;
+  final String url;
+
+  GreteItem({required this.greate, required this.url});
 }

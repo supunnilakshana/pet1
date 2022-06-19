@@ -38,7 +38,7 @@ class _HomeTabState extends State<HomeTab> {
   late Future<List<Pet>> futureData;
   final user = FirebaseAuth.instance.currentUser;
   var gauth = GoogleSignInProvider();
-  late String greate;
+  late GreteItem greate;
   String name = "";
   bool isshadow = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -70,7 +70,7 @@ class _HomeTabState extends State<HomeTab> {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
-          backgroundColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.deepPurple,
           elevation: 0,
           leading: IconButton(
             onPressed: () {
@@ -97,7 +97,7 @@ class _HomeTabState extends State<HomeTab> {
                     clipper: WaveClipperOne(),
                     child: Container(
                       height: size.height * 0.2,
-                      color: Colors.deepPurpleAccent,
+                      color: Colors.deepPurple,
                       child: Column(
                         children: [
                           Padding(
@@ -123,12 +123,18 @@ class _HomeTabState extends State<HomeTab> {
                             child: Row(
                               children: [
                                 Text(
-                                  greate,
+                                  greate.greate,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: size.width * 0.04,
                                       fontWeight: FontWeight.w500),
                                 ),
+                                SizedBox(
+                                  width: size.width * 0.01,
+                                ),
+                                Container(
+                                    width: size.width * 0.08,
+                                    child: Image.asset(greate.url))
                               ],
                             ),
                           ),

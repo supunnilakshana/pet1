@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lottie/lottie.dart';
@@ -39,26 +40,35 @@ class _PetNewsTabState extends State<PetNewsTab> {
         body: Container(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: size.height * 0.05, bottom: size.height * 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LineIcon.globe(
-                      size: size.width * 0.09,
-                      color: Colors.deepPurple.shade500,
+              ClipPath(
+                clipper: WaveClipperOne(),
+                child: Container(
+                  height: size.height * 0.2,
+                  color: Colors.deepPurple,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: size.height * 0.05, bottom: size.height * 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LineIcon.globe(
+                            size: size.width * 0.09,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: size.width * 0.02,
+                          ),
+                          Text(
+                            "News And Updates",
+                            style: TextStyle(
+                                fontSize: size.width * 0.08,
+                                color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: size.width * 0.02,
-                    ),
-                    Text(
-                      "News And Updates",
-                      style: TextStyle(
-                          fontSize: size.width * 0.08,
-                          color: Colors.deepPurple.shade500),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               Expanded(
