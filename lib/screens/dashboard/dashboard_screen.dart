@@ -25,7 +25,7 @@ class _DasboardState extends State<Dasboard> {
   final user = FirebaseAuth.instance.currentUser;
   var gauth = GoogleSignInProvider();
   CircelProgressHandeler c = CircelProgressHandeler();
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   DateTime pre_backpress = DateTime.now();
@@ -33,7 +33,6 @@ class _DasboardState extends State<Dasboard> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-      AccountScreen(),
       HomeTab(petname: widget.petname),
       EventTab(petname: widget.petname),
       // Tab1(gauth: gauth, pd: pd, petname: widget.petname),
@@ -87,10 +86,6 @@ class _DasboardState extends State<Dasboard> {
                 tabBackgroundColor: kmenucolor.withOpacity(0.7),
                 color: Colors.black,
                 tabs: [
-                  GButton(
-                    icon: LineIcons.user,
-                    text: 'Account',
-                  ),
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',

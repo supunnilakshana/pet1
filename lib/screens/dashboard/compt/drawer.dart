@@ -6,11 +6,12 @@ import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
 
 class MenuDrawer extends StatelessWidget {
-  const MenuDrawer({
+  MenuDrawer({
     Key? key,
     required this.gauth,
   }) : super(key: key);
   final GoogleSignInProvider gauth;
+  final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -57,9 +58,16 @@ class MenuDrawer extends StatelessWidget {
               width: size.width * 0.25,
               text: "Logout",
               onpress: () async {
+                // print(user.providerData[0].providerId);
                 PopupDialog.showPopuplogout(
                     context, "Signout", "Do you want to signout ? ", () async {
-                  await gauth.logout();
+                  if (user.providerData[0].providerId == 'google.com') {
+                    print("isgauth");
+                    await gauth.logout();
+                  } else {
+                    await FirebaseAuth.instance.signOut();
+                  }
+
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => LoginScreen()));
                   print("logingout");
