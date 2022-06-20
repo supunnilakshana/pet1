@@ -34,127 +34,131 @@ class _BodyState extends State<Body> {
 
     var emailauth = EmailAuth();
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    return SingleChildScrollView(
-      child: Background(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: size.height * 0.25,
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              RoundedInput(
-                onchange: (text) {
-                  _name = text;
-                  print(text);
-                },
-                hintText: "Your Name",
-                valid: (text) {
-                  return Validater.genaralvalid(text!);
-                },
-                save: (value) {},
-              ),
-              RoundedInput(
-                onchange: (text) {
-                  _email = text;
-                  print(text);
-                },
-                hintText: "Your Email",
-                icon: Icons.mail,
-                valid: (text) {
-                  return Validater.vaildemail(text!);
-                },
-                save: (value) {},
-              ),
-              RoundedPasswordfiled(
-                change: (text) {
-                  _password = text;
-                },
-                valid: (text) {
-                  return Validater.signupPassword(text!);
-                },
-                save: (text) {},
-              ),
-              Text(
-                status,
-                style: TextStyle(color: Colors.red),
-              ),
-              RoundedButton(
-                text: "Sign Up",
-                onpress: () async {
-                  print("presssignup");
-                  print(_email);
-                  print(_password);
-                  print(_name);
-                  if (_formKey.currentState!.validate()) {
-                    await emailauth.emailsignUp(_email, _password);
-                    int r = emailauth.getSignupstatus();
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Background(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: size.height * 0.25,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                RoundedInput(
+                  onchange: (text) {
+                    _name = text;
+                    print(text);
+                  },
+                  hintText: "Your Name",
+                  valid: (text) {
+                    return Validater.genaralvalid(text!);
+                  },
+                  save: (value) {},
+                ),
+                RoundedInput(
+                  onchange: (text) {
+                    _email = text;
+                    print(text);
+                  },
+                  hintText: "Your Email",
+                  icon: Icons.mail,
+                  valid: (text) {
+                    return Validater.vaildemail(text!);
+                  },
+                  save: (value) {},
+                ),
+                RoundedPasswordfiled(
+                  change: (text) {
+                    _password = text;
+                  },
+                  valid: (text) {
+                    return Validater.signupPassword(text!);
+                  },
+                  save: (text) {},
+                ),
+                Text(
+                  status,
+                  style: TextStyle(color: Colors.red),
+                ),
+                RoundedButton(
+                  text: "Sign Up",
+                  onpress: () async {
+                    print("presssignup");
+                    print(_email);
+                    print(_password);
+                    print(_name);
+                    if (_formKey.currentState!.validate()) {
+                      await emailauth.emailsignUp(_email, _password);
+                      int r = emailauth.getSignupstatus();
 
-                    if (r == 0) {
-                      print("r name");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginScreen();
-                          },
-                        ),
-                      );
+                      if (r == 0) {
+                        print("r name");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginScreen();
+                            },
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          status = "The account already exists for that email";
+                        });
+                        print("all used email");
+                      }
                     } else {
-                      setState(() {
-                        status = "The account already exists for that email";
-                      });
-                      print("all used email");
+                      print("not complet");
                     }
-                  } else {
-                    print("not complet");
-                  }
-                },
-                color: kprimaryColor,
-                textcolor: Colors.white,
-              ),
-              SizedBox(height: size.height * 0.03),
-              AlreadyHaveAnAccountCheck(
-                login: false,
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return LoginScreen();
+                  },
+                  color: kprimaryColor,
+                  textcolor: Colors.white,
+                ),
+                SizedBox(height: size.height * 0.03),
+                AlreadyHaveAnAccountCheck(
+                  login: false,
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoginScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                OrDivider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SocalIcon(
+                      iconSrc: "assets/icons/facebook.svg",
+                      press: () {},
+                    ),
+                    SocalIcon(
+                      iconSrc: "assets/icons/google-symbol.svg",
+                      press: () {
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.googleLogin();
                       },
                     ),
-                  );
-                },
-              ),
-              OrDivider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SocalIcon(
-                    iconSrc: "assets/icons/facebook.svg",
-                    press: () {},
-                  ),
-                  SocalIcon(
-                    iconSrc: "assets/icons/google-symbol.svg",
-                    press: () {
-                      final provider = Provider.of<GoogleSignInProvider>(
-                          context,
-                          listen: false);
-                      provider.googleLogin();
-                    },
-                  ),
-                  SocalIcon(
-                    iconSrc: "assets/icons/apple-logo.svg",
-                    press: () {},
-                  ),
-                ],
-              )
-            ],
+                    SocalIcon(
+                      iconSrc: "assets/icons/apple-logo.svg",
+                      press: () {},
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

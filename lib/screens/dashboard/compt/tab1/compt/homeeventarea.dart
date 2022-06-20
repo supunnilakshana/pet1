@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
+import 'package:pet1/controllers/models/pet_list.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/errorpage.dart';
@@ -56,61 +59,71 @@ class _HomeEventItemState extends State<HomeEventItem> {
 
               String remainintext = d + h + m;
 
-              return Card(
-                shadowColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                color: eventModel.status == 0
-                    ? remainingTime.isoverdue
-                        ? Colors.red.shade400
-                        : kmenucolor
-                    : Colors.green.shade400,
-                child: ListTile(
-                  leading: Container(
-                    child: Image.asset(
-                      "assets/icons/eventicon1.png",
-                    ),
-                  ),
-                  title: Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          eventModel.title,
-                          overflow: TextOverflow.clip,
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: size.width * 0.05,
-                              fontWeight: FontWeight.w500),
-                        ),
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.05,
+                  top: size.height * 0.05,
+                  right: size.width * 0.05,
+                ),
+                child: Card(
+                  shadowColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  color: eventModel.status == 0
+                      ? remainingTime.isoverdue
+                          ? Colors.red.shade400
+                          : kmenucolor
+                      : Colors.green.shade400,
+                  child: ListTile(
+                    leading: Container(
+                      child: Image.asset(
+                        "assets/icons/eventicon1.png",
                       ),
-                    ],
-                  ),
-                  // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                  subtitle: Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: Row(
+                    ),
+                    title: Row(
                       children: [
-                        Icon(Icons.timer, color: Colors.yellowAccent),
-                        Text(
-                            eventModel.status == 0
-                                ? remainingTime.isoverdue
-                                    ? "Overdue " + remainintext
-                                    : "Remaining " + remainintext
-                                : "Done",
+                        Flexible(
+                          child: Text(
+                            eventModel.title,
                             overflow: TextOverflow.clip,
                             maxLines: 1,
-                            style: TextStyle(color: Colors.white))
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: size.width * 0.05,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ],
+                    ),
+                    // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                    subtitle: Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Row(
+                        children: [
+                          Icon(Icons.timer, color: Colors.yellowAccent),
+                          Text(
+                              eventModel.status == 0
+                                  ? remainingTime.isoverdue
+                                      ? "Overdue " + remainintext
+                                      : "Remaining " + remainintext
+                                  : "Done",
+                              overflow: TextOverflow.clip,
+                              maxLines: 1,
+                              style: TextStyle(color: Colors.white))
+                        ],
+                      ),
                     ),
                   ),
                 ),
               );
             } else {
+              var rng = Random();
+              int i = rng.nextInt(8);
+
               return Container(
-                  child: Lottie.asset("assets/animations/peteventhome.json",
-                      width: size.width * 0.5));
+                  child:
+                      Lottie.asset(homeAnimation[i], width: size.width * 0.5));
             }
           } else if (snapshot.hasError) {
             return Errorpage(size: size.width * 0.56);

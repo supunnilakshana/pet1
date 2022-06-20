@@ -88,3 +88,15 @@ class VaccinedesItem {
       required this.description,
       this.imgurl = "assets/icons/vaccineiconnon.png"});
 }
+
+final List<String> homeAnimation = [
+  'assets/animations/homeanimi1.json',
+  'assets/animations/homeanimi2.json',
+  'assets/animations/homeanimi3.json',
+  'assets/animations/homeanimi4.json',
+  'assets/animations/homeanimi5.json',
+  'assets/animations/peteventhome.json',
+  'assets/animations/homeanimi6.json',
+  'assets/animations/homeanimi7.json',
+  'assets/animations/homeanimi8.json',
+];

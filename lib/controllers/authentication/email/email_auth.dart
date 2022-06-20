@@ -44,6 +44,15 @@ class EmailAuth extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<int> resetPassword({required String email}) async {
+    int r = 0;
+    await auth
+        .sendPasswordResetEmail(email: email)
+        .then((value) => r = 1)
+        .catchError((e) => r = 0);
+    return r;
+  }
+
   int getSignupstatus() {
     return r;
   }

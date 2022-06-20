@@ -142,13 +142,7 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ),
                   ),
-                  Padding(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.05,
-                        top: size.height * 0.05,
-                        right: size.width * 0.05,
-                      ),
-                      child: HomeEventItem()),
+                  Padding(padding: EdgeInsets.only(), child: HomeEventItem()),
                   Padding(
                     padding: EdgeInsets.only(
                         left: size.width * 0.05, top: size.height * 0.045),
@@ -254,6 +248,7 @@ class _HomeTabState extends State<HomeTab> {
     futureData = FireDBHandeler.getallPets();
   }
 }
+
 
 
 
