@@ -11,6 +11,7 @@ import 'package:pet1/screens/components/roundedtextFiled.dart';
 import 'package:pet1/screens/components/social_icon.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'backgound.dart';
 
@@ -94,12 +95,23 @@ class _BodyState extends State<Body> {
                     print(_password);
                     print(_name);
                     if (_formKey.currentState!.validate()) {
+                      showDialog(
+                          // The user CANNOT close this dialog  by pressing outsite it
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (_) {
+                            return CircularProgressIndicator();
+                          });
                       await emailauth.emailsignUp(_email, _password);
+                      // showDialog(context: context, builder: (bui);
                       int r = emailauth.getSignupstatus();
 
                       if (r == 0) {
                         print("r name");
-                        Navigator.push(
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('name', _name);
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) {

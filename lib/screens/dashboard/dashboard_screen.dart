@@ -5,7 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/datahandeler/circle_progress_handeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
-import 'package:pet1/screens/dashboard/compt/account_tab/account_screen.dart';
+
 import 'package:pet1/screens/dashboard/compt/tab1/tab_1_screen.dart';
 import 'package:pet1/screens/dashboard/compt/tab2/event_tab.dart';
 import 'package:pet1/screens/dashboard/compt/tab3/tab3.dart';

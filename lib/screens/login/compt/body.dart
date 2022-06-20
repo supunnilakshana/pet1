@@ -10,9 +10,12 @@ import 'package:pet1/screens/components/roundPasswordFiled.dart';
 import 'package:pet1/screens/components/roundedbutton.dart';
 import 'package:pet1/screens/components/roundedtextFiled.dart';
 import 'package:pet1/screens/components/social_icon.dart';
+import 'package:pet1/screens/fogetpassword/fogetPwScreen.dart';
 import 'package:pet1/screens/login/compt/backgound.dart';
 import 'package:pet1/screens/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../loginscreen.dart';
 
 class Body extends StatefulWidget {
   const Body({
@@ -82,6 +85,14 @@ class _BodyState extends State<Body> {
                       int r = emailauth.getSigninstatus();
                       if (r == 0) {
                         print("loged");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginScreen();
+                            },
+                          ),
+                        );
                       } else if (r == 1) {
                         setState(() {
                           status = "Please enter the correct email";
@@ -97,6 +108,26 @@ class _BodyState extends State<Body> {
                   },
                   color: kprimaryColor,
                   textcolor: Colors.white,
+                ),
+                SizedBox(height: size.height * 0.01),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return FogetPWScreen();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Forgot Password",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 SizedBox(height: size.height * 0.03),
                 AlreadyHaveAnAccountCheck(

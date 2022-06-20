@@ -32,7 +32,7 @@ class FogetPWScreen extends StatefulWidget {
 class _FogetPWScreenState extends State<FogetPWScreen> {
   String status = "";
   String _email = "";
-  bool issent = true;
+  bool issent = false;
   bool ispress = false;
   var emailauth = EmailAuth();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

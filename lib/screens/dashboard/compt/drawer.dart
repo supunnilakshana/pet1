@@ -4,13 +4,17 @@ import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/custermized_rounded_button.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
+import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/fogetpassword/fogetPwScreen.dart';
 import 'package:pet1/screens/login/loginscreen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuDrawer extends StatelessWidget {
+  final String name;
   MenuDrawer({
     Key? key,
     required this.gauth,
+    required this.name,
   }) : super(key: key);
   final GoogleSignInProvider gauth;
   final user = FirebaseAuth.instance.currentUser;
@@ -32,8 +36,9 @@ class MenuDrawer extends StatelessWidget {
                   // ),
                   color: Colors.deepPurple),
               accountEmail: Text(user!.email.toString()),
-              accountName: Text(user.displayName.toString()),
-              currentAccountPicture: user.photoURL.toString() != ""
+              accountName: Text(name),
+              currentAccountPicture: user.providerData[0].providerId ==
+                      'google.com'
                   ? CircleAvatar(
                       backgroundImage: NetworkImage(user.photoURL.toString()),
                     )
@@ -41,26 +46,33 @@ class MenuDrawer extends StatelessWidget {
             ),
             user.providerData[0].providerId == 'google.com'
                 ? Container()
-                : ListTile(
-                    leading: Icon(Icons.account_circle),
-                    title: Text('Reset Password'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return FogetPWScreen();
-                          },
-                        ),
-                      );
-                    },
+                : Card(
+                    child: ListTile(
+                      leading: Icon(Icons.account_circle),
+                      title: Text('Reset Password'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return FogetPWScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
             Card(
               child: ListTile(
                 leading: Icon(Icons.web),
                 title: const Text('Visit our Website'),
-                onTap: () {
-                  Navigator.pop(context);
+                onTap: () async {
+                  const url = "http://petzreview.com/";
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    Customtost.commontost("Can't open web", Colors.redAccent);
+                  }
                 },
               ),
             ),
@@ -69,7 +81,15 @@ class MenuDrawer extends StatelessWidget {
                 leading: Icon(Icons.people),
                 title: const Text('About Us'),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                      // The user CANNOT close this dialog  by pressing outsite it
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) {
+                        return CircularProgressIndicator();
+                      });
+                  Customtost.commontost(
+                      "We are Zeedx Developers", Colors.amber);
                 },
               ),
             ),
@@ -78,7 +98,7 @@ class MenuDrawer extends StatelessWidget {
                 leading: Icon(Icons.settings),
                 title: const Text('Petzy Version'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Customtost.commontost("Version 1.0.0", Colors.amber);
                 },
               ),
             ),

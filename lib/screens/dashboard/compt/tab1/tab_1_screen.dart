@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pet1/controllers/authentication/google/GoogleSignAuth.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
 import 'package:pet1/controllers/validators/date.dart';
@@ -39,20 +40,23 @@ class _HomeTabState extends State<HomeTab> {
   final user = FirebaseAuth.instance.currentUser;
   var gauth = GoogleSignInProvider();
   late GreteItem greate;
-  String name = "";
+  String name = " ";
+  String fname = " ";
   bool isshadow = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    setdisplayname();
     futureData = FireDBHandeler.getallPets();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    setdisplayname();
+
     greate = Date.greeting();
     return Scaffold(
       key: _scaffoldKey,
@@ -60,11 +64,16 @@ class _HomeTabState extends State<HomeTab> {
           actions: [
             Container(
               margin: EdgeInsets.only(top: 2, right: 5),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: size.width * 0.08,
-                backgroundImage: NetworkImage(user!.photoURL.toString()),
-              ),
+              child: user!.providerData[0].providerId == 'google.com'
+                  ? CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: size.width * 0.08,
+                      backgroundImage: NetworkImage(user!.photoURL.toString()),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset("assets/icons/user.png"),
+                    ),
             ),
           ],
           iconTheme: IconThemeData(
@@ -84,6 +93,7 @@ class _HomeTabState extends State<HomeTab> {
           )),
       backgroundColor: Colors.white,
       drawer: MenuDrawer(
+        name: fname,
         gauth: gauth,
       ),
       body: Container(
@@ -237,8 +247,9 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  setdisplayname() {
-    String tempname = user!.displayName!;
+  setdisplayname() async {
+    String tempname = await UserdbHandeler.getuserName();
+    fname = tempname;
     var list = tempname.split(" ");
     name = list[0];
     setState(() {});
