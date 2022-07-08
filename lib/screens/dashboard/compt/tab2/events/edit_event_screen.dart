@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pet1/controllers/datahandeler/event_handaer.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/models/noitification_model.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/controllers/validators/validate_handeler.dart';
@@ -13,6 +14,7 @@ import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/components/tots.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
+import 'package:pet1/services/notrification_service/notification_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EditEvent extends StatefulWidget {
@@ -340,12 +342,27 @@ class _EditEventState extends State<EditEvent> {
                                             eventdate,
                                             eventtime,
                                             DateTime.now().toString(),
+                                            selectedDate.toIso8601String(),
                                             widget.eventModel.status);
+                                        NotificationModel notificationModel =
+                                            NotificationModel(
+                                                id: event.id,
+                                                title: event.title,
+                                                context: event.description,
+                                                date: event.eventDatetime,
+                                                status: 0);
+
                                         int res =
                                             await FireDBHandeler.updateEvent(
                                                 event);
                                         if (res == 0) {
                                           Navigator.pop(context, true);
+
+                                          await FireDBHandeler.addNotification(
+                                              notificationModel);
+                                          NotificationService
+                                              .showTimednotication(
+                                                  notificationModel);
                                           Fluttertoast.showToast(
                                               msg: "Event is updated",
                                               toastLength: Toast.LENGTH_SHORT,

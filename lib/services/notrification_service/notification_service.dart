@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pet1/controllers/models/noitification_model.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 // import 'package:awesome_notifications/awesome_notifications.dart';
@@ -52,8 +53,7 @@ class NotificationService {
     // );
   }
 
-  static void shownotication(
-      int id, String titelnotification, String contextnotification) async {
+  static void shownotication(NotificationModel model) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails('your channel id', 'your channel name',
             channelDescription: 'your channel description',
@@ -63,20 +63,22 @@ class NotificationService {
             ticker: 'ticker');
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        id, titelnotification, contextnotification, platformChannelSpecifics,
-        payload: titelnotification);
+    await flutterLocalNotificationsPlugin.show(int.parse(model.id), model.title,
+        model.context, platformChannelSpecifics,
+        payload: model.title);
   }
 
-  static void showTimednotication(
-      int id, String titelnotification, String contextnotification) async {
+  static void showTimednotication(NotificationModel model) async {
+    DateTime notidate = DateTime.parse(model.date);
+    DateTime now = DateTime.now();
+    Duration difference = now.difference(notidate);
     tz.initializeTimeZones();
     // var locations = tz.timeZoneDatabase.locations;
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        titelnotification,
-        contextnotification,
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+        int.parse(model.id),
+        model.title,
+        model.context,
+        tz.TZDateTime.now(tz.local).add(difference),
         const NotificationDetails(
             android: AndroidNotificationDetails(
                 'your channel id', 'your channel name',

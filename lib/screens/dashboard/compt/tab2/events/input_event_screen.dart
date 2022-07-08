@@ -5,12 +5,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pet1/controllers/datahandeler/event_handaer.dart';
 import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
+import 'package:pet1/controllers/models/noitification_model.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/validators/date.dart';
 import 'package:pet1/controllers/validators/validate_handeler.dart';
 import 'package:pet1/screens/components/constansts.dart';
 import 'package:pet1/screens/components/popup_dilog.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
+import 'package:pet1/services/notrification_service/notification_service.dart';
 
 import 'backgound.dart';
 
@@ -218,12 +220,24 @@ class _InputEventState extends State<InputEvent> {
                                       description,
                                       eventdate,
                                       eventtime,
+                                      selectedDate.toIso8601String(),
                                       DateTime.now().toString(),
                                       0);
+                                  NotificationModel notificationModel =
+                                      NotificationModel(
+                                          id: event.id,
+                                          title: event.title,
+                                          context: event.description,
+                                          date: event.eventDatetime,
+                                          status: 0);
                                   int res =
                                       await FireDBHandeler.addEvent(event);
                                   if (res == 1) {
                                     Navigator.pop(context, true);
+                                    await FireDBHandeler.addNotification(
+                                        notificationModel);
+                                    NotificationService.showTimednotication(
+                                        notificationModel);
                                     Fluttertoast.showToast(
                                         msg: "Event is created",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -262,8 +276,8 @@ class _InputEventState extends State<InputEvent> {
     final selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2035),
     );
     if (selected != null && selected != selectedDate)
       setState(() {

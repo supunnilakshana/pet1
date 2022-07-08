@@ -2,19 +2,18 @@ import 'package:pet1/screens/components/dropdown_list.dart';
 
 final List<ListItem> doglist = [
   ListItem(0, "Select pet's species"),
-  ListItem(1, "First Value"),
-  ListItem(2, "Second Item"),
-  ListItem(3, "Third Item"),
-  ListItem(4, "Fourth Item"),
-  ListItem(5, "s Value"),
-  ListItem(6, "Secosdnd Item"),
-  ListItem(10, "Third Item"),
-  ListItem(7, "Fourth Item"),
-  ListItem(8, "First Value"),
-  ListItem(9, "Second Item"),
-  ListItem(11, "Third Item"),
-  ListItem(12, "Fourth Item"),
+  ListItem(1, "Small Breed"),
+  ListItem(2, "Medium"),
+  ListItem(3, "Large Breed"),
+  ListItem(4, "Gaint"),
 ];
+
+// pet types
+//dog
+const int small = 1;
+const int medium = 2;
+const int large = 3;
+const int gaint = 4;
 
 final List<ListItem> catlist = [
   ListItem(0, "Select pet's species"),

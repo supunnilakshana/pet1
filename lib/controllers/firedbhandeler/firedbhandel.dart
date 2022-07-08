@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/controllers/models/Newsmodel.dart';
+import 'package:pet1/controllers/models/noitification_model.dart';
 import 'package:pet1/controllers/models/pet_compents/pet_component.dart';
 import 'package:pet1/controllers/models/pet_list.dart';
 import 'package:pet1/controllers/models/petmodel.dart';
@@ -629,6 +630,67 @@ class FireDBHandeler {
 
     return list;
   }
+
+//---------------------------------------Notofications-----------------------------------------
+
+  static Future<int> addNotification(NotificationModel model) async {
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/notifications";
+    int status = await checkdocstatus(collectionpath, model.id);
+    if (status == 1) {
+      await firestoreInstance
+          .collection(collectionpath)
+          .doc(model.id)
+          .set(model.toMap())
+          .then((_) {
+        print("create notification doc");
+      });
+    } else {
+      print(" this  all ready exsists");
+    }
+    return status;
+  }
+
+  //update event
+  static Future<int> updateNotification(NotificationModel model) async {
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/notifications";
+    int status = await checkdocstatus(collectionpath, model.id);
+    if (status == 0) {
+      firestoreInstance
+          .collection(collectionpath)
+          .doc(model.id)
+          .update(model.toMap())
+          .then((_) {
+        print("update event doc");
+      });
+    } else {
+      print(" no exits event");
+    }
+    return status;
+  }
+
+  static Future<List<NotificationModel>> getallNotifications() async {
+    String userpath = user!.email.toString();
+    final String collectionpath = "/users/" + userpath + "/notifications";
+    List<NotificationModel> list = [];
+    NotificationModel eventModel;
+    QuerySnapshot querySnapshot =
+        await firestoreInstance.collection(collectionpath).get();
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      var a = querySnapshot.docs[i];
+      // EventModel = EventModel.fromSnapshot(a);
+      eventModel = NotificationModel.fromMap(a.data() as Map<String, dynamic>);
+      list.add(eventModel);
+      print(eventModel.id);
+      //return list;
+    }
+
+    list.sort((a, b) => b.id.compareTo(a.id));
+
+    return list;
+  }
+
   //delete doc
 
 //delete document

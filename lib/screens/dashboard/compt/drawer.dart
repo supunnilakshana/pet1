@@ -81,13 +81,6 @@ class MenuDrawer extends StatelessWidget {
                 leading: Icon(Icons.people),
                 title: const Text('About Us'),
                 onTap: () {
-                  showDialog(
-                      // The user CANNOT close this dialog  by pressing outsite it
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (_) {
-                        return CircularProgressIndicator();
-                      });
                   Customtost.commontost(
                       "We are Zeedx Developers", Colors.amber);
                 },

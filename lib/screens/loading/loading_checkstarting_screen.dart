@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
+import 'package:pet1/controllers/firedbhandeler/firedbhandel.dart';
 import 'package:pet1/controllers/firedbhandeler/firestore_status.dart';
 import 'package:pet1/controllers/firedbhandeler/pethandeler.dart';
 import 'package:pet1/controllers/firedbhandeler/user_handeler.dart';
 import 'package:pet1/screens/dashboard/dashboard_screen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen.dart';
 import 'package:pet1/screens/select_pet/selectpet_screen_new.dart';
+import 'package:pet1/services/notrification_service/notification_service.dart';
 
 import 'compt/background.dart';
 
@@ -51,6 +53,15 @@ class StartState extends State<LoadingcheckScreen> {
     return new Timer(duration, route);
   }
 
+  initNotification() async {
+    var nlist = await FireDBHandeler.getallNotifications();
+    if (nlist.isNotEmpty) {
+      for (var i in nlist) {
+        NotificationService.showTimednotication(i);
+      }
+    }
+  }
+
   route() async {
     final user = FirebaseAuth.instance.currentUser;
     var status = await Firedoc.checkdoc("users", user!.email.toString());
@@ -91,6 +102,7 @@ class StartState extends State<LoadingcheckScreen> {
         child: Text("Somthing wrong"),
       );
     }
+    initNotification();
   }
 
   initScreen(BuildContext context) {
